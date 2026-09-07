@@ -1,6 +1,6 @@
 # Tasks — current
 
-Work queue for the MVP. Prefer opening `specs/us-<n>/` for the active ship; tick here when acceptance passes and the delta is folded.
+MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acceptance in `current/requirements.md` when a US ships and the delta is folded.
 
 ## Bootstrap (done when specs + AGENTS exist)
 
@@ -12,73 +12,23 @@ Work queue for the MVP. Prefer opening `specs/us-<n>/` for the active ship; tick
 
 ## US-1 — Model load & viewport
 
-Scoped delta: [`specs/us-1/`](../us-1/) — **in progress**
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
 
-- [ ] Editor island + full-screen R3F viewport
-- [ ] Model upload + load into scene
-- [ ] Orbit / pan / zoom; empty and error states
-- [ ] Collapsible sidebar shell
-  - Shell chrome landed (`EditorSidebar` / `EditorPreview`); leave unticked until US-1 acceptance passes
+- [x] Editor island + full-screen R3F viewport
+- [x] Model upload + load into scene
+- [x] Orbit / pan / zoom; empty and error states
+- [x] Collapsible sidebar shell (`EditorSidebar` / `EditorPreview`)
 
-## US-2 — Animation library & playback
+## Open deltas
 
-Scoped delta: [`specs/us-2/`](../us-2/) — **not started**
-
-- [ ] Multi-file animation import → clip library
-- [ ] Active clip selector
-- [ ] Play / Pause / Stop / loop / scrubber ↔ mixer
-- [ ] Skeleton mismatch error UX
-
-## US-3 — Clip trim & time scale
-
-Scoped delta: [`specs/us-3/`](../us-3/) — **not started**
-
-- [ ] Clone-then-trim Start/End UI
-- [ ] Session recoverability of pre-trim clip
-- [ ] Speed slider → `mixer.timeScale`
-
-## US-4 — Keyframe edit
-
-Scoped delta: [`specs/us-4/`](../us-4/) — **not started**
-
-- [ ] Pause / scrub + raycast selection + TransformControls
-- [ ] Save Keyframe at Current Time → track insert/update
-
-## US-5 — Export
-
-Scoped delta: [`specs/us-5/`](../us-5/) — **not started**
-
-- [ ] Bake time scale into tracks per design
-- [ ] GLTFExporter download of character + all edited clips
-
-## Post-MVP (not started)
-
-### US-6 — Cross-rig retargeting
-
-Scoped delta: [`specs/us-6/`](../us-6/) — **not started**
-
-- [ ] Registry + explicit mapping UI + remapped working clip
-
-### US-7 — Multi-clip blending
-
-Scoped delta: [`specs/us-7/`](../us-7/) — **not started**
-
-- [ ] Cross-fade / weights + optional bake-blend clip
-
-### US-8 — Morph-target editing
-
-Scoped delta: [`specs/us-8/`](../us-8/) — **not started**
-
-- [ ] Influence sliders + morph keyframes + export tracks
-
-### US-9 — Graph / curve keyframe UI
-
-Scoped delta: [`specs/us-9/`](../us-9/) — **not started**
-
-- [ ] Track list / graph; edit add delete keys; rebind mixer
-
-### US-10 — Full undo / redo
-
-Scoped delta: [`specs/us-10/`](../us-10/) — **not started**
-
-- [ ] Command stack; shortcuts; mixer-safe undo/redo
+| US | Status | Tasks |
+|----|--------|-------|
+| **US-2** — Animation library & playback | not started | [`specs/us-2/tasks.md`](../us-2/tasks.md) |
+| **US-3** — Clip trim & time scale | not started | [`specs/us-3/tasks.md`](../us-3/tasks.md) |
+| **US-4** — Keyframe edit | not started | [`specs/us-4/tasks.md`](../us-4/tasks.md) |
+| **US-5** — Export | not started | [`specs/us-5/tasks.md`](../us-5/tasks.md) |
+| **US-6** — Cross-rig retargeting | post-MVP, not started | [`specs/us-6/tasks.md`](../us-6/tasks.md) |
+| **US-7** — Multi-clip blending | post-MVP, not started | [`specs/us-7/tasks.md`](../us-7/tasks.md) |
+| **US-8** — Morph-target editing | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md) |
+| **US-9** — Graph / curve keyframe UI | post-MVP, not started | [`specs/us-9/tasks.md`](../us-9/tasks.md) |
+| **US-10** — Full undo / redo | post-MVP, not started | [`specs/us-10/tasks.md`](../us-10/tasks.md) |

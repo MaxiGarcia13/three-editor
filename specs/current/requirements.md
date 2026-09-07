@@ -16,10 +16,10 @@ As an editor user, I can upload a model and view it in a full-screen 3D viewport
 
 **Acceptance**
 
-- [ ] User can upload one `.glb` or `.gltf` that contains a skinned mesh and skeleton
-- [ ] Model appears in a full-screen R3F viewport with orbit / pan / zoom
-- [ ] Empty state when no model is loaded; clear error when load fails or skeleton is missing
-- [ ] Sidebar chrome is present and collapsible (shell may be minimal until later US)
+- [x] User can upload one `.glb` or `.gltf` that contains a skinned mesh and skeleton
+- [x] Model appears in a full-screen R3F viewport with orbit / pan / zoom
+- [x] Empty state when no model is loaded; clear error when load fails or skeleton is missing
+- [x] Sidebar chrome is present and collapsible (shell may be minimal until later US)
 
 ### US-2 — Animation library & playback
 
