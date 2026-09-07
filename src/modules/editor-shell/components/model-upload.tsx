@@ -3,9 +3,8 @@ import { useRef } from 'react';
 
 import { Button } from '@/components/button/button';
 import { UploadIcon } from '@/components/icons/upload-icon';
+import { GLTF_FILE_ACCEPT } from '@/modules/viewport/constants/gltf-file';
 import { $model, loadModel, resetModel } from '@/modules/viewport/stores/model-store';
-
-const ACCEPT = '.glb,.gltf';
 
 export function ModelUpload() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -32,7 +31,7 @@ export function ModelUpload() {
       <input
         ref={inputRef}
         type="file"
-        accept={ACCEPT}
+        accept={GLTF_FILE_ACCEPT}
         onChange={handleFileChange}
         className="hidden"
       />
