@@ -8,16 +8,17 @@ Work queue for the MVP. Prefer opening `specs/us-<n>/` for the active ship; tick
 
 ## Dependencies (before US-1 code)
 
-- [ ] Add `three`, `@react-three/fiber`, `@react-three/drei`, and Three type packages as needed
+- [x] Add `three`, `@react-three/fiber`, `@react-three/drei`, and Three type packages as needed
 
 ## US-1 — Character load & viewport
 
-Scoped delta: [`specs/us-1/`](../us-1/) — **not started**
+Scoped delta: [`specs/us-1/`](../us-1/) — **in progress**
 
 - [ ] Editor island + full-screen R3F viewport
 - [ ] Character upload + load into scene
 - [ ] Orbit / pan / zoom; empty and error states
 - [ ] Collapsible sidebar shell
+  - Shell chrome landed (`EditorSidebar` / `EditorPreview`); leave unticked until US-1 acceptance passes
 
 ## US-2 — Animation library & playback
 
