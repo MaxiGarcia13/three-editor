@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react';
 import { useState } from 'react';
 
 import { Button } from '@/components/button/button';
 import { ChevronLeft } from '@/components/icons/chevron-left';
 import { ChevronRight } from '@/components/icons/chevron-right';
+import { ModelUpload } from './model-upload';
 
 const SIDEBAR_WIDTH = '16rem';
 
@@ -45,7 +45,7 @@ export function EditorSidebar() {
         </Button>
       </div>
       <div className="flex-1 overflow-y-auto p-4">
-        {/* Sidebar content */}
+        <ModelUpload />
       </div>
     </aside>
   );
