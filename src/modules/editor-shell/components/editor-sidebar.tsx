@@ -3,6 +3,10 @@ import { useState } from 'react';
 import { Button } from '@/components/button/button';
 import { ChevronLeft } from '@/components/icons/chevron-left';
 import { ChevronRight } from '@/components/icons/chevron-right';
+import { ClipImport } from '@/modules/animation/components/clip-import';
+import { ClipSelector } from '@/modules/animation/components/clip-selector';
+import { PlaybackControls } from '@/modules/animation/components/playback-controls';
+import { TimelineScrubber } from '@/modules/animation/components/timeline-scrubber';
 import { ModelUpload } from './model-upload';
 
 const SIDEBAR_WIDTH = '16rem';
@@ -44,8 +48,25 @@ export function EditorSidebar() {
           <ChevronLeft />
         </Button>
       </div>
-      <div className="flex-1 overflow-y-auto p-4">
-        <ModelUpload />
+      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+        <section className="flex flex-col gap-2">
+          <h2 className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
+            Model
+          </h2>
+          <ModelUpload />
+        </section>
+
+        <section className="flex flex-col gap-3">
+          <h2 className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
+            Animations
+          </h2>
+
+          <ClipImport />
+          <ClipSelector />
+
+          <PlaybackControls />
+          <TimelineScrubber />
+        </section>
       </div>
     </aside>
   );
