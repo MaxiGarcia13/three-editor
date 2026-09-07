@@ -1,8 +1,6 @@
 import type { Group } from 'three';
-
-import { useStore } from '@nanostores/react';
-
 import type { ModelEntry } from '../types/model';
+import { useStore } from '@nanostores/react';
 import { $activeModel } from '../stores/model-store';
 
 export function useActiveModel(): {

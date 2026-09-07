@@ -22,33 +22,55 @@ function createEntryId(): string {
   return `model-${nextModelId++}`;
 }
 
-export async function loadModel(file: File): Promise<void> {
+export async function importModelFiles(files: File[]): Promise<void> {
+  if (files.length === 0) {
+    return;
+  }
+
   $model.setKey('phase', 'loading');
   $model.setKey('error', null);
 
-  try {
-    const result = await loadModelFromFile(file);
+  const loadedEntries: ModelEntry[] = [];
+  const failures: string[] = [];
 
-    const entry: ModelEntry = {
-      id: createEntryId(),
-      fileName: file.name,
-      blobUrl: result.blobUrl,
-      scene: result.scene,
-    };
-
-    const current = $model.get();
-    $model.set({
-      models: [...current.models, entry],
-      activeModelId: current.activeModelId ?? entry.id,
-      phase: 'loaded',
-      error: null,
-    });
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Failed to load model';
-
-    $model.setKey('phase', 'error');
-    $model.setKey('error', message);
+  for (const file of files) {
+    try {
+      const result = await loadModelFromFile(file);
+      loadedEntries.push({
+        id: createEntryId(),
+        fileName: file.name,
+        blobUrl: result.blobUrl,
+        scene: result.scene,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to load model';
+      failures.push(`${file.name}: ${message}`);
+    }
   }
+
+  const current = $model.get();
+  const failureText = failures.length > 0 ? failures.join('\n') : null;
+
+  if (loadedEntries.length === 0) {
+    const phase = current.models.length > 0 ? 'loaded' : 'error';
+    $model.set({
+      ...current,
+      phase,
+      error: failureText,
+    });
+    return;
+  }
+
+  $model.set({
+    models: [...current.models, ...loadedEntries],
+    activeModelId: current.activeModelId ?? loadedEntries[0].id,
+    phase: 'loaded',
+    error: failureText,
+  });
+}
+
+export function loadModel(file: File): Promise<void> {
+  return importModelFiles([file]);
 }
 
 export function setActiveModel(id: string): void {

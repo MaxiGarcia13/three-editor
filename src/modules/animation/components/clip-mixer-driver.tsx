@@ -5,6 +5,5 @@ export function ClipMixerDriver() {
   const { scene } = useActiveModel();
   useClipMixer(scene);
 
-
   return null;
 }

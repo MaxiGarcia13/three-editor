@@ -7,7 +7,6 @@ export function ClipSelector() {
   const { clips, activeClipId } = useStore($clips, { keys: ['clips', 'activeClipId'] });
   const { scene } = useActiveModel();
 
-
   const readyClips = clips.filter((entry) => entry.status === 'ready');
   const enabled = scene !== null && readyClips.length > 0;
 

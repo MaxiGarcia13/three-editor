@@ -13,7 +13,6 @@ export function PlaybackControls() {
   });
   const { scene } = useActiveModel();
 
-
   const enabled = scene !== null && activeClipId !== null;
 
   return (

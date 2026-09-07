@@ -12,7 +12,6 @@ export function ClipLibrary() {
   const { clips } = useStore($clips, { keys: ['clips'] });
   const { scene } = useActiveModel();
 
-
   if (clips.length === 0) {
     return null;
   }
