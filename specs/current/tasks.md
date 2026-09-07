@@ -4,7 +4,7 @@ Work queue for the MVP. Prefer opening `specs/us-<n>/` for the active ship; tick
 
 ## Bootstrap (done when specs + AGENTS exist)
 
-- [x] `AGENTS.md` + `specs/current/` + `CHANGELOG.md` + `specs/us-1/` … `specs/us-5/`
+- [x] `AGENTS.md` + `specs/current/` + `CHANGELOG.md` + `specs/us-1/` … `specs/us-10/`
 
 ## Dependencies (before US-1 code)
 
@@ -49,3 +49,35 @@ Scoped delta: [`specs/us-5/`](../us-5/) — **not started**
 
 - [ ] Bake time scale into tracks per design
 - [ ] GLTFExporter download of character + all edited clips
+
+## Post-MVP (not started)
+
+### US-6 — Cross-rig retargeting
+
+Scoped delta: [`specs/us-6/`](../us-6/) — **not started**
+
+- [ ] Registry + explicit mapping UI + remapped working clip
+
+### US-7 — Multi-clip blending
+
+Scoped delta: [`specs/us-7/`](../us-7/) — **not started**
+
+- [ ] Cross-fade / weights + optional bake-blend clip
+
+### US-8 — Morph-target editing
+
+Scoped delta: [`specs/us-8/`](../us-8/) — **not started**
+
+- [ ] Influence sliders + morph keyframes + export tracks
+
+### US-9 — Graph / curve keyframe UI
+
+Scoped delta: [`specs/us-9/`](../us-9/) — **not started**
+
+- [ ] Track list / graph; edit add delete keys; rebind mixer
+
+### US-10 — Full undo / redo
+
+Scoped delta: [`specs/us-10/`](../us-10/) — **not started**
+
+- [ ] Command stack; shortcuts; mixer-safe undo/redo

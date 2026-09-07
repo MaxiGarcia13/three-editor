@@ -65,6 +65,59 @@ As an editor user, I can download one `.glb` containing the character and all ed
 - [ ] File packs the character model plus all modified, trimmed, and newly keyed `AnimationClip`s
 - [ ] Download works in a modern desktop browser without a server round-trip
 
+## Post-MVP user stories
+
+Deltas exist under `specs/us-6/` … `specs/us-10/`. Not started; do not implement until explicitly kicked off (typically after US-1…US-5 ship).
+
+### US-6 — Cross-rig retargeting
+
+As an editor user, I can apply an animation authored for a different rig to my loaded character via an explicit retarget mapping.
+
+**Acceptance**
+
+- [ ] Retarget flow when imported tracks do not match the character skeleton
+- [ ] Mapping is explicit (suggestions OK; silent remap forbidden)
+- [ ] Vendor prefixes only via a documented registry
+- [ ] Retargeted clips become playable working clips; failures do not corrupt pose
+
+### US-7 — Multi-clip blending
+
+As an editor user, I can blend or cross-fade between animation clips on the loaded character.
+
+**Acceptance**
+
+- [ ] At least two concurrent actions or an A→B cross-fade
+- [ ] User-controllable weights or fade duration
+- [ ] Live viewport update; export contract defined (bake blend on demand)
+
+### US-8 — Morph-target editing
+
+As an editor user, I can adjust morph target influences and save them as animation keyframes.
+
+**Acceptance**
+
+- [ ] Morph list + influence sliders when morphs exist
+- [ ] Live updates; save morph keyframes at `mixer.time` on the active clip
+- [ ] Empty state without morphs; export includes morph tracks when present
+
+### US-9 — Graph / curve keyframe UI
+
+As an editor user, I can inspect and edit keyframe curves for tracks on the active clip.
+
+**Acceptance**
+
+- [ ] Track list (filterable by selection); edit / add / delete keyframes
+- [ ] Edits update the working clip and mixer; interpolation visible where supported
+
+### US-10 — Full undo / redo
+
+As an editor user, I can undo and redo animation edits within the session.
+
+**Acceptance**
+
+- [ ] Undo / Redo UI + shortcuts for discrete clip mutations (trim, keyframes, …)
+- [ ] Per-session stack; mixer never left on a stale clip; integrates with or replaces US-3 pre-trim restore
+
 ## Non-functional requirements
 
 - **NFR-1 Modular domains:** Logic lives under `src/modules/<domain>/` (`editor-shell`, `viewport`, `animation`, `export`); pages stay thin
@@ -73,10 +126,9 @@ As an editor user, I can download one `.glb` containing the character and all ed
 - **NFR-4 Accessibility:** Sidebar controls are keyboard-operable and properly labelled
 - **NFR-5 Asset contract:** Bone-name mismatch is an explicit error; no hardcoded vendor prefixes without a registry
 
-## Out of scope (MVP)
+## Out of scope (still excluded)
 
-- Cross-rig retargeting
-- Multi-clip blending / NLA
-- Morph-target or material / texture editing
-- Full undo/redo beyond session clip clone for trim
+- Material / texture editing
 - Server-side processing or accounts
+- Collaborative editing / durable undo across reloads
+- Full NLA strip editorial beyond US-7 blend/cross-fade
