@@ -27,6 +27,7 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] Clip selector + Play / Pause / Stop / loop
 - [x] `AnimationMixer` on character root + timeline scrubber tied to mixer time
 - [x] Track / bone mismatch shows a user-visible error (no silent retargeting)
+- [x] Sidebar clip list with per-entry Replace / Remove; active clip picker lives in preview chrome
 
 ## Open deltas
 

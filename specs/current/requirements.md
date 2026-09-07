@@ -28,7 +28,8 @@ As an editor user, I can import animation files into a clip library and play the
 **Acceptance**
 
 - [x] User can upload multiple separate `.glb` / `.gltf` files; their clips populate an animation library
-- [x] Dropdown (or equivalent) selects the active clip
+- [x] Sidebar library lists each clip with Replace (re-pick file for that entry) and Remove
+- [x] Dropdown (or equivalent) in the preview chrome selects the active clip
 - [x] Playback controls: Play, Pause, Stop, loop toggle
 - [x] Timeline scrubber stays tied to `THREE.AnimationMixer` time
 - [x] Clips that do not match the character skeleton (missing tracks / unknown bones) show a user-visible error — no silent retargeting

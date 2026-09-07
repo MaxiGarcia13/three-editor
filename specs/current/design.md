@@ -53,7 +53,9 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 1. User selects one or more `.glb` / `.gltf` files; adapter loads each and collects `animations` into library entries (stable id + display name + clip) — file meshes are never shown
 2. Validate each clip's track targets against the loaded character node/skeleton map; missing/unknown bones → the entry is marked errored with user-visible copy (no retargeting, no automatic vendor prefix rewriting)
 3. Re-validate entries when the character is replaced or removed so stale clips are never silently played on a mismatched rig
-4. Sidebar controls (clip picker, play/pause/stop/loop, scrubber) are disabled until a character is loaded and at least one valid clip exists
+4. Sidebar **library** lists each entry with Replace / Remove (same pattern as the model row). Replace re-picks one file and updates **that** entry only (first clip in the file; keep the entry id). Remove drops the entry; if it was active, select the next ready clip or clear selection
+5. Preview chrome owns active-clip selection plus Play / Pause / Stop / loop and the scrubber; those controls stay disabled until a character is loaded and at least one valid clip exists
+6. Preview layout: viewport fills remaining height (`flex-1 min-h-0`); playback bar is a shrink-to-content footer under the canvas (not a fixed magic height overlapping the scene)
 
 ## Trim
 
@@ -80,6 +82,7 @@ Playback uses `mixer.timeScale` only. On export, **bake** the current speed into
 
 - Full-bleed R3F `Canvas` with lights; orbit / pan / zoom via `OrbitControls`
 - World XYZ axes at the origin with metre rulers on +X/+Y (major `Nm`, minor `0.1` ticks; `viewport/constants/world-axes`) for orientation
+- Dark infinite ground grid at `y = 0` (1 m cells, stronger section lines; `viewport/constants/ground-grid`) plus soft contact shadow under the model (`ContactShadows`)
 - TransformControls for selected object; modes translate / rotate / scale as needed for keyframe capture
 - Collapsible sidebar docks beside the canvas (`editor-shell`); collapse/expand with labelled chevron controls
 
