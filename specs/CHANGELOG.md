@@ -11,7 +11,6 @@
 
 | ID | Summary |
 |----|---------|
-| **US-1** | Character load & full-screen R3F viewport |
 | **US-2** | Animation library import & playback UI |
 | **US-3** | Clip trim & mixer time scale |
 | **US-4** | Keyframe capture via TransformControls |
@@ -26,4 +25,4 @@
 
 | ID | Summary |
 |----|---------|
-| — | — |
+| **US-1** | Model load & full-screen R3F viewport |

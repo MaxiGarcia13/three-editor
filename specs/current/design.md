@@ -17,7 +17,7 @@ flowchart LR
   ExportDomain --> GLTFExporter
 ```
 
-- [`src/pages/index.astro`](../../src/pages/index.astro) mounts one client React editor island
+- [`src/pages/index.astro`](../../src/pages/index.astro) mounts `EditorSidebar` and `EditorPreview` as `client:only="react"` islands
 - Domains: `editor-shell`, `viewport`, `animation`, `export` under `src/modules/`
 
 ## Assets
@@ -28,6 +28,17 @@ flowchart LR
 | Animation GLB/GLTF | Source of `AnimationClip`s only; mesh payload ignored or discarded after clip extract |
 
 Clips bind to the loaded model. Track names must resolve to bones/nodes on that skeleton. Mismatch → user-visible error (no retarget).
+
+## Model load
+
+1. User picks one `.glb` / `.gltf` (File API)
+2. Adapter parses via imperative `GLTFLoader` and a blob URL (`viewport/adapters`)
+3. Validate skinned mesh + skeleton; else set error state and do not mount a broken graph
+4. Replace any previously loaded model (single model at a time); dispose the previous scene graph
+
+Empty overlay when idle; clear error copy on parse failure or missing skeleton. After a successful load, camera frames the model AABB (`computeModelFraming`; spacing constant in `viewport/services/model-framing.ts`).
+
+Do not add a second debug canvas, FPS overlay render path, or smoke-test scene that bypasses the editor viewport lifecycle.
 
 ## Playback
 
@@ -59,11 +70,10 @@ Playback uses `mixer.timeScale` only. On export, **bake** the current speed into
 
 ## Viewport
 
-- Full-screen R3F `Canvas`
+- Full-bleed R3F `Canvas` with lights; orbit / pan / zoom via `OrbitControls`
 - World XYZ axes at the origin with metre rulers on +X/+Y (major `Nm`, minor `0.1` ticks; `viewport/constants/world-axes`) for orientation
-- OrbitControls (or drei equivalent) for camera
 - TransformControls for selected object; modes translate / rotate / scale as needed for keyframe capture
-- Collapsible sidebar overlays or docks beside the canvas without shrinking the WebGL buffer unexpectedly (prefer overlay or explicit resize handling)
+- Collapsible sidebar docks beside the canvas (`editor-shell`); collapse/expand with labelled chevron controls
 
 ## Export
 
