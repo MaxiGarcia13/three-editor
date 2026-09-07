@@ -1,5 +1,4 @@
 import { useStore } from '@nanostores/react';
-
 import { Button } from '@/components/button/button';
 import { PauseIcon } from '@/components/icons/pause-icon';
 import { PlayIcon } from '@/components/icons/play-icon';
