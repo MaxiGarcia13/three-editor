@@ -15,7 +15,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] Model file input + blob URL / load adapter
 - [x] `viewport` R3F canvas with lights + OrbitControls
 - [x] Mount loaded model; dispose previous on replace
-- [ ] Empty and error states (missing skeleton / parse failure)
+- [x] Empty and error states (missing skeleton / parse failure)
 - [ ] Default camera framing after successful load
 
 ## Verify
