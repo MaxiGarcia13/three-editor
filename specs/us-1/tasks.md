@@ -12,9 +12,9 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] `editor-shell` layout: full-screen stage + collapsible sidebar
   - Home page mounts `EditorSidebar` + `EditorPreview` islands (`client:only="react"`)
   - Sidebar collapse/expand with `ChevronLeft` / `ChevronRight` (shared `ICON_SIZE` in `src/components/icons/constants.ts`)
-- [ ] Character file input + blob URL / load adapter
+- [ ] Model file input + blob URL / load adapter
 - [ ] `viewport` R3F canvas with lights + OrbitControls
-- [ ] Mount loaded character; dispose previous on replace
+- [ ] Mount loaded model; dispose previous on replace
 - [ ] Empty and error states (missing skeleton / parse failure)
 - [ ] Default camera framing after successful load
 

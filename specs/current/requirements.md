@@ -4,21 +4,21 @@ Living product contract for the **GLB Character & Animation Editor**.
 
 ## Product summary
 
-Web editor with a full-screen 3D viewport and a collapsible sidebar. Users load a character GLB, import animation clips, play and edit them (trim, speed, keyframes), and download a single edited `.glb`.
+Web editor with a full-screen 3D viewport and a collapsible sidebar. Users load a model GLB, import animation clips, play and edit them (trim, speed, keyframes), and download a single edited `.glb`.
 
 **Stack:** Astro shell + React island; React Three Fiber + drei + Three.js.
 
 ## User stories
 
-### US-1 — Character load & viewport
+### US-1 — Model load & viewport
 
-As an editor user, I can upload a character model and view it in a full-screen 3D viewport.
+As an editor user, I can upload a model and view it in a full-screen 3D viewport.
 
 **Acceptance**
 
-- [ ] User can upload one character `.glb` or `.gltf` that contains a skinned mesh and skeleton
+- [ ] User can upload one `.glb` or `.gltf` that contains a skinned mesh and skeleton
 - [ ] Model appears in a full-screen R3F viewport with orbit / pan / zoom
-- [ ] Empty state when no character is loaded; clear error when load fails or skeleton is missing
+- [ ] Empty state when no model is loaded; clear error when load fails or skeleton is missing
 - [ ] Sidebar chrome is present and collapsible (shell may be minimal until later US)
 
 ### US-2 — Animation library & playback

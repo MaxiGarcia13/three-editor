@@ -24,14 +24,14 @@ flowchart LR
 
 | Asset | Role |
 |-------|------|
-| Character GLB/GLTF | Skinned mesh + skeleton; single loaded character at a time |
+| Model GLB/GLTF | Skinned mesh + skeleton; single loaded model at a time |
 | Animation GLB/GLTF | Source of `AnimationClip`s only; mesh payload ignored or discarded after clip extract |
 
-Clips bind to the loaded character. Track names must resolve to bones/nodes on that skeleton. Mismatch → user-visible error (no retarget).
+Clips bind to the loaded model. Track names must resolve to bones/nodes on that skeleton. Mismatch → user-visible error (no retarget).
 
 ## Playback
 
-- One `AnimationMixer` rooted on the character scene graph
+- One `AnimationMixer` rooted on the model scene graph
 - Active clip → one `AnimationAction` (cross-fade later = out of scope)
 - Scrubber sets mixer time; Play/Pause/Stop and loop map to action / mixer APIs
 - Speed: `mixer.timeScale` for live playback
@@ -66,7 +66,7 @@ Playback uses `mixer.timeScale` only. On export, **bake** the current speed into
 
 ## Export
 
-- `GLTFExporter` with animations array = all library clips in their current edited form + character scene
+- `GLTFExporter` with animations array = all library clips in their current edited form + model scene
 - Trigger browser download of `.glb` binary
 
 ## Layering rules
