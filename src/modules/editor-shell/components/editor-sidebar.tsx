@@ -4,9 +4,7 @@ import { Button } from '@/components/button/button';
 import { ChevronLeft } from '@/components/icons/chevron-left';
 import { ChevronRight } from '@/components/icons/chevron-right';
 import { ClipImport } from '@/modules/animation/components/clip-import';
-import { ClipSelector } from '@/modules/animation/components/clip-selector';
-import { PlaybackControls } from '@/modules/animation/components/playback-controls';
-import { TimelineScrubber } from '@/modules/animation/components/timeline-scrubber';
+import { ClipLibrary } from '@/modules/animation/components/clip-library';
 import { ModelUpload } from './model-upload';
 
 const SIDEBAR_WIDTH = '16rem';
@@ -62,10 +60,8 @@ export function EditorSidebar() {
           </h2>
 
           <ClipImport />
-          <ClipSelector />
 
-          <PlaybackControls />
-          <TimelineScrubber />
+          <ClipLibrary />
         </section>
       </div>
     </aside>
