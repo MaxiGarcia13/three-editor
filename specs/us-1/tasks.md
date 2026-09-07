@@ -4,8 +4,8 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 ## Prep
 
-- [ ] Install `three`, `@react-three/fiber`, `@react-three/drei` (+ types if required)
-- [ ] Confirm Astro React island entry on the home page
+- [x] Install `three`, `@react-three/fiber`, `@react-three/drei` (+ types if required)
+- [x] Confirm Astro React island entry on the home page
 
 ## Implement
 
