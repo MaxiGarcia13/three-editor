@@ -1,7 +1,6 @@
 import type { OrbitControlsRef } from './model-framing';
 import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-
 import { useRef } from 'react';
 import { ClipMixerDriver } from '@/modules/animation/components/clip-mixer-driver';
 import { ModelFraming } from './model-framing';
