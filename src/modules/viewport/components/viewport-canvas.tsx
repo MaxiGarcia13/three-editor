@@ -5,6 +5,7 @@ import { Canvas } from '@react-three/fiber';
 import { useRef } from 'react';
 import { ModelFraming } from './model-framing';
 import { ModelViewer } from './model-viewer';
+import { WorldAxes } from './world-axes';
 
 export function ViewportCanvas() {
   const controlsRef = useRef<OrbitControlsRef>(null);
@@ -16,6 +17,7 @@ export function ViewportCanvas() {
     >
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
+      <WorldAxes />
       <OrbitControls enableDamping ref={controlsRef} />
       <ModelViewer />
       <ModelFraming controlsRef={controlsRef} />

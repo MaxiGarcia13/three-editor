@@ -8,7 +8,7 @@ Model load + viewport shell only. No mixer, clip library, or exporter.
 
 - Astro page hydrates one editor React island (`client:load` or equivalent)
 - `editor-shell`: layout, collapsible sidebar, file input for model
-- `viewport`: R3F `Canvas`, lights, ground/helpers as needed, OrbitControls, model scene graph once loaded
+- `viewport`: R3F `Canvas`, lights, world XYZ axes (`WorldAxes` / `AxesHelper` at origin; colors from `viewport/constants/world-axes`), OrbitControls, model scene graph once loaded
 
 ## Load path
 
