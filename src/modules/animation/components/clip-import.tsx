@@ -1,15 +1,15 @@
-import { useStore } from '@nanostores/react';
 import { useRef } from 'react';
 
 import { Button } from '@/components/button/button';
 import { UploadIcon } from '@/components/icons/upload-icon';
 import { GLTF_FILE_ACCEPT } from '@/modules/viewport/constants/gltf-file';
-import { $model } from '@/modules/viewport/stores/model-store';
+import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { importClipFiles } from '../stores/clip-store';
 
 export function ClipImport() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { scene } = useStore($model, { keys: ['scene'] });
+  const { scene } = useActiveModel();
+
   const enabled = scene !== null;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

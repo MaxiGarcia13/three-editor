@@ -1,2 +1,9 @@
 export { ViewportCanvas } from './components/viewport-canvas';
-export { $model, loadModel, resetModel } from './stores/model-store';
+export { useActiveModel } from './hooks/use-active-model';
+export {
+  $activeModel,
+  $model,
+  loadModel,
+  resetModel,
+  setActiveModel,
+} from './stores/model-store';

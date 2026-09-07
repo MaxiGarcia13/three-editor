@@ -1,10 +1,9 @@
 import type { OrbitControls } from '@react-three/drei';
 import type { ComponentRef } from 'react';
 import type { PerspectiveCamera } from 'three';
-import { useStore } from '@nanostores/react';
 import { useThree } from '@react-three/fiber';
 import { useEffect } from 'react';
-import { $model } from '@/modules/viewport/stores/model-store';
+import { useActiveModel } from '../hooks/use-active-model';
 import { computeModelFraming } from '../services/model-framing';
 
 export type OrbitControlsRef = ComponentRef<typeof OrbitControls>;
@@ -14,7 +13,8 @@ export interface ModelFramingProps {
 }
 
 export function ModelFraming({ controlsRef }: ModelFramingProps) {
-  const { scene } = useStore($model, { keys: ['scene'] });
+  const { scene } = useActiveModel();
+
   const camera = useThree((state) => state.camera);
   const perspectiveCamera = camera as PerspectiveCamera;
 

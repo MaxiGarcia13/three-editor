@@ -9,7 +9,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 ## Implement
 
-- [ ] Model store: `models[]` + `activeModelId`; viewport still reads one `scene`
+- [x] Model store: `models[]` + `activeModelId`; viewport still reads one `scene`
 - [ ] Multi-file model import; failed files do not join the library
 - [ ] Sidebar model list with Replace / Remove and a clear previewed state
 - [ ] Switching preview: swap viewport graph, re-frame camera, rebind mixer, `syncClipsToSkeleton`

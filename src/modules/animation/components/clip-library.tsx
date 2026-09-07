@@ -2,7 +2,7 @@ import { useStore } from '@nanostores/react';
 import { useRef } from 'react';
 import { AssetEntry } from '@/components/asset-entry/asset-entry';
 import { GLTF_FILE_ACCEPT } from '@/modules/viewport/constants/gltf-file';
-import { $model } from '@/modules/viewport/stores/model-store';
+import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { $clips, removeClip, replaceClip } from '../stores/clip-store';
 
 export function ClipLibrary() {
@@ -10,7 +10,8 @@ export function ClipLibrary() {
   const replaceTargetIdRef = useRef<string | null>(null);
 
   const { clips } = useStore($clips, { keys: ['clips'] });
-  const { scene } = useStore($model, { keys: ['scene'] });
+  const { scene } = useActiveModel();
+
 
   if (clips.length === 0) {
     return null;

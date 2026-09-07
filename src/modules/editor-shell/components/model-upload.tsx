@@ -4,11 +4,14 @@ import { AssetEntry } from '@/components/asset-entry/asset-entry';
 import { Button } from '@/components/button/button';
 import { UploadIcon } from '@/components/icons/upload-icon';
 import { GLTF_FILE_ACCEPT } from '@/modules/viewport/constants/gltf-file';
+import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { $model, loadModel, resetModel } from '@/modules/viewport/stores/model-store';
 
 export function ModelUpload() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { phase, fileName, error } = useStore($model);
+  const { phase, error } = useStore($model, { keys: ['phase', 'error'] });
+  const { activeModel } = useActiveModel();
+
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -49,9 +52,9 @@ export function ModelUpload() {
         </div>
       )}
 
-      {phase === 'loaded' && fileName && (
+      {phase === 'loaded' && activeModel && (
         <AssetEntry
-          label={fileName}
+          label={activeModel.fileName}
           onReplace={handleClick}
           onRemove={handleReset}
         />

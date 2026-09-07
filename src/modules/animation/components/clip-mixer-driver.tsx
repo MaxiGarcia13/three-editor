@@ -1,10 +1,10 @@
-import { useStore } from '@nanostores/react';
-import { $model } from '@/modules/viewport/stores/model-store';
+import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { useClipMixer } from '../hooks/use-clip-mixer';
 
 export function ClipMixerDriver() {
-  const { scene } = useStore($model, { keys: ['scene'] });
+  const { scene } = useActiveModel();
   useClipMixer(scene);
+
 
   return null;
 }

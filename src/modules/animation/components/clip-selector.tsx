@@ -1,11 +1,12 @@
 import { useStore } from '@nanostores/react';
 
-import { $model } from '@/modules/viewport/stores/model-store';
+import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { $clips, selectClip } from '../stores/clip-store';
 
 export function ClipSelector() {
   const { clips, activeClipId } = useStore($clips, { keys: ['clips', 'activeClipId'] });
-  const { scene } = useStore($model, { keys: ['scene'] });
+  const { scene } = useActiveModel();
+
 
   const readyClips = clips.filter((entry) => entry.status === 'ready');
   const enabled = scene !== null && readyClips.length > 0;

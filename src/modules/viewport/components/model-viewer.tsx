@@ -1,12 +1,12 @@
 import type * as THREE from 'three';
-import { useStore } from '@nanostores/react';
 import { useEffect, useRef } from 'react';
 
-import { $model } from '@/modules/viewport/stores/model-store';
+import { useActiveModel } from '../hooks/use-active-model';
 import { disposeScene } from '../services/scene-dispose';
 
 export function ModelViewer() {
-  const { scene } = useStore($model, { keys: ['scene'] });
+  const { scene } = useActiveModel();
+
   const previousSceneRef = useRef<THREE.Group | null>(null);
 
   // Dispose the scene we were rendering only after the swap commits, so a

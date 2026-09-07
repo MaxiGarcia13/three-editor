@@ -4,14 +4,15 @@ import { PauseIcon } from '@/components/icons/pause-icon';
 import { PlayIcon } from '@/components/icons/play-icon';
 import { RepeatIcon } from '@/components/icons/repeat-icon';
 import { StopIcon } from '@/components/icons/stop-icon';
-import { $model } from '@/modules/viewport/stores/model-store';
+import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { $clips, pause, play, stop, toggleLoop } from '../stores/clip-store';
 
 export function PlaybackControls() {
   const { playing, loop, activeClipId } = useStore($clips, {
     keys: ['playing', 'loop', 'activeClipId'],
   });
-  const { scene } = useStore($model, { keys: ['scene'] });
+  const { scene } = useActiveModel();
+
 
   const enabled = scene !== null && activeClipId !== null;
 

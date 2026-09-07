@@ -1,38 +1,46 @@
-import type { ModelState } from '../types/model';
+import type { ModelEntry, ModelLibraryState } from '../types/model';
 
-import { map } from 'nanostores';
+import { computed, map } from 'nanostores';
 import { loadModelFromFile } from '../adapters/model-loader';
+import { disposeScene } from '../services/scene-dispose';
 
-export const $model = map<ModelState>({
+export const $model = map<ModelLibraryState>({
+  models: [],
+  activeModelId: null,
   phase: 'idle',
-  scene: null,
-  blobUrl: null,
-  fileName: null,
   error: null,
 });
 
+export const $activeModel = computed($model, (state) => {
+  const { models, activeModelId } = state;
+  return models.find((model) => model.id === activeModelId) ?? null;
+});
+
+let nextModelId = 1;
+
+function createEntryId(): string {
+  return `model-${nextModelId++}`;
+}
+
 export async function loadModel(file: File): Promise<void> {
-  $model.set({
-    phase: 'loading',
-    scene: null,
-    blobUrl: null,
-    fileName: file.name,
-    error: null,
-  });
+  $model.setKey('phase', 'loading');
+  $model.setKey('error', null);
 
   try {
     const result = await loadModelFromFile(file);
 
-    const previous = $model.get().blobUrl;
-    if (previous) {
-      URL.revokeObjectURL(previous);
-    }
-
-    $model.set({
-      phase: 'loaded',
-      scene: result.scene,
-      blobUrl: result.blobUrl,
+    const entry: ModelEntry = {
+      id: createEntryId(),
       fileName: file.name,
+      blobUrl: result.blobUrl,
+      scene: result.scene,
+    };
+
+    const current = $model.get();
+    $model.set({
+      models: [...current.models, entry],
+      activeModelId: current.activeModelId ?? entry.id,
+      phase: 'loaded',
       error: null,
     });
   } catch (error) {
@@ -43,17 +51,22 @@ export async function loadModel(file: File): Promise<void> {
   }
 }
 
+export function setActiveModel(id: string): void {
+  $model.setKey('activeModelId', id);
+}
+
 export function resetModel(): void {
-  const previous = $model.get().blobUrl;
-  if (previous) {
-    URL.revokeObjectURL(previous);
+  const current = $model.get();
+
+  for (const model of current.models) {
+    URL.revokeObjectURL(model.blobUrl);
+    disposeScene(model.scene);
   }
 
   $model.set({
+    models: [],
+    activeModelId: null,
     phase: 'idle',
-    scene: null,
-    blobUrl: null,
-    fileName: null,
     error: null,
   });
 }
