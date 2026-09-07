@@ -1,6 +1,6 @@
 import { useStore } from '@nanostores/react';
 import { useRef } from 'react';
-
+import { AssetEntry } from '@/components/asset-entry/asset-entry';
 import { Button } from '@/components/button/button';
 import { UploadIcon } from '@/components/icons/upload-icon';
 import { GLTF_FILE_ACCEPT } from '@/modules/viewport/constants/gltf-file';
@@ -50,19 +50,11 @@ export function ModelUpload() {
       )}
 
       {phase === 'loaded' && fileName && (
-        <div className="flex flex-col gap-2">
-          <div className="text-xs text-green-400 truncate" title={fileName}>
-            {fileName}
-          </div>
-          <div className="flex gap-2">
-            <Button onClick={handleClick} variant="ghost" className="flex-1 text-xs">
-              Replace
-            </Button>
-            <Button onClick={handleReset} variant="ghost" className="flex-1 text-xs">
-              Remove
-            </Button>
-          </div>
-        </div>
+        <AssetEntry
+          label={fileName}
+          onReplace={handleClick}
+          onRemove={handleReset}
+        />
       )}
 
       {phase === 'error' && (
