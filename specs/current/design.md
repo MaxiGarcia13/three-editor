@@ -60,7 +60,7 @@ Playback uses `mixer.timeScale` only. On export, **bake** the current speed into
 ## Viewport
 
 - Full-screen R3F `Canvas`
-- World XYZ axes at the origin (`WorldAxes` / `AxesHelper`; colors in `viewport/constants/world-axes`) for orientation
+- World XYZ axes at the origin with metre rulers on +X/+Y (major `Nm`, minor `0.1` ticks; `viewport/constants/world-axes`) for orientation
 - OrbitControls (or drei equivalent) for camera
 - TransformControls for selected object; modes translate / rotate / scale as needed for keyframe capture
 - Collapsible sidebar overlays or docks beside the canvas without shrinking the WebGL buffer unexpectedly (prefer overlay or explicit resize handling)
