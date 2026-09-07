@@ -19,7 +19,7 @@ export function EditorSidebar() {
       <Button
         onClick={toggleSidebar}
         aria-label="Expand sidebar"
-        className="absolute top-3 left-3"
+        className="absolute top-3 left-3 z-1"
       >
         <ChevronRight />
       </Button>
