@@ -29,16 +29,26 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] Track / bone mismatch shows a user-visible error (no silent retargeting)
 - [x] Sidebar clip list with per-entry Replace / Remove; active clip picker lives in preview chrome
 
+## US-11 — Model library
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] Session model library (`models[]` + `activeModelId`); viewport still reads one `scene`
+- [x] Multi-file model import; failed files do not join the library
+- [x] Sidebar model list with Replace / Remove and a distinct previewed row
+- [x] Switching preview: swap viewport graph, re-frame camera, rebind mixer, `syncClipsToSkeleton`
+- [x] Remove previewed model → next loaded model or empty overlay
+- [x] Clip import remains gated on a previewed model
+
 ## Open deltas
 
 | US                                      | Status                | Tasks                                       |
 | --------------------------------------- | --------------------- | ------------------------------------------- |
 | **US-3** — Clip trim & time scale       | not started           | [`specs/us-3/tasks.md`](../us-3/tasks.md)   |
 | **US-4** — Keyframe edit                | not started           | [`specs/us-4/tasks.md`](../us-4/tasks.md)   |
-| **US-5** — Zip export (depends on US-11)| not started           | [`specs/us-5/tasks.md`](../us-5/tasks.md)   |
+| **US-5** — Zip export                   | not started           | [`specs/us-5/tasks.md`](../us-5/tasks.md)   |
 | **US-6** — Cross-rig retargeting        | post-MVP, not started | [`specs/us-6/tasks.md`](../us-6/tasks.md)   |
 | **US-7** — Multi-clip blending          | post-MVP, not started | [`specs/us-7/tasks.md`](../us-7/tasks.md)   |
 | **US-8** — Morph-target editing         | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md)   |
 | **US-9** — Graph / curve keyframe UI    | post-MVP, not started | [`specs/us-9/tasks.md`](../us-9/tasks.md)   |
 | **US-10** — Full undo / redo            | post-MVP, not started | [`specs/us-10/tasks.md`](../us-10/tasks.md) |
-| **US-11** — Model library               | not started           | [`specs/us-11/tasks.md`](../us-11/tasks.md) |

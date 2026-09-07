@@ -19,11 +19,11 @@
 | **US-8** | Morph-target editing (post-MVP) |
 | **US-9** | Graph / curve keyframe UI (post-MVP) |
 | **US-10** | Full undo / redo stack (post-MVP) |
-| **US-11** | Model library — many characters, one previewed |
 
 ## Shipped
 
 | ID | Summary |
 |----|---------|
+| **US-11** | Model library — many characters, one previewed |
 | **US-2** | Animation library import & playback UI |
 | **US-1** | Model load & full-screen R3F viewport |

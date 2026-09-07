@@ -75,11 +75,11 @@ As an editor user, I can keep several character GLBs in the session and choose w
 
 **Acceptance**
 
-- [ ] User can upload multiple `.glb` / `.gltf` files that each contain a skinned mesh and skeleton; they populate a model library
-- [ ] Sidebar library lists each model with Replace and Remove (same `AssetEntry` pattern as clips)
-- [ ] Exactly one model is **previewed** at a time; switching it swaps the viewport graph, re-frames the camera, rebinds the mixer, and re-validates the shared clip library
-- [ ] Removing the previewed model selects another loaded model, or empty state if none remain
-- [ ] Clip import still requires a previewed model
+- [x] User can upload multiple `.glb` / `.gltf` files that each contain a skinned mesh and skeleton; they populate a model library
+- [x] Sidebar library lists each model with Replace and Remove (same `AssetEntry` pattern as clips)
+- [x] Exactly one model is **previewed** at a time; switching it swaps the viewport graph, re-frames the camera, rebinds the mixer, and re-validates the shared clip library
+- [x] Removing the previewed model selects another loaded model, or empty state if none remain
+- [x] Clip import still requires a previewed model
 
 ## Post-MVP user stories
 
