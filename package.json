@@ -1,0 +1,23 @@
+{
+  "name": "three-editor",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "Three js Editor",
+  "author": "Maximiliano Garcia Mortigliengo",
+  "license": "ISC",
+  "homepage": "https://github.com/MaxiGarcia13/three-editor#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaxiGarcia13/three-editor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MaxiGarcia13/three-editor/issues"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  },
+  "dependencies": {
+    "@maxigarcia/eslint-config": "^1.14.1"
+  }
+}
