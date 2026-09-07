@@ -35,9 +35,10 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 | --------------------------------------- | --------------------- | ------------------------------------------- |
 | **US-3** — Clip trim & time scale       | not started           | [`specs/us-3/tasks.md`](../us-3/tasks.md)   |
 | **US-4** — Keyframe edit                | not started           | [`specs/us-4/tasks.md`](../us-4/tasks.md)   |
-| **US-5** — Export                       | not started           | [`specs/us-5/tasks.md`](../us-5/tasks.md)   |
+| **US-5** — Zip export (depends on US-11)| not started           | [`specs/us-5/tasks.md`](../us-5/tasks.md)   |
 | **US-6** — Cross-rig retargeting        | post-MVP, not started | [`specs/us-6/tasks.md`](../us-6/tasks.md)   |
 | **US-7** — Multi-clip blending          | post-MVP, not started | [`specs/us-7/tasks.md`](../us-7/tasks.md)   |
 | **US-8** — Morph-target editing         | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md)   |
 | **US-9** — Graph / curve keyframe UI    | post-MVP, not started | [`specs/us-9/tasks.md`](../us-9/tasks.md)   |
 | **US-10** — Full undo / redo            | post-MVP, not started | [`specs/us-10/tasks.md`](../us-10/tasks.md) |
+| **US-11** — Model library               | not started           | [`specs/us-11/tasks.md`](../us-11/tasks.md) |

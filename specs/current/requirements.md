@@ -4,7 +4,7 @@ Living product contract for the **GLB Character & Animation Editor**.
 
 ## Product summary
 
-Web editor with a full-screen 3D viewport and a collapsible sidebar. Users load a model GLB, import animation clips, play and edit them (trim, speed, keyframes), and download a single edited `.glb`.
+Web editor with a full-screen 3D viewport and a collapsible sidebar. Users load one or more model GLBs (one previewed at a time), import animation clips, play and edit them (trim, speed, keyframes), and download a zip of per-model GLBs plus animation-only files.
 
 **Stack:** Astro shell + React island; React Three Fiber + drei + Three.js.
 
@@ -56,15 +56,30 @@ As an editor user, I can pause on the timeline, move a selected bone/mesh, and s
 - [ ] “Save Keyframe at Current Time” captures local position / rotation / scale
 - [ ] Button finds or creates the matching `VectorKeyframeTrack` / `QuaternionKeyframeTrack` on the **active** clip and inserts or updates keyframes at `mixer.time`
 
-### US-5 — Export edited GLB
+### US-5 — Zip export
 
-As an editor user, I can download one `.glb` containing the character and all edited clips.
+As an editor user, I can download a zip of each model and of each animation as separate files.
 
 **Acceptance**
 
-- [ ] “Download Edited GLB” uses `GLTFExporter`
-- [ ] File packs the character model plus all modified, trimmed, and newly keyed `AnimationClip`s
-- [ ] Download works in a modern desktop browser without a server round-trip
+- [ ] “Download” uses `GLTFExporter` and builds a zip in the browser — no server round-trip
+- [ ] Zip contains one `{model}.glb` per loaded model: that model’s scene plus **only** library clips that validate against that model’s skeleton (working / trimmed / keyed form)
+- [ ] Zip contains one `{clip}.glb` per library clip that has a working `AnimationClip` — animation-only, no mesh
+- [ ] Current playback `timeScale` is baked into exported track times / clip duration per design
+- [ ] Filename collisions inside the zip get a numeric suffix
+- [ ] Download is disabled or errors when there is nothing to pack; exporter failure does not download a partial zip
+
+### US-11 — Model library
+
+As an editor user, I can keep several character GLBs in the session and choose which one the viewport shows.
+
+**Acceptance**
+
+- [ ] User can upload multiple `.glb` / `.gltf` files that each contain a skinned mesh and skeleton; they populate a model library
+- [ ] Sidebar library lists each model with Replace and Remove (same `AssetEntry` pattern as clips)
+- [ ] Exactly one model is **previewed** at a time; switching it swaps the viewport graph, re-frames the camera, rebinds the mixer, and re-validates the shared clip library
+- [ ] Removing the previewed model selects another loaded model, or empty state if none remain
+- [ ] Clip import still requires a previewed model
 
 ## Post-MVP user stories
 
