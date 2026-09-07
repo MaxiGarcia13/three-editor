@@ -14,10 +14,12 @@
     "url": "https://github.com/MaxiGarcia13/three-editor/issues"
   },
   "scripts": {
+    "prepare": "husky || true",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
-  "dependencies": {
-    "@maxigarcia/eslint-config": "^1.14.1"
+  "devDependencies": {
+    "@maxigarcia/eslint-config": "^1.14.1",
+    "husky": "^9.1.7"
   }
 }
