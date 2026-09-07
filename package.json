@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "description": "Three js Editor",
   "author": "Maximiliano Garcia Mortigliengo",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "homepage": "https://github.com/MaxiGarcia13/three-editor#readme",
   "repository": {
     "type": "git",
