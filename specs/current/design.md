@@ -22,9 +22,9 @@ flowchart LR
 
 ## Assets
 
-| Asset | Role |
-|-------|------|
-| Model GLB/GLTF | Skinned mesh + skeleton; single loaded model at a time |
+| Asset              | Role                                                                                  |
+| ------------------ | ------------------------------------------------------------------------------------- |
+| Model GLB/GLTF     | Skinned mesh + skeleton; single loaded model at a time                                |
 | Animation GLB/GLTF | Source of `AnimationClip`s only; mesh payload ignored or discarded after clip extract |
 
 Clips bind to the loaded model. Track names must resolve to bones/nodes on that skeleton. Mismatch → user-visible error (no retarget).
