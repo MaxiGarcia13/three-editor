@@ -1,9 +1,9 @@
 import { useStore } from '@nanostores/react';
-import { useRef } from 'react';
+
 import { AssetEntry } from '@/components/asset-entry/asset-entry';
 import { Button } from '@/components/button/button';
+import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
 import { UploadIcon } from '@/components/icons/upload-icon';
-import { GLTF_FILE_ACCEPT } from '@/modules/viewport/constants/gltf-file';
 import {
   $model,
   importModelFiles,
@@ -13,61 +13,33 @@ import {
 } from '@/modules/viewport/stores/model-store';
 
 export function ModelLibrary() {
-  const importInputRef = useRef<HTMLInputElement>(null);
-  const replaceInputRef = useRef<HTMLInputElement>(null);
-  const replaceTargetIdRef = useRef<string | null>(null);
-
   const { models, activeModelId, phase, error } = useStore($model);
 
-  const handleImportClick = () => {
-    importInputRef.current?.click();
-  };
+  const { open: openImport, fileInput: importInput } = useGltfFilePicker({
+    multiple: true,
+    onFiles: (files) => {
+      void importModelFiles(files);
+    },
+  });
 
-  const handleImportChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      void importModelFiles(Array.from(files));
-    }
-    event.target.value = '';
-  };
-
-  const handleReplaceClick = (id: string) => {
-    replaceTargetIdRef.current = id;
-    replaceInputRef.current?.click();
-  };
-
-  const handleReplaceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    const id = replaceTargetIdRef.current;
-    if (file && id) {
-      void replaceModel(id, file);
-    }
-    replaceTargetIdRef.current = null;
-    event.target.value = '';
-  };
+  const { open: openReplace, fileInput: replaceInput } = useGltfFilePicker<string>({
+    onFiles: (files, id) => {
+      const file = files[0];
+      if (file && id) {
+        void replaceModel(id, file);
+      }
+    },
+  });
 
   const isLoading = phase === 'loading';
 
   return (
     <div className="flex flex-col gap-3">
-      <input
-        ref={importInputRef}
-        type="file"
-        accept={GLTF_FILE_ACCEPT}
-        multiple
-        onChange={handleImportChange}
-        className="hidden"
-      />
-      <input
-        ref={replaceInputRef}
-        type="file"
-        accept={GLTF_FILE_ACCEPT}
-        onChange={handleReplaceChange}
-        className="hidden"
-      />
+      {importInput}
+      {replaceInput}
 
       <Button
-        onClick={handleImportClick}
+        onClick={() => openImport()}
         disabled={isLoading}
         className="flex items-center gap-2 w-full justify-center"
       >
@@ -92,7 +64,7 @@ export function ModelLibrary() {
               title={entry.fileName}
               selected={entry.id === activeModelId}
               onSelect={() => setActiveModel(entry.id)}
-              onReplace={() => handleReplaceClick(entry.id)}
+              onReplace={() => openReplace(entry.id)}
               onRemove={() => removeModel(entry.id)}
             />
           ))}

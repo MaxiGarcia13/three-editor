@@ -1,41 +1,25 @@
-import { useRef } from 'react';
-
 import { Button } from '@/components/button/button';
+import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
 import { UploadIcon } from '@/components/icons/upload-icon';
-import { GLTF_FILE_ACCEPT } from '@/modules/viewport/constants/gltf-file';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { importClipFiles } from '../stores/clip-store';
 
 export function ClipImport() {
-  const inputRef = useRef<HTMLInputElement>(null);
   const { scene } = useActiveModel();
-
   const enabled = scene !== null;
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      void importClipFiles(Array.from(files), scene);
-    }
-    event.target.value = '';
-  };
-
-  const handleClick = () => {
-    inputRef.current?.click();
-  };
+  const { open, fileInput } = useGltfFilePicker({
+    multiple: true,
+    onFiles: (files) => {
+      void importClipFiles(files, scene);
+    },
+  });
 
   return (
     <div className="flex flex-col gap-2">
-      <input
-        ref={inputRef}
-        type="file"
-        accept={GLTF_FILE_ACCEPT}
-        multiple
-        onChange={handleFileChange}
-        className="hidden"
-      />
+      {fileInput}
       <Button
-        onClick={handleClick}
+        onClick={() => open()}
         disabled={!enabled}
         className="flex items-center gap-2 w-full justify-center"
       >
