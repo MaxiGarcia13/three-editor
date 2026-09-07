@@ -1,6 +1,4 @@
 import { useStore } from '@nanostores/react';
-
-import { UploadIcon } from '@/components/icons/upload-icon';
 import { $model } from '@/modules/viewport/stores/model-store';
 
 export function ViewportStatusOverlay() {
