@@ -25,11 +25,7 @@ export function ModelFraming({ controlsRef }: ModelFramingProps) {
 
     const framing = computeModelFraming(scene, perspectiveCamera);
 
-    perspectiveCamera.position.set(
-      framing.center.x,
-      framing.center.y,
-      framing.center.z + framing.distance,
-    );
+    perspectiveCamera.position.copy(framing.position);
     perspectiveCamera.near = framing.distance / 100;
     perspectiveCamera.far = framing.distance * 100;
     perspectiveCamera.updateProjectionMatrix();

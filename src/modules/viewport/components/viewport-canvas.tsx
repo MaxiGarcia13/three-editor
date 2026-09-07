@@ -3,6 +3,11 @@ import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useRef } from 'react';
 import { ClipMixerDriver } from '@/modules/animation/components/clip-mixer-driver';
+import {
+  DEFAULT_CAMERA_FOV,
+  DEFAULT_CAMERA_POSITION,
+  DEFAULT_CAMERA_TARGET,
+} from '../constants/camera';
 import { GroundGrid } from './ground-grid';
 import { ModelFraming } from './model-framing';
 import { ModelViewer } from './model-viewer';
@@ -13,14 +18,21 @@ export function ViewportCanvas() {
 
   return (
     <Canvas
-      camera={{ position: [0, 1, 3], fov: 50 }}
+      camera={{
+        position: [...DEFAULT_CAMERA_POSITION],
+        fov: DEFAULT_CAMERA_FOV,
+      }}
       className="h-full w-full"
     >
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
       <GroundGrid />
       <WorldAxes />
-      <OrbitControls enableDamping ref={controlsRef} />
+      <OrbitControls
+        enableDamping
+        ref={controlsRef}
+        target={[...DEFAULT_CAMERA_TARGET]}
+      />
       <ModelViewer />
       <ClipMixerDriver />
       <ModelFraming controlsRef={controlsRef} />

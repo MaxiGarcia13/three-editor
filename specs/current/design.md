@@ -36,7 +36,7 @@ Clips bind to the loaded model. Track names must resolve to bones/nodes on that 
 3. Validate skinned mesh + skeleton; else set error state and do not mount a broken graph
 4. Replace any previously loaded model (single model at a time); dispose the previous scene graph
 
-Empty overlay when idle; clear error copy on parse failure or missing skeleton. After a successful load, camera frames the model AABB (`computeModelFraming`; spacing constant in `viewport/services/model-framing.ts`).
+Empty overlay when idle; clear error copy on parse failure or missing skeleton. After a successful load, camera frames the model AABB from a fixed three-quarter elevated angle (`computeModelFraming` + `DEFAULT_VIEW_OFFSET` in `viewport/constants/camera.ts`; spacing in `viewport/services/model-framing.ts`).
 
 Do not add a second debug canvas, FPS overlay render path, or smoke-test scene that bypasses the editor viewport lifecycle.
 
