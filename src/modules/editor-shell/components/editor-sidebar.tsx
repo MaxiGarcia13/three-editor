@@ -5,7 +5,7 @@ import { ChevronLeft } from '@/components/icons/chevron-left';
 import { ChevronRight } from '@/components/icons/chevron-right';
 import { ClipImport } from '@/modules/animation/components/clip-import';
 import { ClipLibrary } from '@/modules/animation/components/clip-library';
-import { ModelUpload } from './model-upload';
+import { ModelLibrary } from './model-library';
 
 const SIDEBAR_WIDTH = '16rem';
 
@@ -51,7 +51,7 @@ export function EditorSidebar() {
           <h2 className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
             Model
           </h2>
-          <ModelUpload />
+          <ModelLibrary />
         </section>
 
         <section className="flex flex-col gap-3">

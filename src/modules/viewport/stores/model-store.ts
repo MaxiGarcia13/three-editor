@@ -1,4 +1,4 @@
-import type { ModelEntry, ModelLibraryState } from '../types/model';
+import type { ModelEntry, ModelLibraryPhase, ModelLibraryState } from '../types/model';
 
 import { computed, map } from 'nanostores';
 import { loadModelFromFile } from '../adapters/model-loader';
@@ -75,6 +75,76 @@ export function loadModel(file: File): Promise<void> {
 
 export function setActiveModel(id: string): void {
   $model.setKey('activeModelId', id);
+}
+
+function disposeEntry(entry: ModelEntry, isActive: boolean): void {
+  URL.revokeObjectURL(entry.blobUrl);
+  if (!isActive) {
+    disposeScene(entry.scene);
+  }
+}
+
+export function removeModel(id: string): void {
+  const state = $model.get();
+  const index = state.models.findIndex((model) => model.id === id);
+  if (index < 0) {
+    return;
+  }
+
+  const removed = state.models[index];
+  const wasActive = state.activeModelId === id;
+  disposeEntry(removed, wasActive);
+
+  const models = state.models.filter((model) => model.id !== id);
+  const activeModelId = wasActive ? (models[0]?.id ?? null) : state.activeModelId;
+  const phase: ModelLibraryPhase = models.length > 0 ? 'loaded' : 'idle';
+
+  $model.set({
+    models,
+    activeModelId,
+    phase,
+    error: null,
+  });
+}
+
+export async function replaceModel(id: string, file: File): Promise<void> {
+  const initialIndex = $model.get().models.findIndex((model) => model.id === id);
+  if (initialIndex < 0) {
+    return;
+  }
+
+  try {
+    const result = await loadModelFromFile(file);
+    const state = $model.get();
+    const currentIndex = state.models.findIndex((model) => model.id === id);
+    if (currentIndex < 0) {
+      URL.revokeObjectURL(result.blobUrl);
+      disposeScene(result.scene);
+      return;
+    }
+
+    const previous = state.models[currentIndex];
+    const wasActive = state.activeModelId === id;
+    disposeEntry(previous, wasActive);
+
+    const models = [...state.models];
+    models[currentIndex] = {
+      ...previous,
+      fileName: file.name,
+      blobUrl: result.blobUrl,
+      scene: result.scene,
+    };
+
+    $model.set({
+      ...state,
+      models,
+      phase: 'loaded',
+      error: null,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to replace model';
+    $model.setKey('error', message);
+  }
 }
 
 export function resetModel(): void {
