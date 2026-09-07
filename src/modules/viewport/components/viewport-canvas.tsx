@@ -3,6 +3,7 @@ import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useRef } from 'react';
 import { ClipMixerDriver } from '@/modules/animation/components/clip-mixer-driver';
+import { GroundGrid } from './ground-grid';
 import { ModelFraming } from './model-framing';
 import { ModelViewer } from './model-viewer';
 import { WorldAxes } from './world-axes';
@@ -17,6 +18,7 @@ export function ViewportCanvas() {
     >
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
+      <GroundGrid />
       <WorldAxes />
       <OrbitControls enableDamping ref={controlsRef} />
       <ModelViewer />
