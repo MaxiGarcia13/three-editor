@@ -1,16 +1,16 @@
-import type * as THREE from 'three';
+import type { Material, Mesh, Object3D, Texture } from 'three';
 
-function disposeMaterialTextures(material: THREE.Material): void {
+function disposeMaterialTextures(material: Material): void {
   for (const value of Object.values(material)) {
-    if ((value as THREE.Texture).isTexture) {
-      (value as THREE.Texture).dispose();
+    if (value && (value as Texture).isTexture) {
+      (value as Texture).dispose();
     }
   }
 }
 
-export function disposeScene(scene: THREE.Object3D): void {
+export function disposeScene(scene: Object3D): void {
   scene.traverse((object) => {
-    const mesh = object as THREE.Mesh;
+    const mesh = object as Mesh;
     if (mesh.geometry) {
       mesh.geometry.dispose();
     }
