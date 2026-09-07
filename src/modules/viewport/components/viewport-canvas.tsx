@@ -3,6 +3,7 @@ import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 
 import { useRef } from 'react';
+import { ClipMixerDriver } from '@/modules/animation/components/clip-mixer-driver';
 import { ModelFraming } from './model-framing';
 import { ModelViewer } from './model-viewer';
 import { WorldAxes } from './world-axes';
@@ -20,6 +21,7 @@ export function ViewportCanvas() {
       <WorldAxes />
       <OrbitControls enableDamping ref={controlsRef} />
       <ModelViewer />
+      <ClipMixerDriver />
       <ModelFraming controlsRef={controlsRef} />
     </Canvas>
   );
