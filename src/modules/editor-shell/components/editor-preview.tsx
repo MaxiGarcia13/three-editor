@@ -1,11 +1,9 @@
-import type { ReactNode } from 'react';
+import { ViewportCanvas } from '@/modules/viewport/components/viewport-canvas';
 
-export interface EditorPreviewProps {
-  children?: ReactNode;
-}
-
-export function EditorPreview(_props: EditorPreviewProps) {
+export function EditorPreview() {
   return (
-    <div className="flex-1 w-full h-full">Preview</div>
+    <div className="flex-1 h-full bg-zinc-900">
+      <ViewportCanvas />
+    </div>
   );
 }
