@@ -77,11 +77,9 @@ export function setActiveModel(id: string): void {
   $model.setKey('activeModelId', id);
 }
 
-function disposeEntry(entry: ModelEntry, isActive: boolean): void {
+function disposeEntry(entry: ModelEntry): void {
   URL.revokeObjectURL(entry.blobUrl);
-  if (!isActive) {
-    disposeScene(entry.scene);
-  }
+  disposeScene(entry.scene);
 }
 
 export function removeModel(id: string): void {
@@ -93,7 +91,7 @@ export function removeModel(id: string): void {
 
   const removed = state.models[index];
   const wasActive = state.activeModelId === id;
-  disposeEntry(removed, wasActive);
+  disposeEntry(removed);
 
   const models = state.models.filter((model) => model.id !== id);
   const activeModelId = wasActive ? (models[0]?.id ?? null) : state.activeModelId;
@@ -124,8 +122,7 @@ export async function replaceModel(id: string, file: File): Promise<void> {
     }
 
     const previous = state.models[currentIndex];
-    const wasActive = state.activeModelId === id;
-    disposeEntry(previous, wasActive);
+    disposeEntry(previous);
 
     const models = [...state.models];
     models[currentIndex] = {
