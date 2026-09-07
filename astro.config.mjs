@@ -7,5 +7,29 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+
+    environments: {
+      client: {
+        optimizeDeps: {
+          noDiscovery: true,
+          include: [
+            'react',
+            'react-dom',
+            'react-dom/client',
+            'react/jsx-runtime',
+            'react/jsx-dev-runtime',
+            '@react-three/fiber',
+            '@react-three/drei',
+            'three',
+          ],
+          rolldownOptions: {
+            treeshake: false,
+          },
+        },
+      },
+    },
+    resolve: {
+      dedupe: ['react', 'react-dom', 'three'],
+    },
   },
 });
