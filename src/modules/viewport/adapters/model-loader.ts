@@ -4,7 +4,7 @@ import type { ModelLoadResult } from '../types/model';
 
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-const ACCEPTED_EXTENSIONS = /\.(?:glb|gltf)$/i;
+import { GLTF_EXTENSION_PATTERN } from '../constants/gltf-file';
 
 function validateScene(scene: THREE.Group): void {
   let hasSkinnedMesh = false;
@@ -29,7 +29,7 @@ function validateScene(scene: THREE.Group): void {
 }
 
 export async function loadModelFromFile(file: File): Promise<ModelLoadResult> {
-  if (!ACCEPTED_EXTENSIONS.test(file.name)) {
+  if (!GLTF_EXTENSION_PATTERN.test(file.name)) {
     throw new Error('Unsupported file type. Please use .glb or .gltf');
   }
 
