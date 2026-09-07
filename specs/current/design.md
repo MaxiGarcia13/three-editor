@@ -46,6 +46,14 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 - Active clip → one `AnimationAction` (cross-fade later = out of scope)
 - Scrubber sets mixer time; Play/Pause/Stop and loop map to action / mixer APIs
 - Speed: `mixer.timeScale` for live playback
+- Switching active clip stops the previous action and plays the new one
+
+## Animation import
+
+1. User selects one or more `.glb` / `.gltf` files; adapter loads each and collects `animations` into library entries (stable id + display name + clip) — file meshes are never shown
+2. Validate each clip's track targets against the loaded character node/skeleton map; missing/unknown bones → the entry is marked errored with user-visible copy (no retargeting, no automatic vendor prefix rewriting)
+3. Re-validate entries when the character is replaced or removed so stale clips are never silently played on a mismatched rig
+4. Sidebar controls (clip picker, play/pause/stop/loop, scrubber) are disabled until a character is loaded and at least one valid clip exists
 
 ## Trim
 

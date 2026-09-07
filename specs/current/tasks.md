@@ -19,11 +19,19 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] Orbit / pan / zoom; empty and error states
 - [x] Collapsible sidebar shell (`EditorSidebar` / `EditorPreview`)
 
+## US-2 — Animation library & playback
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] Multi-file animation import → clip library with skeleton validation
+- [x] Clip selector + Play / Pause / Stop / loop
+- [x] `AnimationMixer` on character root + timeline scrubber tied to mixer time
+- [x] Track / bone mismatch shows a user-visible error (no silent retargeting)
+
 ## Open deltas
 
 | US                                      | Status                | Tasks                                       |
 | --------------------------------------- | --------------------- | ------------------------------------------- |
-| **US-2** — Animation library & playback | not started           | [`specs/us-2/tasks.md`](../us-2/tasks.md)   |
 | **US-3** — Clip trim & time scale       | not started           | [`specs/us-3/tasks.md`](../us-3/tasks.md)   |
 | **US-4** — Keyframe edit                | not started           | [`specs/us-4/tasks.md`](../us-4/tasks.md)   |
 | **US-5** — Export                       | not started           | [`specs/us-5/tasks.md`](../us-5/tasks.md)   |

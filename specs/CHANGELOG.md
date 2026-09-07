@@ -11,7 +11,6 @@
 
 | ID | Summary |
 |----|---------|
-| **US-2** | Animation library import & playback UI |
 | **US-3** | Clip trim & mixer time scale |
 | **US-4** | Keyframe capture via TransformControls |
 | **US-5** | Download edited GLB (character + clips) |
@@ -25,4 +24,5 @@
 
 | ID | Summary |
 |----|---------|
+| **US-2** | Animation library import & playback UI |
 | **US-1** | Model load & full-screen R3F viewport |
