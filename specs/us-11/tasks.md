@@ -19,5 +19,5 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 ## Verify
 
 - [ ] All US-11 acceptance criteria in [`requirements.md`](./requirements.md) pass
-- [ ] Two (or more) models in the library; only the previewed one is visible; clips re-validate on switch
+- [x] Two (or more) models in the library; only the previewed one is visible; clips re-validate on switch
 - [ ] No export / zip work left half-wired in this delta
