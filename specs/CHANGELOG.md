@@ -13,12 +13,13 @@
 |----|---------|
 | **US-3** | Clip trim & mixer time scale |
 | **US-4** | Keyframe capture via TransformControls |
-| **US-5** | Download edited GLB (character + clips) |
+| **US-5** | Zip download: per-model GLBs + animation-only files |
 | **US-6** | Cross-rig retargeting (post-MVP) |
 | **US-7** | Multi-clip blending / cross-fade (post-MVP) |
 | **US-8** | Morph-target editing (post-MVP) |
 | **US-9** | Graph / curve keyframe UI (post-MVP) |
 | **US-10** | Full undo / redo stack (post-MVP) |
+| **US-11** | Model library — many characters, one previewed |
 
 ## Shipped
 
