@@ -1,6 +1,8 @@
 import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 
+import { ModelViewer } from './model-viewer';
+
 export function ViewportCanvas() {
   return (
     <Canvas
@@ -10,6 +12,7 @@ export function ViewportCanvas() {
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
       <OrbitControls enableDamping />
+      <ModelViewer />
     </Canvas>
   );
 }
