@@ -1,5 +1,5 @@
 import { getMixerTime } from '../services/mixer-session';
-import { $clips } from '../stores/clip-store';
+import { $clips } from '../stores/clip-store/store';
 
 /** Map absolute mixer time into the visible [0, duration] timeline window. */
 export function toTimelineTime(mixerTime: number, duration: number, loop: boolean): number {
