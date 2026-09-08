@@ -6,7 +6,7 @@ import { loadClipsFromFile } from '@/modules/animation/adapters/clip-loader';
 import { buildSkeletonNodeSet, validateClipAgainstSkeleton } from '@/modules/animation/services/clip-validate';
 import { setMixerTime } from '@/modules/animation/services/mixer-session';
 import { $clips } from '../store';
-import { isReadyClip } from '../utils';
+import { isReadyClip, toEntry } from '../utils';
 import { selectClip } from './select-clip';
 
 export async function replaceClip(
@@ -35,14 +35,9 @@ export async function replaceClip(
     }
 
     const validation = validateClipAgainstSkeleton(clip, nodeNames);
-    const nextEntry: ClipEntry = {
+    const nextEntry = {
+      ...toEntry(validation, previous.id, clip, result.name),
       id: previous.id,
-      name: clip.name,
-      sourceFile: result.name,
-      clip,
-      sourceClip: clip,
-      status: validation.valid ? 'ready' : 'error',
-      error: validation.valid ? null : validation.error,
     };
 
     const clips = [...state.clips];
