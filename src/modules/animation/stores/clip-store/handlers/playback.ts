@@ -1,10 +1,11 @@
 import {
   getMixerTime,
+  restoreMixerPose,
   resumeMixerBindings,
   setMixerTime,
   setMixerTimeScale,
 } from '@/modules/animation/services/mixer-session';
-import { clearPoseDirty } from '@/modules/viewport/stores/pose-edit-store';
+import { $poseDirty, clearPoseDirty } from '@/modules/viewport/stores/pose-edit-store';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
 
@@ -25,9 +26,12 @@ export function play(): void {
   }
   if (!state.loop && state.duration > 0 && getMixerTime() >= state.duration) {
     setMixerTime(0);
+  } else if ($poseDirty.get()) {
+    restoreMixerPose();
+  } else {
+    resumeMixerBindings();
+    clearPoseDirty();
   }
-  resumeMixerBindings();
-  clearPoseDirty();
   $clips.setKey('playing', true);
 }
 
