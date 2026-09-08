@@ -1,5 +1,6 @@
 import { cn } from '@maxigarcia/js-utils';
 import { useState } from 'react';
+import { isMobileViewport } from '@/utils/device';
 import { AsideHeader } from './aside-header';
 import { OpenButton } from './open-button';
 
@@ -13,7 +14,9 @@ interface CollapsibleAsideProps {
 }
 
 export function CollapsibleAside({ children, direction, title, className }: CollapsibleAsideProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const isMobile = isMobileViewport();
+
+  const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   const { marginDirection, borderDirection }
