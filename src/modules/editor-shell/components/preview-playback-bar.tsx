@@ -1,9 +1,7 @@
 import { TimelineScrubber } from '@/components/timeline-scrubber';
 import {
   ClipSelector,
-  ClipTrimInputs,
   PlaybackControls,
-  SpeedControl,
   useClipTimelineScrubber,
 } from '@/modules/animation';
 
