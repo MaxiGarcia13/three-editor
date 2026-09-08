@@ -16,10 +16,6 @@ export function setActiveAction(action: AnimationAction | null): void {
   currentAction = action;
 }
 
-export function getActiveMixer(): AnimationMixer | null {
-  return currentMixer;
-}
-
 /** Stop clip bindings from overwriting a manual pose edit. */
 export function suspendMixerBindings(): void {
   if (currentAction) {

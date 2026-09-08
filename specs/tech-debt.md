@@ -8,7 +8,7 @@ Do not start post-MVP stories (US-6…US-10) from this file.
 
 - [x] Remove unused `loadModel` in `src/modules/viewport/stores/model-store.ts` (alias of `importModelFiles([file])`) and drop it from `src/modules/viewport/index.ts`
 - [x] Remove unused `resetModel` (clears the whole library; no caller) and drop it from the viewport barrel
-- [ ] Remove unused `getActiveMixer` in `src/modules/animation/services/mixer-session.ts` (`setActiveMixer` stays)
+- [x] Remove unused `getActiveMixer` in `src/modules/animation/services/mixer-session.ts` (`setActiveMixer` stays)
 
 ## Unused public barrels
 
