@@ -69,10 +69,6 @@ export async function importModelFiles(files: File[]): Promise<void> {
   });
 }
 
-export function loadModel(file: File): Promise<void> {
-  return importModelFiles([file]);
-}
-
 export function setActiveModel(id: string): void {
   $model.setKey('activeModelId', id);
 }

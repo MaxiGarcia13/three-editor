@@ -5,7 +5,6 @@ export {
   $activeModel,
   $model,
   importModelFiles,
-  loadModel,
   removeModel,
   replaceModel,
   resetModel,
