@@ -10,4 +10,5 @@ export {
   resetModel,
   setActiveModel,
 } from './stores/model-store';
+export { $poseDirty, clearPoseDirty, markPoseDirty } from './stores/pose-edit-store';
 export { $selection, clearSelection, selectObject } from './stores/selection-store';
