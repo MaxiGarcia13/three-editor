@@ -15,7 +15,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] `GLTFExporter` adapter: animation-only (empty/minimal scene + one working clip) → `.glb`
 - [x] Zip helper; numeric suffix on filename collisions
 - [x] “Download” sidebar control + blob download of the zip
-- [ ] Disable / error when nothing to pack; no partial zip on exporter failure
+- [x] Disable / error when nothing to pack; no partial zip on exporter failure
 
 ## Verify
 
