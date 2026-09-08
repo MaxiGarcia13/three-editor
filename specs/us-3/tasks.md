@@ -9,10 +9,10 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 ## Implement
 
-- [ ] Start / End Time inputs for active clip
-- [ ] Clone → `AnimationClip.trim()` → replace working library entry
-- [ ] Session recoverability of pre-trim clip
-- [ ] Rebind mixer action after trim; update scrubber duration
+- [x] Start / End Time inputs for active clip
+- [x] Clone → working window trim → replace working library entry
+- [x] Session recoverability of pre-trim clip
+- [x] Rebind mixer action after trim; update scrubber duration
 - [ ] Speed multiplier slider → `mixer.timeScale`
 
 ## Verify

@@ -63,10 +63,10 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 
 ## Trim
 
-1. Clone active clip
-2. Call `trim(start, end)` on the clone
-3. Replace the library entry’s working clip with the clone
-4. Keep the pre-trim clone recoverable for the session (restore control or retain original reference)
+1. Clone the active clip's **working** reference — actually trim from the retained **source** clip so the window can always be re-derived against the full original duration
+2. `trimClipWindow(source, start, end)` in `animation/services`: per track, `KeyframeTrack.trim(start, end)` keeps in-window keys (plus the first key before `start` for interpolation), then re-baselines track times by `−start` and sets `clip.duration = end − start`. (`AnimationClip.trim()` in three 0.185 is a no-arg helper that only crops to the clip's own duration — it does not take a window)
+3. Replace the library entry’s working `clip` with the result (the source clip is never mutated)
+4. The pre-trim clip stays recoverable for the session via the entry's `sourceClip` reference (restore control or re-trim from source)
 
 ## Time scale on export (US-5 contract)
 
