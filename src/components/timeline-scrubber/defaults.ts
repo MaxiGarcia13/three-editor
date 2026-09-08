@@ -1,0 +1,3 @@
+export const DEFAULT_TIMELINE_FPS = 30;
+export const DEFAULT_MAJOR_FRAME_STEP = 12;
+export const DEFAULT_MIN_PX_PER_FRAME = 4;

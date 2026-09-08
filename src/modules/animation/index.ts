@@ -4,7 +4,7 @@ export { ClipSelector } from './components/clip-selector';
 export { ClipTrimInputs } from './components/clip-trim-inputs';
 export { PlaybackControls } from './components/playback-controls';
 export { SpeedControl } from './components/speed-control';
-export { TimelineScrubber } from './components/timeline-scrubber';
+export { useClipTimelineScrubber } from './hooks/use-clip-timeline-scrubber';
 export {
   $clips,
   importClipFiles,

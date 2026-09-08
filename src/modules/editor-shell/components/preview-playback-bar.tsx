@@ -1,12 +1,15 @@
+import { TimelineScrubber } from '@/components/timeline-scrubber';
 import {
   ClipSelector,
   ClipTrimInputs,
   PlaybackControls,
   SpeedControl,
-  TimelineScrubber,
+  useClipTimelineScrubber,
 } from '@/modules/animation';
 
 export function PreviewPlaybackBar() {
+  const timeline = useClipTimelineScrubber();
+
   return (
     <div className="shrink-0 border-t border-zinc-700 bg-zinc-800/95 px-4 py-3 flex flex-row gap-4 w-full">
       <div className="flex flex-col gap-2 min-w-75">
@@ -19,9 +22,11 @@ export function PreviewPlaybackBar() {
           <SpeedControl />
         </div>
 
-        <div className="flex-1">
-          <TimelineScrubber />
-        </div>
+        <TimelineScrubber
+          {...timeline}
+          aria-label="Animation timeline"
+          className="min-h-32"
+        />
       </div>
     </div>
   );
