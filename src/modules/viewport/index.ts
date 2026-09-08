@@ -10,3 +10,4 @@ export {
   resetModel,
   setActiveModel,
 } from './stores/model-store';
+export { $selection, clearSelection, selectObject } from './stores/selection-store';

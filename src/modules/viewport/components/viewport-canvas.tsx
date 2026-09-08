@@ -11,6 +11,8 @@ import {
 import { GroundGrid } from './ground-grid';
 import { ModelFraming } from './model-framing';
 import { ModelViewer } from './model-viewer';
+import { SelectionDriver } from './selection-driver';
+import { SelectionHighlight } from './selection-highlight';
 import { WorldAxes } from './world-axes';
 
 export function ViewportCanvas() {
@@ -36,6 +38,8 @@ export function ViewportCanvas() {
       <ModelViewer />
       <ClipMixerDriver />
       <ModelFraming controlsRef={controlsRef} />
+      <SelectionDriver />
+      <SelectionHighlight />
     </Canvas>
   );
 }
