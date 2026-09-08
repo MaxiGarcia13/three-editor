@@ -4,7 +4,7 @@ import { uniqueFileName } from '../utils/file-name';
 
 export interface ZipEntry {
   fileName: string;
-  data: ArrayBuffer;
+  arrayBuffer: ArrayBuffer;
 }
 
 export async function buildZipArchive(entries: ZipEntry[]): Promise<Blob> {
@@ -13,7 +13,7 @@ export async function buildZipArchive(entries: ZipEntry[]): Promise<Blob> {
 
   for (const entry of entries) {
     const fileName = uniqueFileName(entry.fileName, taken);
-    zip.file(fileName, entry.data);
+    zip.file(fileName, entry.arrayBuffer);
     taken.add(fileName);
   }
 

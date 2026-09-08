@@ -1,3 +1,4 @@
+import type { TransformMode } from '../stores/transform-mode-store';
 import { cn } from '@maxigarcia/js-utils';
 import { useStore } from '@nanostores/react';
 import { Button } from '@/components/button';
@@ -6,7 +7,7 @@ import { $selection } from '../stores/selection-store';
 import {
   $transformMode,
   setTransformMode,
-  type TransformMode,
+
 } from '../stores/transform-mode-store';
 
 const MODES: { mode: TransformMode; label: string; hotkey: string }[] = [
