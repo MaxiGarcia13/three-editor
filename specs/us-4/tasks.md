@@ -11,9 +11,10 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 - [x] Raycast selection of bone / mesh in viewport
 - [x] TransformControls attach + orbit conflict handling
-- [x] “Save Keyframe at Current Time” control in preview (visible only when pose is dirty)
+- [x] “Hold Pose to End” + “Restore Pose” in preview (visible only when pose is dirty)
 - [x] Capture local TRS; find/create Vector / Quaternion tracks on active clip
-- [x] Insert/update at clip-local time (timeline playhead); rebind action without extending duration
+- [x] Hold plateau from playhead through clip end; rebind action without extending duration
+- [x] Restore discards unsaved pose and re-applies clip at playhead
 
 ## Verify
 

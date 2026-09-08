@@ -12,11 +12,13 @@ As an editor user, I can pause on the timeline, move a selected bone/mesh, and s
 
 - [ ] User can pause at an arbitrary timestamp (scrub or pause during play)
 - [ ] Raycast selects a bone or mesh; TransformControls move the selection
-- [ ] “Save Keyframe at Current Time” appears in the preview only after the selection’s local pose has been edited (TransformControls), and captures local position / rotation / scale
-- [ ] Button finds or creates the matching `VectorKeyframeTrack` / `QuaternionKeyframeTrack` on the **active** clip and inserts or updates keyframes at the current clip-local time (the same `[0, duration]` timestamp the timeline playhead shows — not raw accumulated `mixer.time`)
+- [ ] “Hold Pose to End” and “Restore Pose” appear in the preview only after the selection’s local pose has been edited (TransformControls); hold captures local position / rotation / scale
+- [ ] Hold finds or creates the matching `VectorKeyframeTrack` / `QuaternionKeyframeTrack` on the **active** clip and writes a plateau from the clip-local playhead through **clip duration** (sample at `t` and at `duration`, replacing keys strictly inside) so the pose holds for the rest of the animation; do not extend clip duration. The user can scrub later, edit again, and hold from a new playhead to overwrite
+- [ ] Restore discards the unsaved gizmo edit and re-applies the active clip at the current playhead (mixer bindings resume)
 
 ## Out of scope for this delta
 
 - Export / bake
 - Multi-selection, graph editor curves, onion skinning
+- Partial hold-duration UI (hold is always playhead → end)
 - Retargeting or auto-creating missing bones

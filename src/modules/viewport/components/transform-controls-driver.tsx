@@ -4,8 +4,14 @@ import type { OrbitControlsRef } from './model-framing';
 import { useStore } from '@nanostores/react';
 import { TransformControls } from '@react-three/drei';
 import { useEffect, useRef } from 'react';
-import { markPoseDirty } from '../stores/pose-edit-store';
+import {
+  resumeMixerBindings,
+  suspendMixerBindings,
+} from '@/modules/animation/services/mixer-session';
+import { pause } from '@/modules/animation/stores/clip-store';
+import { $poseDirty, markPoseDirty } from '../stores/pose-edit-store';
 import { $selection } from '../stores/selection-store';
+import { $transformMode } from '../stores/transform-mode-store';
 
 export type TransformControlsRef = ComponentRef<typeof TransformControls>;
 
@@ -20,6 +26,7 @@ export interface TransformControlsDriverProps {
 
 export function TransformControlsDriver({ controlsRef }: TransformControlsDriverProps) {
   const { object: selected } = useStore($selection, { keys: ['object'] });
+  const mode = useStore($transformMode);
   const gizmoRef = useRef<TransformControlsRef>(null);
 
   useEffect(() => {
@@ -30,10 +37,18 @@ export function TransformControlsDriver({ controlsRef }: TransformControlsDriver
     }
 
     const onDraggingChanged = (event: { value?: boolean }) => {
-      orbit.enabled = !event.value;
+      const dragging = Boolean(event.value);
+      orbit.enabled = !dragging;
+      if (dragging) {
+        pause();
+        suspendMixerBindings();
+      } else if (!$poseDirty.get()) {
+        resumeMixerBindings();
+      }
     };
 
     const onObjectChange = () => {
+      suspendMixerBindings();
       markPoseDirty();
     };
 
@@ -50,5 +65,6 @@ export function TransformControlsDriver({ controlsRef }: TransformControlsDriver
     return null;
   }
 
-  return <TransformControls ref={gizmoRef} object={selected} />;
+  // Local space: bone/mesh keyframes store local TRS; world rotate fights parent joints.
+  return <TransformControls ref={gizmoRef} object={selected} mode={mode} space="local" />;
 }

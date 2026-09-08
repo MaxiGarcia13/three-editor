@@ -1,5 +1,6 @@
 import {
   getMixerTime,
+  resumeMixerBindings,
   setMixerTime,
   setMixerTimeScale,
 } from '@/modules/animation/services/mixer-session';
@@ -25,6 +26,7 @@ export function play(): void {
   if (!state.loop && state.duration > 0 && getMixerTime() >= state.duration) {
     setMixerTime(0);
   }
+  resumeMixerBindings();
   clearPoseDirty();
   $clips.setKey('playing', true);
 }

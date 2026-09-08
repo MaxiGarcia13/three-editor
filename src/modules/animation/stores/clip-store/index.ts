@@ -6,6 +6,7 @@ export {
   play,
   removeClip,
   replaceClip,
+  restorePose,
   saveKeyframe,
   selectClip,
   setTimeScale,

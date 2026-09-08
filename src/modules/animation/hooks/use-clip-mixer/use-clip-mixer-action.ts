@@ -3,6 +3,7 @@ import type { AnimationAction, AnimationClip, AnimationMixer, Group } from 'thre
 
 import { useEffect } from 'react';
 
+import { setActiveAction } from '@/modules/animation/services/mixer-session';
 import { $clips } from '@/modules/animation/stores/clip-store/store';
 import { toTimelineTime } from '@/modules/animation/utils/to-timeline-time';
 import { applyLoopMode } from './apply-loop-mode';
@@ -26,6 +27,7 @@ export function useClipMixerAction(
     if (actionRef.current) {
       actionRef.current.stop();
       actionRef.current = null;
+      setActiveAction(null);
     }
 
     if (!clip) {
@@ -35,8 +37,10 @@ export function useClipMixerAction(
 
     const action = mixer.clipAction(clip);
     actionRef.current = action;
+    setActiveAction(action);
     // Keep action unpaused: AnimationMixer.setTime does not advance paused actions,
     // and scrubbing uses setMixerTime. App pause is gated in useClipMixerFrame.
+    action.enabled = true;
     action.paused = false;
     action.play();
     mixer.setTime(toTimelineTime(previousTime, clip.duration, $clips.get().loop));

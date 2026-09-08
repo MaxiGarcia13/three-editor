@@ -1,4 +1,5 @@
 import { writeNodeKeyframe } from '@/modules/animation/services/keyframe-write';
+import { resumeMixerBindings } from '@/modules/animation/services/mixer-session';
 import { readClipTimelineTime } from '@/modules/animation/utils/to-timeline-time';
 import { clearPoseDirty } from '@/modules/viewport/stores/pose-edit-store';
 import { $selection } from '@/modules/viewport/stores/selection-store';
@@ -32,5 +33,7 @@ export function saveKeyframe(): void {
     ),
     duration: working.duration,
   });
+  // Clip identity change rebinds a fresh enabled action; resume is belt-and-suspenders.
+  resumeMixerBindings();
   clearPoseDirty();
 }

@@ -8,75 +8,108 @@ export interface NodeTRS {
   scale: [number, number, number];
 }
 
-function lowerBoundIndex(times: Float32Array, time: number): number {
-  let low = 0;
-  let high = times.length;
-  while (low < high) {
-    const mid = (low + high) >>> 1;
-    if (times[mid] < time) {
-      low = mid + 1;
-    } else {
-      high = mid;
-    }
+function appendSample(
+  timesOut: number[],
+  valuesOut: number[],
+  time: number,
+  sample: ArrayLike<number>,
+): void {
+  timesOut.push(time);
+  for (let i = 0; i < sample.length; i++) {
+    valuesOut.push(sample[i]);
   }
-  return low;
 }
 
-function upsertKeyframe(track: KeyframeTrack, time: number, sample: readonly number[]): KeyframeTrack {
+/**
+ * Write `sample` at `start` and `end` (hold plateau). Drop keys strictly inside
+ * `(start, end)` so dense tracks do not slerp the edit away.
+ * When `start === end`, upsert a single key at that time.
+ */
+function writeHoldWindow(
+  track: KeyframeTrack,
+  start: number,
+  end: number,
+  sample: ArrayLike<number>,
+): void {
   const valueSize = track.getValueSize();
   const times = track.times;
   const values = track.values;
-  const index = lowerBoundIndex(times, time);
+  const nextTimes: number[] = [];
+  const nextValues: number[] = [];
 
-  if (index < times.length && times[index] === time) {
-    const offset = index * valueSize;
-    for (let i = 0; i < valueSize; i++) {
-      values[offset + i] = sample[i];
-    }
-    return track;
+  let i = 0;
+  while (i < times.length && times[i] < start) {
+    appendSample(
+      nextTimes,
+      nextValues,
+      times[i],
+      values.subarray(i * valueSize, (i + 1) * valueSize),
+    );
+    i++;
   }
 
-  const newTimes = new Float32Array(times.length + 1);
-  const newValues = new Float32Array(values.length + valueSize);
-  newTimes.set(times.subarray(0, index));
-  newTimes[index] = time;
-  newTimes.set(times.subarray(index), index + 1);
-  newValues.set(values.subarray(0, index * valueSize));
-  newValues.set(sample, index * valueSize);
-  newValues.set(values.subarray(index * valueSize), (index + 1) * valueSize);
-  track.times = newTimes;
-  track.values = newValues;
-  return track;
+  appendSample(nextTimes, nextValues, start, sample);
+
+  while (i < times.length && times[i] <= end) {
+    i++;
+  }
+
+  if (end > start) {
+    appendSample(nextTimes, nextValues, end, sample);
+  }
+
+  while (i < times.length) {
+    appendSample(
+      nextTimes,
+      nextValues,
+      times[i],
+      values.subarray(i * valueSize, (i + 1) * valueSize),
+    );
+    i++;
+  }
+
+  track.times = new Float32Array(nextTimes);
+  track.values = new Float32Array(nextValues);
 }
 
-function upsertTrackData(
+function writeHoldTrackData(
   clip: AnimationClip,
   name: string,
-  time: number,
-  sample: readonly number[],
+  start: number,
+  end: number,
+  sample: ArrayLike<number>,
   valueSize: number,
 ): void {
   const existing = clip.tracks.find((track) => track.name === name);
   if (existing) {
-    upsertKeyframe(existing, time, sample);
+    writeHoldWindow(existing, start, end, sample);
     return;
   }
 
   const TrackConstructor = valueSize === 4 ? QuaternionKeyframeTrack : VectorKeyframeTrack;
-  clip.tracks.push(new TrackConstructor(name, [time], [...sample]));
+  const startSample = Array.from(sample);
+  if (end > start) {
+    clip.tracks.push(new TrackConstructor(name, [start, end], [...startSample, ...startSample]));
+    return;
+  }
+  clip.tracks.push(new TrackConstructor(name, [start], startSample));
 }
 
+/** Hold edited local TRS from `time` through the end of the clip (default). */
 export function writeNodeKeyframe(
   clip: AnimationClip,
   nodeName: string,
   time: number,
   trs: NodeTRS,
+  holdEndTime: number = clip.duration,
 ): AnimationClip {
   const keyTime = Math.fround(time);
+  const holdEnd = Math.fround(Math.min(Math.max(holdEndTime, keyTime), clip.duration));
   const working = clip.clone();
-  upsertTrackData(working, `${nodeName}.position`, keyTime, trs.position, 3);
-  upsertTrackData(working, `${nodeName}.quaternion`, keyTime, trs.quaternion, 4);
-  upsertTrackData(working, `${nodeName}.scale`, keyTime, trs.scale, 3);
+
+  writeHoldTrackData(working, `${nodeName}.position`, keyTime, holdEnd, trs.position, 3);
+  writeHoldTrackData(working, `${nodeName}.quaternion`, keyTime, holdEnd, trs.quaternion, 4);
+  writeHoldTrackData(working, `${nodeName}.scale`, keyTime, holdEnd, trs.scale, 3);
   working.duration = clip.duration;
   return working;
 }

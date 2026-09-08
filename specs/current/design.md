@@ -76,22 +76,23 @@ Playback uses `mixer.timeScale` only. On export, **bake** the current speed into
 
 1. Pause (or scrub) so the timeline playhead is the target timestamp
 2. Raycast → select bone or mesh; attach TransformControls
-3. Editing the selection with TransformControls marks pose dirty; “Save Keyframe at Current Time” appears in the preview overlay only while dirty
-4. On save:
+3. Editing the selection with TransformControls marks pose dirty; “Hold Pose to End” and “Restore Pose” appear in the preview overlay only while dirty
+4. On hold:
    - Read selection local position, quaternion, scale
    - Find or create `VectorKeyframeTrack` / `QuaternionKeyframeTrack` for that node on the active clip
-   - Insert or update values at clip-local time (`toTimelineTime(mixer.time, duration, loop)`), not raw accumulated `mixer.time` (keep times sorted; do not extend clip duration)
+   - Write a hold plateau from clip-local playhead `t` through `duration` (sample at `t` and at `duration`; remove keys strictly inside); do not extend clip duration. Scrub + edit + hold again later overwrites from the new playhead forward
    - Clear pose dirty
-5. Rebind / update the mixer action at that same clip-local time so the edit is audible on next play
+5. Restore: resume mixer bindings and re-apply the clip at the current playhead (discard unsaved gizmo edit)
+6. After hold, rebind / update the mixer action at that same clip-local time so the edit is audible on next play
 
 ## Viewport
 
 - Full-bleed R3F `Canvas` with lights; orbit / pan / zoom via `OrbitControls`
 - World XYZ axes at the origin with metre rulers on +X/+Y (major `Nm`, minor `0.1` ticks; `viewport/constants/world-axes`) for orientation
 - Dark infinite ground grid at `y = 0` (1 m cells, stronger section lines; `viewport/constants/ground-grid`) plus soft contact shadow under the model (`ContactShadows`)
-- TransformControls for selected object; modes translate / rotate / scale as needed for keyframe capture
+- TransformControls for selected object; modes translate / rotate / scale via preview toolbar + W / E / R (default translate); gizmo space is local; dragging pauses playback and suspends mixer bindings so tracks cannot overwrite the pose
 - Collapsible sidebar docks beside the canvas (`editor-shell`); collapse/expand with labelled chevron controls
-- Preview chrome hosts playback + the dirty-only save keyframe control (not the settings sidebar)
+- Preview chrome hosts playback + transform mode toolbar (when selected) + dirty-only save/restore pose controls (not the settings sidebar)
 
 ## Export (US-5)
 
