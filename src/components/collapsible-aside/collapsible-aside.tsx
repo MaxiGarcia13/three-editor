@@ -19,14 +19,12 @@ export function CollapsibleAside({ children, direction, title, className }: Coll
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-  const { marginDirection, borderDirection }
+  const { borderDirection }
     = direction === 'left'
       ? {
-          marginDirection: 'marginLeft',
           borderDirection: 'border-r',
         }
       : {
-          marginDirection: 'marginRight',
           borderDirection: 'border-l',
         };
 
@@ -44,16 +42,13 @@ export function CollapsibleAside({ children, direction, title, className }: Coll
     <aside
       className={
         cn(
-          'flex flex-col shrink-0 bg-zinc-800 border-l border-zinc-700 transition-transform duration-300',
+          'flex flex-col shrink-0 bg-zinc-800 border-l border-zinc-700',
           borderDirection,
           isMobile && `absolute z-20 h-full ${direction === 'left' ? 'left-0' : 'right-0'}`,
           className,
         )
       }
-      style={{
-        width: SIDEBAR_WIDTH,
-        [marginDirection]: sidebarOpen ? 0 : `calc(-1 * ${SIDEBAR_WIDTH})`,
-      }}
+      style={{ width: SIDEBAR_WIDTH }}
     >
       <AsideHeader
         direction={direction}

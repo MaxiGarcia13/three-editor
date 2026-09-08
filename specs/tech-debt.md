@@ -24,7 +24,7 @@ Not copy-pasted files. Extract only if the helper stays small.
 
 - [x] Shared GLB parse helper for `loadModelFromFile` and `loadClipsFromFile` (extension check, blob URL, `GLTFLoader` Promise). Keep domain validation in each adapter
 - [x] `replaceClip` should call `toEntry()` instead of inlining the same `ClipEntry` shape
-- [ ] `CollapsibleAside`: the closed path already returns `OpenButton`, so `[marginDirection]: sidebarOpen ? 0 : calc(-1 * width)` never runs. Remove the dead branch, or finish the slide animation
+- [x] `CollapsibleAside`: the closed path already returns `OpenButton`, so `[marginDirection]: sidebarOpen ? 0 : calc(-1 * width)` never runs. Remove the dead branch, or finish the slide animation
 
 ## Not debt
 
