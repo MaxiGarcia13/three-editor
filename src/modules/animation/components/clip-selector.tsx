@@ -1,9 +1,14 @@
-import { useStore } from '@nanostores/react';
+import { cn } from '@maxigarcia/js-utils';
 
+import { useStore } from '@nanostores/react';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { $clips, selectClip } from '../stores/clip-store';
 
-export function ClipSelector() {
+interface ClipSelectorProps {
+  className?: string;
+}
+
+export function ClipSelector({ className }: ClipSelectorProps) {
   const { clips, activeClipId } = useStore($clips, { keys: ['clips', 'activeClipId'] });
   const { scene } = useActiveModel();
 
@@ -11,7 +16,7 @@ export function ClipSelector() {
   const enabled = scene !== null && readyClips.length > 0;
 
   return (
-    <label className="flex flex-col gap-1">
+    <label className={cn('flex flex-col gap-1', className)}>
       <span className="text-xs text-zinc-400">Active Clip</span>
       <select
         value={activeClipId ?? ''}
