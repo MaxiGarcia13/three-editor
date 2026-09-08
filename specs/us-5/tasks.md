@@ -10,7 +10,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 ## Implement
 
-- [ ] Bake helper for `timeScale !== 1` (clone clips; scale times / duration)
+- [x] Bake helper for `timeScale !== 1` (clone clips; scale times / duration)
 - [ ] `GLTFExporter` adapter: model scene + matching working clips → `.glb`
 - [ ] `GLTFExporter` adapter: animation-only (empty/minimal scene + one working clip) → `.glb`
 - [ ] Zip helper; numeric suffix on filename collisions
