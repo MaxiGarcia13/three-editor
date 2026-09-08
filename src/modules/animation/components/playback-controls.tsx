@@ -47,7 +47,7 @@ export function PlaybackControls({ className }: PlaybackControlsProps) {
         aria-label="Toggle loop"
         aria-pressed={loop}
         variant="ghost"
-        className={`flex-1 flex items-center justify-center gap-2 max-w-20${loop ? 'text-sky-400' : ''}`}
+        className={`flex-1 flex items-center justify-center gap-2 max-w-20 ${loop ? 'text-sky-400' : ''}`}
       >
         <RepeatIcon />
         {loop ? 'Loop' : 'Once'}
