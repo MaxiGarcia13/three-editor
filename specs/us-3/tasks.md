@@ -13,7 +13,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] Clone → working window trim → replace working library entry
 - [x] Session recoverability of pre-trim clip
 - [x] Rebind mixer action after trim; update scrubber duration
-- [ ] Speed multiplier slider → `mixer.timeScale`
+- [x] Speed multiplier slider → `mixer.timeScale`
 
 ## Verify
 

@@ -20,6 +20,7 @@ export interface ClipLibraryState {
   duration: number;
   trimStart: number;
   trimEnd: number;
+  timeScale: number;
 }
 
 export interface ClipLoadResult {

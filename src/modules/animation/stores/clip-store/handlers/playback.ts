@@ -1,6 +1,19 @@
-import { getMixerTime, setMixerTime } from '@/modules/animation/services/mixer-session';
+import {
+  getMixerTime,
+  setMixerTime,
+  setMixerTimeScale,
+} from '@/modules/animation/services/mixer-session';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
+
+export const MIN_TIME_SCALE = 0.1;
+export const MAX_TIME_SCALE = 3;
+
+export function setTimeScale(scale: number): void {
+  const clamped = Math.min(Math.max(scale, MIN_TIME_SCALE), MAX_TIME_SCALE);
+  setMixerTimeScale(clamped);
+  $clips.setKey('timeScale', clamped);
+}
 
 export function play(): void {
   const state = $clips.get();

@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { AnimationMixer } from 'three';
 
 import { setActiveMixer } from '@/modules/animation/services/mixer-session';
-import { syncClipsToSkeleton } from '@/modules/animation/stores/clip-store';
+import { $clips, syncClipsToSkeleton } from '@/modules/animation/stores/clip-store';
 
 export function useClipMixerMount(
   scene: Group | null,
@@ -22,6 +22,7 @@ export function useClipMixerMount(
     syncClipsToSkeleton(scene);
 
     const mixer = new AnimationMixer(scene);
+    mixer.timeScale = $clips.get().timeScale;
     mixerRef.current = mixer;
     setActiveMixer(mixer);
 

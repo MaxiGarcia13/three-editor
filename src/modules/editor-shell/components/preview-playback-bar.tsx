@@ -2,6 +2,7 @@ import {
   ClipSelector,
   ClipTrimInputs,
   PlaybackControls,
+  SpeedControl,
   TimelineScrubber,
 } from '@/modules/animation';
 
@@ -13,8 +14,14 @@ export function PreviewPlaybackBar() {
         <PlaybackControls />
       </div>
       <div className="flex flex-col gap-2 flex-1">
-        <ClipTrimInputs />
-        <TimelineScrubber />
+        <div className="flex flex-row gap-2 items-end">
+          <ClipTrimInputs />
+          <SpeedControl />
+        </div>
+
+        <div className="flex-1">
+          <TimelineScrubber />
+        </div>
       </div>
     </div>
   );

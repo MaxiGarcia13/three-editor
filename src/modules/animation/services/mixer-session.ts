@@ -19,3 +19,9 @@ export function setMixerTime(time: number): void {
     currentMixer.setTime(time);
   }
 }
+
+export function setMixerTimeScale(scale: number): void {
+  if (currentMixer) {
+    currentMixer.timeScale = scale;
+  }
+}
