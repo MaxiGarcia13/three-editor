@@ -1,7 +1,6 @@
 import { useStore } from '@nanostores/react';
-
 import { AssetEntry } from '@/components/asset-entry/asset-entry';
-import { Button } from '@/components/button/button';
+import { Button } from '@/components/button';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
 import { UploadIcon } from '@/components/icons/upload-icon';
 import {

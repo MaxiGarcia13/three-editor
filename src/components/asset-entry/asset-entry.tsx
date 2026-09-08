@@ -1,5 +1,5 @@
 import { cn } from '@maxigarcia/js-utils';
-import { Button } from '@/components/button/button';
+import { Button } from '@/components/button';
 
 interface AssetEntryProps {
   label: string;

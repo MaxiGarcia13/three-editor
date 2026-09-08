@@ -1,2 +1,3 @@
+export { EditorLibrarySidebar } from './components/editor-library-sidebar';
 export { EditorPreview } from './components/editor-preview';
-export { EditorSidebar } from './components/editor-sidebar';
+export { EditorSettingsSidebar } from './components/editor-settings-sidebar';

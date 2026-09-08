@@ -1,5 +1,5 @@
 import { useStore } from '@nanostores/react';
-import { Button } from '@/components/button/button';
+import { Button } from '@/components/button';
 import { PauseIcon } from '@/components/icons/pause-icon';
 import { PlayIcon } from '@/components/icons/play-icon';
 import { RepeatIcon } from '@/components/icons/repeat-icon';
