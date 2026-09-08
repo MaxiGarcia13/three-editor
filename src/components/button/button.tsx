@@ -3,9 +3,10 @@ import { cn } from '@maxigarcia/js-utils';
 const variants: Record<Variant, string> = {
   ghost: 'text-zinc-400 hover:text-white transition-colors',
   default: 'text-zinc-400 hover:text-white transition-colors bg-zinc-700 hover:bg-zinc-800',
+  primary: 'text-white bg-sky-500 hover:bg-sky-600',
 };
 
-type Variant = 'ghost' | 'default';
+type Variant = 'ghost' | 'default' | 'primary';
 
 interface ButtonProps extends React.ComponentPropsWithRef<'button'> {
   variant?: Variant;

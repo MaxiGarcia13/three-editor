@@ -53,8 +53,8 @@ As an editor user, I can pause on the timeline, move a selected bone/mesh, and s
 
 - [ ] User can pause at an arbitrary timestamp (scrub or pause during play)
 - [ ] Raycast selects a bone or mesh; TransformControls move the selection
-- [ ] “Save Keyframe at Current Time” captures local position / rotation / scale
-- [ ] Button finds or creates the matching `VectorKeyframeTrack` / `QuaternionKeyframeTrack` on the **active** clip and inserts or updates keyframes at `mixer.time`
+- [ ] “Save Keyframe at Current Time” appears in the preview only after the selection’s local pose has been edited (TransformControls), and captures local position / rotation / scale
+- [ ] Button finds or creates the matching `VectorKeyframeTrack` / `QuaternionKeyframeTrack` on the **active** clip and inserts or updates keyframes at the current clip-local time (the same `[0, duration]` timestamp the timeline playhead shows — not raw accumulated `mixer.time`)
 
 ### US-5 — Zip export
 

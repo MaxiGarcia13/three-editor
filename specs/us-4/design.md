@@ -6,15 +6,15 @@ Selection + TransformControls + keyframe insert/update on the active clip.
 
 ## Interaction flow
 
-1. User pauses or scrubs so `mixer.time` is the target timestamp
+1. User pauses or scrubs so the timeline playhead is the target timestamp
 2. Raycast pick in the viewport → bone or mesh; attach TransformControls
 3. User adjusts translate / rotate / scale as needed
 4. “Save Keyframe at Current Time”:
    - Read selection **local** position, quaternion, scale
    - Resolve track name for that node (same naming convention as existing clip tracks)
    - Find or create `VectorKeyframeTrack` / `QuaternionKeyframeTrack` on the active working clip
-   - Insert or update values at `mixer.time`; keep times sorted
-5. Refresh the mixer action so playback reflects the edit
+   - Insert or update values at clip-local time (`toTimelineTime(mixer.time, duration, loop)`), not raw accumulated `mixer.time`; keep times sorted; do not extend clip duration
+5. Refresh the mixer action at that same clip-local time so playback reflects the edit
 
 ## Viewport
 
@@ -25,7 +25,8 @@ Selection + TransformControls + keyframe insert/update on the active clip.
 ## Layering
 
 - Pure “insert keyframe into track data” logic in `animation` services/utils at the boundary; Three track objects via adapters
-- Hot-path selection / gizmo in `viewport`; save button in sidebar triggers animation domain write
+- Hot-path selection / gizmo in `viewport`; TransformControls marks pose dirty on edit
+- “Save Keyframe at Current Time” lives in the preview chrome overlay and appears only while pose is dirty; it triggers the animation domain write
 
 ## Non-goals
 

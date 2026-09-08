@@ -3,6 +3,7 @@ export { ClipLibrary } from './components/clip-library';
 export { ClipSelector } from './components/clip-selector';
 export { ClipTrimInputs } from './components/clip-trim-inputs';
 export { PlaybackControls } from './components/playback-controls';
+export { SaveKeyframeButton } from './components/save-keyframe-button';
 export { SpeedControl } from './components/speed-control';
 export { useClipTimelineScrubber } from './hooks/use-clip-timeline-scrubber';
 export {
@@ -14,6 +15,7 @@ export {
   play,
   removeClip,
   replaceClip,
+  saveKeyframe,
   selectClip,
   setTimeScale,
   stop,

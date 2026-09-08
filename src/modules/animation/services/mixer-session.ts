@@ -1,5 +1,7 @@
 import type { AnimationMixer } from 'three';
 
+import { clearPoseDirty } from '@/modules/viewport/stores/pose-edit-store';
+
 let currentMixer: AnimationMixer | null = null;
 
 export function setActiveMixer(mixer: AnimationMixer | null): void {
@@ -18,6 +20,7 @@ export function setMixerTime(time: number): void {
   if (currentMixer) {
     currentMixer.setTime(time);
   }
+  clearPoseDirty();
 }
 
 export function setMixerTimeScale(scale: number): void {

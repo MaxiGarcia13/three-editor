@@ -74,13 +74,15 @@ Playback uses `mixer.timeScale` only. On export, **bake** the current speed into
 
 ## Keyframe write (US-4)
 
-1. Pause (or scrub) so `mixer.time` is the target timestamp
+1. Pause (or scrub) so the timeline playhead is the target timestamp
 2. Raycast → select bone or mesh; attach TransformControls
-3. On “Save Keyframe at Current Time”:
+3. Editing the selection with TransformControls marks pose dirty; “Save Keyframe at Current Time” appears in the preview overlay only while dirty
+4. On save:
    - Read selection local position, quaternion, scale
    - Find or create `VectorKeyframeTrack` / `QuaternionKeyframeTrack` for that node on the active clip
-   - Insert or update values at `mixer.time` (keep times sorted)
-4. Rebind / update the mixer action so the edit is audible on next play
+   - Insert or update values at clip-local time (`toTimelineTime(mixer.time, duration, loop)`), not raw accumulated `mixer.time` (keep times sorted; do not extend clip duration)
+   - Clear pose dirty
+5. Rebind / update the mixer action at that same clip-local time so the edit is audible on next play
 
 ## Viewport
 
@@ -89,6 +91,7 @@ Playback uses `mixer.timeScale` only. On export, **bake** the current speed into
 - Dark infinite ground grid at `y = 0` (1 m cells, stronger section lines; `viewport/constants/ground-grid`) plus soft contact shadow under the model (`ContactShadows`)
 - TransformControls for selected object; modes translate / rotate / scale as needed for keyframe capture
 - Collapsible sidebar docks beside the canvas (`editor-shell`); collapse/expand with labelled chevron controls
+- Preview chrome hosts playback + the dirty-only save keyframe control (not the settings sidebar)
 
 ## Export (US-5)
 
