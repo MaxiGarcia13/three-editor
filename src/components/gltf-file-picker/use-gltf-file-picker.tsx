@@ -1,7 +1,7 @@
 import type { ChangeEvent, ReactElement } from 'react';
 import { useRef } from 'react';
 
-import { GLTF_FILE_ACCEPT } from '@/modules/viewport/constants/gltf-file';
+import { GLTF_FILE_ACCEPT } from '@/utils/glb-parse';
 
 interface UseGltfFilePickerOptions<TContext> {
   multiple?: boolean;

@@ -2,9 +2,7 @@ import type { SkinnedMesh } from 'three';
 import type * as THREE from 'three';
 import type { ModelLoadResult } from '../types/model';
 
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
-import { GLTF_EXTENSION_PATTERN } from '../constants/gltf-file';
+import { parseGltfFile } from '@/utils/glb-parse';
 
 function validateScene(scene: THREE.Group): void {
   let hasSkinnedMesh = false;
@@ -29,29 +27,14 @@ function validateScene(scene: THREE.Group): void {
 }
 
 export async function loadModelFromFile(file: File): Promise<ModelLoadResult> {
-  if (!GLTF_EXTENSION_PATTERN.test(file.name)) {
-    throw new Error('Unsupported file type. Please use .glb or .gltf');
-  }
-
-  const blobUrl = URL.createObjectURL(file);
+  const { gltf, blobUrl } = await parseGltfFile(file);
 
   try {
-    const loader = new GLTFLoader();
-
-    const scene = await new Promise<THREE.Group>((resolve, reject) => {
-      loader.load(
-        blobUrl,
-        (gltf) => resolve(gltf.scene),
-        undefined,
-        (error) => reject(error),
-      );
-    });
-
-    validateScene(scene);
-
-    return { scene, blobUrl };
+    validateScene(gltf.scene);
   } catch (error) {
     URL.revokeObjectURL(blobUrl);
     throw error;
   }
+
+  return { scene: gltf.scene, blobUrl };
 }
