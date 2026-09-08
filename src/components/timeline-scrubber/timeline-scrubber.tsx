@@ -49,7 +49,7 @@ export function TimelineScrubber({
     <div
       ref={scrollRef}
       className={cn(
-        'relative h-full overflow-x-hidden overflow-y-hidden rounded bg-zinc-900/90',
+        'relative h-full overflow-x-auto overflow-y-hidden rounded bg-zinc-900/90 scrollbar-track-transparent',
         !enabled && 'opacity-40',
         className,
       )}

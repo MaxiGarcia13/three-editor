@@ -46,6 +46,7 @@ export function CollapsibleAside({ children, direction, title, className }: Coll
         cn(
           'flex flex-col shrink-0 bg-zinc-800 border-l border-zinc-700 transition-transform duration-300',
           borderDirection,
+          isMobile && `absolute z-20 h-full ${direction === 'left' ? 'left-0' : 'right-0'}`,
           className,
         )
       }
