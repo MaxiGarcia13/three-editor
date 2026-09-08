@@ -12,7 +12,7 @@ const TRACK_SUFFIXES = [
   '.morphTargetInfluences',
 ];
 
-function splitTrackName(trackName: string): { nodeName: string; suffix: string | null } {
+export function splitTrackName(trackName: string): { nodeName: string; suffix: string | null } {
   for (const suffix of TRACK_SUFFIXES) {
     if (trackName.endsWith(suffix)) {
       return { nodeName: trackName.slice(0, -suffix.length), suffix };
