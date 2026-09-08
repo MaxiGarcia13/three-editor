@@ -1,5 +1,6 @@
 import { useStore } from '@nanostores/react';
 
+import { Text } from '@/components/text';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { $clips, MAX_TIME_SCALE, MIN_TIME_SCALE, setTimeScale } from '../stores/clip-store';
 
@@ -13,7 +14,7 @@ export function SpeedControl() {
 
   return (
     <label className="flex flex-col gap-1">
-      <span className="text-xs text-zinc-400">Speed</span>
+      <Text variant="muted">Speed</Text>
       <div className="flex items-center gap-2">
         <input
           type="range"
@@ -26,10 +27,10 @@ export function SpeedControl() {
           aria-label="Playback speed multiplier"
           className="flex-1 accent-sky-500 disabled:opacity-40"
         />
-        <span className="text-xs text-zinc-100 tabular-nums w-9 text-right">
+        <Text variant="numeric" className="w-9 text-right text-zinc-100">
           {timeScale.toFixed(1)}
           x
-        </span>
+        </Text>
       </div>
     </label>
   );

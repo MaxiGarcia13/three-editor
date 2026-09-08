@@ -30,7 +30,7 @@ export function PlaybackControls({ className }: PlaybackControlsProps) {
         className="flex-1 flex items-center justify-center gap-2 max-w-20"
       >
         {playing ? <PauseIcon /> : <PlayIcon />}
-        <span className="text-xs">{playing ? 'Pause' : 'Play'}</span>
+        {playing ? 'Pause' : 'Play'}
       </Button>
       <Button
         onClick={stop}
@@ -39,7 +39,7 @@ export function PlaybackControls({ className }: PlaybackControlsProps) {
         className="flex-1 flex items-center justify-center gap-2 max-w-20"
       >
         <StopIcon />
-        <span className="text-xs">Stop</span>
+        Stop
       </Button>
       <Button
         onClick={toggleLoop}
@@ -50,7 +50,7 @@ export function PlaybackControls({ className }: PlaybackControlsProps) {
         className={`flex-1 flex items-center justify-center gap-2 max-w-20${loop ? 'text-sky-400' : ''}`}
       >
         <RepeatIcon />
-        <span className="text-xs">{loop ? 'Loop' : 'Once'}</span>
+        {loop ? 'Loop' : 'Once'}
       </Button>
     </div>
   );

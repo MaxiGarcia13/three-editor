@@ -1,4 +1,5 @@
 import { useStore } from '@nanostores/react';
+import { Text } from '@/components/text';
 import { $model } from '@/modules/viewport/stores/model-store';
 
 export function ViewportStatusOverlay() {
@@ -11,10 +12,14 @@ export function ViewportStatusOverlay() {
   return (
     <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-4">
       {phase === 'loading' && (
-        <span className="text-sm text-zinc-400">Loading model…</span>
+        <Text size="sm" variant="muted">
+          Loading model…
+        </Text>
       )}
       {phase === 'error' && error && (
-        <span className="max-w-md text-center text-sm text-red-400">{error}</span>
+        <Text size="sm" variant="error" className="max-w-md text-center">
+          {error}
+        </Text>
       )}
     </div>
   );

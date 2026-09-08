@@ -1,5 +1,6 @@
 import { cn } from '@maxigarcia/js-utils';
 import { Button } from '@/components/button';
+import { Text } from '@/components/text';
 
 interface AssetEntryProps {
   label: string;
@@ -41,16 +42,17 @@ export function AssetEntry({
           hasError ? 'text-red-400' : 'text-green-400',
         )}
       >
-        <span className="text-xs truncate" title={title ?? error ?? label}>
+        <Text className="truncate" title={title ?? error ?? label}>
           {label}
-        </span>
+        </Text>
         {hasError && (
-          <span
-            className="text-xs text-red-400/80 leading-snug line-clamp-2"
+          <Text
+            variant="error"
+            className="leading-snug line-clamp-2"
             title={error ?? undefined}
           >
             {error}
-          </span>
+          </Text>
         )}
       </button>
       <div className="flex gap-2">
@@ -58,11 +60,11 @@ export function AssetEntry({
           onClick={onReplace}
           disabled={replaceDisabled}
           variant="ghost"
-          className="flex-1 text-xs"
+          className="flex-1"
         >
           Replace
         </Button>
-        <Button onClick={onRemove} variant="ghost" className="flex-1 text-xs">
+        <Button onClick={onRemove} variant="ghost" className="flex-1">
           Remove
         </Button>
       </div>

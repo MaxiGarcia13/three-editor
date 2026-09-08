@@ -17,7 +17,7 @@ export function Button({ className, children, variant = 'default', ...props }: B
       type="button"
       className={
         cn(
-          'transition-colors cursor-pointer rounded p-2',
+          'text-xs transition-colors cursor-pointer rounded p-2',
           variants[variant],
           className,
         )

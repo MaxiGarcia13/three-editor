@@ -3,6 +3,7 @@ import { AssetEntry } from '@/components/asset-entry/asset-entry';
 import { Button } from '@/components/button';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
 import { UploadIcon } from '@/components/icons/upload-icon';
+import { Text } from '@/components/text';
 import {
   $model,
   importModelFiles,
@@ -43,15 +44,19 @@ export function ModelLibrary() {
         className="flex items-center gap-2 w-full justify-center"
       >
         <UploadIcon />
-        <span className="text-xs">Load Models</span>
+        Load Models
       </Button>
 
       {isLoading && (
-        <div className="text-xs text-zinc-400 text-center py-2">Loading…</div>
+        <Text as="div" variant="muted" className="text-center py-2">
+          Loading…
+        </Text>
       )}
 
       {error && (
-        <div className="text-xs text-red-400/80 whitespace-pre-line">{error}</div>
+        <Text as="div" variant="error" className="whitespace-pre-line">
+          {error}
+        </Text>
       )}
 
       {models.length > 0 && (

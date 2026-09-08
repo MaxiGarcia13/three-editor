@@ -1,6 +1,7 @@
 import { cn } from '@maxigarcia/js-utils';
 
 import { useStore } from '@nanostores/react';
+import { Text } from '@/components/text';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { $clips, selectClip } from '../stores/clip-store';
 
@@ -17,7 +18,7 @@ export function ClipSelector({ className }: ClipSelectorProps) {
 
   return (
     <label className={cn('flex flex-col gap-1', className)}>
-      <span className="text-xs text-zinc-400">Active Clip</span>
+      <Text variant="muted">Active Clip</Text>
       <select
         value={activeClipId ?? ''}
         onChange={(event) => selectClip(event.target.value)}

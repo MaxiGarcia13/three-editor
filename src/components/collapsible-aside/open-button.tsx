@@ -1,6 +1,7 @@
 import { Button } from '../button';
 import { ChevronLeft } from '../icons/chevron-left';
 import { ChevronRight } from '../icons/chevron-right';
+import { Text } from '../text';
 
 interface OpenButtonProps {
   direction: 'left' | 'right';
@@ -18,7 +19,7 @@ export function OpenButton({ direction, onToggle, title }: OpenButtonProps) {
         aria-label={ariaLabel}
         className="absolute top-3 z-1 left-3 flex items-center gap-2"
       >
-        <span className="text-sm font-semibold tracking-wide">{title}</span>
+        <Text size="sm" variant="heading">{title}</Text>
 
         <ChevronRight />
       </Button>
@@ -33,7 +34,7 @@ export function OpenButton({ direction, onToggle, title }: OpenButtonProps) {
     >
       <ChevronLeft />
 
-      <span className="text-sm font-semibold tracking-wide">{title}</span>
+      <Text size="sm" variant="heading">{title}</Text>
     </Button>
   );
 }
