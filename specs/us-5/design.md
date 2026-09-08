@@ -10,7 +10,7 @@ Client-side pack + zip download of **per-model** GLBs (mesh + matching clips) an
 2. If there are no loaded models **and** no working clips → disable the control or show an error; do not download
 3. For each loaded model:
    - Collect that model’s scene graph
-   - Collect every library entry’s **working** `AnimationClip` that **validates** against that model’s skeleton (do not use the UI `ready` flag, which is relative to the *previewed* model only)
+   - Collect every library entry’s **working** `AnimationClip` that **validates** against that model’s skeleton (do not use the UI `ready` flag, which is relative to the _previewed_ model only)
    - If `mixer.timeScale !== 1`, bake speed into a clone of each packed clip (scale keyframe times and clip duration) so external viewers play at the edited speed without runtime `timeScale`
    - `GLTFExporter.parse` with `binary: true` and `animations: [...]`
    - Add `{modelName}.glb` to the zip (numeric suffix on collision)
