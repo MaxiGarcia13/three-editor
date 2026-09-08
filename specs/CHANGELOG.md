@@ -11,7 +11,6 @@
 
 | ID | Summary |
 |----|---------|
-| **US-3** | Clip trim & mixer time scale |
 | **US-4** | Keyframe capture via TransformControls |
 | **US-5** | Zip download: per-model GLBs + animation-only files |
 | **US-6** | Cross-rig retargeting (post-MVP) |
@@ -24,6 +23,7 @@
 
 | ID | Summary |
 |----|---------|
+| **US-3** | Clip trim & mixer time scale |
 | **US-11** | Model library — many characters, one previewed |
 | **US-2** | Animation library import & playback UI |
 | **US-1** | Model load & full-screen R3F viewport |

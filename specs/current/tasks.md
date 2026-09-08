@@ -40,11 +40,20 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] Remove previewed model → next loaded model or empty overlay
 - [x] Clip import remains gated on a previewed model
 
+## US-3 — Clip trim & time scale
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] Start / End Time inputs for active clip
+- [x] Clone → working window trim → replace working library entry
+- [x] Session recoverability of pre-trim clip (`sourceClip` + re-trim from source)
+- [x] Rebind mixer action after trim; update scrubber duration
+- [x] Speed multiplier slider → `mixer.timeScale`
+
 ## Open deltas
 
 | US                                   | Status                | Tasks                                       |
 | ------------------------------------ | --------------------- | ------------------------------------------- |
-| **US-3** — Clip trim & time scale    | not started           | [`specs/us-3/tasks.md`](../us-3/tasks.md)   |
 | **US-4** — Keyframe edit             | not started           | [`specs/us-4/tasks.md`](../us-4/tasks.md)   |
 | **US-5** — Zip export                | not started           | [`specs/us-5/tasks.md`](../us-5/tasks.md)   |
 | **US-6** — Cross-rig retargeting     | post-MVP, not started | [`specs/us-6/tasks.md`](../us-6/tasks.md)   |
