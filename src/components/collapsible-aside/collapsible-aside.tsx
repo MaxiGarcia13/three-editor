@@ -1,8 +1,5 @@
 import { cn } from '@maxigarcia/js-utils';
 import { useState } from 'react';
-import { Button } from '@/components/button';
-import { ChevronLeft } from '@/components/icons/chevron-left';
-import { ChevronRight } from '@/components/icons/chevron-right';
 import { AsideHeader } from './aside-header';
 import { OpenButton } from './open-button';
 
