@@ -139,19 +139,3 @@ export async function replaceModel(id: string, file: File): Promise<void> {
     $model.setKey('error', message);
   }
 }
-
-export function resetModel(): void {
-  const current = $model.get();
-
-  for (const model of current.models) {
-    URL.revokeObjectURL(model.blobUrl);
-    disposeScene(model.scene);
-  }
-
-  $model.set({
-    models: [],
-    activeModelId: null,
-    phase: 'idle',
-    error: null,
-  });
-}

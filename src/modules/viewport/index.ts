@@ -7,7 +7,6 @@ export {
   importModelFiles,
   removeModel,
   replaceModel,
-  resetModel,
   setActiveModel,
 } from './stores/model-store';
 export { $poseDirty, clearPoseDirty, markPoseDirty } from './stores/pose-edit-store';
