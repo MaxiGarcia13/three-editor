@@ -13,6 +13,7 @@ import { ModelFraming } from './model-framing';
 import { ModelViewer } from './model-viewer';
 import { SelectionDriver } from './selection-driver';
 import { SelectionHighlight } from './selection-highlight';
+import { TransformControlsDriver } from './transform-controls-driver';
 import { WorldAxes } from './world-axes';
 
 export function ViewportCanvas() {
@@ -40,6 +41,7 @@ export function ViewportCanvas() {
       <ModelFraming controlsRef={controlsRef} />
       <SelectionDriver />
       <SelectionHighlight />
+      <TransformControlsDriver controlsRef={controlsRef} />
     </Canvas>
   );
 }

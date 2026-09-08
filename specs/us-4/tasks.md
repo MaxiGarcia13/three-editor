@@ -10,7 +10,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 ## Implement
 
 - [x] Raycast selection of bone / mesh in viewport
-- [ ] TransformControls attach + orbit conflict handling
+- [x] TransformControls attach + orbit conflict handling
 - [ ] “Save Keyframe at Current Time” control in sidebar
 - [ ] Capture local TRS; find/create Vector / Quaternion tracks on active clip
 - [ ] Insert/update at `mixer.time`; rebind action
