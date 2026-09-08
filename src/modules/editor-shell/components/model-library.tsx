@@ -51,7 +51,7 @@ export function ModelLibrary() {
       )}
 
       {error && (
-        <div className="text-[10px] text-red-400/80 whitespace-pre-line">{error}</div>
+        <div className="text-xs text-red-400/80 whitespace-pre-line">{error}</div>
       )}
 
       {models.length > 0 && (

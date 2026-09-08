@@ -46,7 +46,7 @@ export function AssetEntry({
         </span>
         {hasError && (
           <span
-            className="text-[10px] text-red-400/80 leading-snug line-clamp-2"
+            className="text-xs text-red-400/80 leading-snug line-clamp-2"
             title={error ?? undefined}
           >
             {error}

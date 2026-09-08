@@ -11,7 +11,7 @@ export function TimelineRuler({ majorFrames, totalFrames }: TimelineRulerProps) 
       {majorFrames.map((frame) => (
         <span
           key={`label-${frame}`}
-          className="absolute top-0.5 text-[10px] leading-none text-zinc-400 tabular-nums"
+          className="absolute top-0.5 text-xs leading-none text-zinc-400 tabular-nums"
           style={{
             left: `${(frame / totalFrames) * 100}%`,
             transform: labelOffset(frame, totalFrames),
