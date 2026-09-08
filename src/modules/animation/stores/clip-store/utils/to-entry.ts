@@ -14,6 +14,7 @@ export function toEntry(
     name: clip.name,
     sourceFile,
     clip,
+    sourceClip: clip,
     status: validationResult.valid ? 'ready' : 'error',
     error: validationResult.valid ? null : validationResult.error,
   };
@@ -26,6 +27,7 @@ export function toFailedFileEntry(baseId: string, fileName: string, error: unkno
     name: fileName,
     sourceFile: fileName,
     clip: null,
+    sourceClip: null,
     status: 'error',
     error: message,
   };

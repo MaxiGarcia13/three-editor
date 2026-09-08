@@ -40,6 +40,7 @@ export async function replaceClip(
       name: clip.name,
       sourceFile: result.name,
       clip,
+      sourceClip: clip,
       status: validation.valid ? 'ready' : 'error',
       error: validation.valid ? null : validation.error,
     };
@@ -74,11 +75,14 @@ function applyReplacedEntry(clips: ClipEntry[], id: string, replacedIsReady: boo
   if (replacedIsReady) {
     setMixerTime(0);
     const active = clips.find((entry) => entry.id === id);
+    const activeDuration = active && isReadyClip(active) ? active.clip.duration : 0;
     $clips.set({
       ...state,
       clips,
       playing: false,
-      duration: active && isReadyClip(active) ? active.clip.duration : 0,
+      duration: activeDuration,
+      trimStart: 0,
+      trimEnd: activeDuration,
     });
     return;
   }

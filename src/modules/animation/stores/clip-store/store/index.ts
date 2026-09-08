@@ -8,4 +8,6 @@ export const $clips = map<ClipLibraryState>({
   playing: false,
   loop: false,
   duration: 0,
+  trimStart: 0,
+  trimEnd: 0,
 });

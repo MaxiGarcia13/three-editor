@@ -13,5 +13,7 @@ export function selectClip(id: string): void {
     activeClipId: id,
     duration: target.clip.duration,
     playing: false,
+    trimStart: 0,
+    trimEnd: target.clip.duration,
   });
 }

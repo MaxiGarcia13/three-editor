@@ -7,6 +7,7 @@ export interface ClipEntry {
   name: string;
   sourceFile: string;
   clip: THREE.AnimationClip | null;
+  sourceClip: THREE.AnimationClip | null;
   status: ClipStatus;
   error: string | null;
 }
@@ -17,6 +18,8 @@ export interface ClipLibraryState {
   playing: boolean;
   loop: boolean;
   duration: number;
+  trimStart: number;
+  trimEnd: number;
 }
 
 export interface ClipLoadResult {

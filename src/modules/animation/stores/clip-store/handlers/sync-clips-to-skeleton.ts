@@ -44,5 +44,7 @@ export function syncClipsToSkeleton(skeleton: Object3D | null): void {
     playing: false,
     loop: state.loop,
     duration: active?.clip?.duration ?? 0,
+    trimStart: 0,
+    trimEnd: active?.clip?.duration ?? 0,
   });
 }
