@@ -4,7 +4,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 ## Prep
 
-- [ ] Confirm US-11 model library (multiple models, one previewed) is available
+- [x] Confirm US-11 model library (multiple models, one previewed) is available
 - [ ] Confirm bake-on-export contract in current design
 - [ ] Confirm per-model skeleton validation can run without changing the previewed UI status
 
