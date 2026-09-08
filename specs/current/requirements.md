@@ -51,11 +51,11 @@ As an editor user, I can pause on the timeline, move a selected bone/mesh, and s
 
 **Acceptance**
 
-- [ ] User can pause at an arbitrary timestamp (scrub or pause during play)
-- [ ] Raycast selects a bone or mesh; TransformControls move the selection
-- [ ] “Hold Pose to End” and “Restore Pose” appear in the preview only after the selection’s local pose has been edited (TransformControls); hold captures local position / rotation / scale
-- [ ] Hold finds or creates the matching `VectorKeyframeTrack` / `QuaternionKeyframeTrack` on the **active** clip and writes a plateau from the clip-local playhead through clip duration so the pose holds for the rest of the animation; timestamp is timeline playhead (`[0, duration]`), not raw accumulated `mixer.time`. Re-edit later by scrubbing and holding again
-- [ ] Restore discards the unsaved gizmo edit and re-applies the active clip at the current playhead
+- [x] User can pause at an arbitrary timestamp (scrub or pause during play)
+- [x] Raycast selects a bone or mesh; TransformControls move the selection
+- [x] “Hold Pose to End” and “Restore Pose” appear in the preview only after the selection’s local pose has been edited (TransformControls); hold captures local position / rotation / scale
+- [x] Hold finds or creates the matching `VectorKeyframeTrack` / `QuaternionKeyframeTrack` on the **active** clip and writes a plateau from the clip-local playhead through clip duration so the pose holds for the rest of the animation; timestamp is timeline playhead (`[0, duration]`), not raw accumulated `mixer.time`. Re-edit later by scrubbing and holding again
+- [x] Restore discards the unsaved gizmo edit and re-applies the active clip at the current playhead
 
 ### US-5 — Zip export
 

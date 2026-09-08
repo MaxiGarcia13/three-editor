@@ -50,11 +50,21 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] Rebind mixer action after trim; update scrubber duration
 - [x] Speed multiplier slider → `mixer.timeScale`
 
+## US-4 — Keyframe edit
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] Pause / scrub from US-2 at an arbitrary timestamp
+- [x] Raycast selection of bone / mesh; TransformControls attach + orbit conflict handling
+- [x] Transform mode toolbar (translate / rotate / scale + W / E / R); gizmo in local space
+- [x] “Hold Pose to End” + “Restore Pose” in preview (visible only when pose is dirty)
+- [x] Capture local TRS; find/create Vector / Quaternion tracks; hold plateau playhead → clip end
+- [x] Restore discards unsaved pose and re-applies clip at playhead
+
 ## Open deltas
 
 | US                                   | Status                | Tasks                                       |
 | ------------------------------------ | --------------------- | ------------------------------------------- |
-| **US-4** — Keyframe edit             | not started           | [`specs/us-4/tasks.md`](../us-4/tasks.md)   |
 | **US-5** — Zip export                | not started           | [`specs/us-5/tasks.md`](../us-5/tasks.md)   |
 | **US-6** — Cross-rig retargeting     | post-MVP, not started | [`specs/us-6/tasks.md`](../us-6/tasks.md)   |
 | **US-7** — Multi-clip blending       | post-MVP, not started | [`specs/us-7/tasks.md`](../us-7/tasks.md)   |
