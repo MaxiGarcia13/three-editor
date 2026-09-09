@@ -47,10 +47,21 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 ## Playback
 
 - One `AnimationMixer` rooted on the model scene graph
-- Active clip → one `AnimationAction` (cross-fade later = out of scope)
+- Primary action = active clip (or `blendBaseClip` while a blend partner is selected); optional secondary blend action for the partner clip
+- Live blend weights snap via `setEffectiveWeight` (not `crossFadeTo`)
 - Scrubber sets mixer time; Play/Pause/Stop and loop map to action / mixer APIs
 - Speed: per-clip `timeScale` on the library entry; live playback applies the **active** clip’s scale via `mixer.timeScale`
-- Switching active clip stops the previous action and plays the new one; **T-pose** clears the active clip and restores the captured rest / bind pose (not the last animated frame)
+- Switching active clip stops the previous action(s) and plays the new one; clearing selection (**T-pose**) restores the captured rest / bind pose (not the last animated frame)
+
+## Animation library authorship (US-7)
+
+- Library **New animation** (`PlusIcon`) creates `status: 'draft'` from scratch (default duration 1s); drafts with clip data are playable/editable (`isReadyClip`: `status !== 'error'`)
+- Selection: click an Animations list row (same pattern as models). Clicking the currently selected clip clears to T-pose. No Active Clip dropdown
+- Settings: Start/End and Speed always visible; **Blend** is a reusable `Collapsible` (`src/components/collapsible/`) with partner select, weight, **Bake**, and **Reset**
+- `$clips` holds `blendClipId`, `blendWeight`, `blendBaseClip` (primary snapshot when a partner is chosen)
+- Blend overlay is **viewport-only** until **Bake** flattens primary + secondary at weight into the active library clip and resets the form; **Reset** clears the form without writing
+- Unsaved bone/gizmo edits discard on reselect; **Hold Pose to End** commits into the active clip
+- Playback bar: controls + scrubber only
 
 ## Animation import
 
@@ -58,7 +69,7 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 2. Validate each clip's track targets against the loaded character node/skeleton map; missing/unknown bones → the entry is marked errored with user-visible copy (no silent remap; no automatic vendor prefix rewriting in playback)
 3. Re-validate entries when the previewed model changes, is replaced, or is removed so stale clips are never silently played on a mismatched rig (`syncClipsToSkeleton`)
 4. Sidebar **library** lists each entry with Replace / Remove / Rename (same pattern as the model row). Replace re-picks one file and updates **that** entry only (first clip in the file; keep the entry id). Remove drops the entry; if it was active, select the next ready clip or clear selection. Errored clips that still have a working `AnimationClip` offer **Retarget**
-5. Preview chrome owns active-clip selection plus Play / Pause / Stop / loop and the scrubber. The Active Clip dropdown stays enabled whenever a model is loaded and always offers **T-pose** (no active clip). Play / Pause / Stop / loop / scrubber stay disabled until a valid clip is selected for that skeleton
+5. Active clip is chosen from the library list (US-7). Preview chrome owns Play / Pause / Stop / loop and the scrubber; those stay disabled until a valid clip is selected for that skeleton. Clicking the selected row again clears to T-pose
 6. Preview layout: viewport fills remaining height (`flex-1 min-h-0`); playback bar is a shrink-to-content footer under the canvas (not a fixed magic height overlapping the scene)
 
 ## Cross-rig retargeting (US-6)
@@ -130,7 +141,7 @@ Bind-pose / Move / T-pose Save–Restore branching: see **Edit / Move tools & bi
 6. **Restore** — `selection` + active clip → `restoreMixerPose`; otherwise write snapshot TRS back onto the object
 7. Tool switch or Settings/gizmo kind change while dirty → auto-Restore first. Selection change / clear while dirty → `restorePose()` before updating `$selection`
 8. **Settings General** — live editable X / Y / Z for model root position (independent of tool); same dirty / Save / Restore path as Move
-9. **T-pose** in Active Clip dropdown — `activeClipId: null`; clears clip and applies captured rest / bind pose (snapshot at mixer mount; refreshed on bind-pose or model-root Save). Skeleton sync does not auto-select a ready clip when already on T-pose
+9. **T-pose** — `activeClipId: null` via clicking the selected Animations row again (or clear); applies captured rest / bind pose (snapshot at mixer mount; refreshed on bind-pose or model-root Save). Skeleton sync does not auto-select a ready clip when already on T-pose
 10. **Bind-pose deltas** — per `modelId` + node name; cleared on model remove/replace. Position `p' = p + Δp`; quaternion `q' = Δq * q`; scale `s' = s * Δs`. Import / Replace / retarget apply accumulated overrides for the active model
 
 Out of scope: whole-model rotate/scale in Move; multi-model simultaneous transform; full undo stack (US-10).
@@ -158,7 +169,7 @@ Out of scope: whole-model rotate/scale in Move; multi-model simultaneous transfo
 - Collapsible sidebar docks beside the canvas (`editor-shell`); collapse/expand with labelled chevron controls
 - Preview chrome hosts playback + Edit/Move tools + transform mode toolbar (Edit + selection) + selection name overlay + dirty-only Save / Restore (not the settings sidebar)
 
-## Export (US-5)
+## Export (US-5 + US-7 blend contract)
 
 One “Download” control builds a **zip** in the browser (no server):
 
@@ -169,6 +180,8 @@ One “Download” control builds a **zip** in the browser (no server):
 5. Trigger a single download of the zip blob. Any exporter or zip failure → user-visible error; no partial archive
 
 A model with no matching clips still ships as a mesh-only `.glb`. There is no “one combined GLB” option and no per-row download buttons.
+
+**Blend vs zip (locked):** live blend is viewport playback only (`blendClipId` / `blendWeight` / `blendBaseClip` never enter the exporter). `packModelGlb` / `packClipGlb` / `downloadExportZip` read each entry’s working `clip` (+ `timeScale` bake) — the same discrete library data as US-5. After **Bake**, the flattened mix replaces the active entry’s `clip` and therefore exports with that clip; without Bake, the zip is unchanged by the overlay.
 
 ## Layering rules
 

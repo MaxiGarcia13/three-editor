@@ -4,7 +4,7 @@ Living product contract for the **GLB Character & Animation Editor**.
 
 ## Product summary
 
-Web editor with a full-screen 3D viewport and a collapsible sidebar. Users load one or more model GLBs (one previewed at a time), import animation clips, play and edit them (trim, speed, keyframes, bind pose, whole-model move), and download a zip of per-model GLBs plus animation-only files.
+Web editor with a full-screen 3D viewport and a collapsible sidebar. Users load one or more model GLBs (one previewed at a time), import animation clips, play and edit them (trim, speed, keyframes, weighted blend + bake, bind pose, whole-model move), and download a zip of per-model GLBs plus animation-only files.
 
 **Stack:** Astro shell + React island; React Three Fiber + drei + Three.js.
 
@@ -29,7 +29,7 @@ As an editor user, I can import animation files into a clip library and play the
 
 - [x] User can upload multiple separate `.glb` / `.gltf` files; their clips populate an animation library
 - [x] Sidebar library lists each clip with Replace (re-pick file for that entry) and Remove
-- [x] Dropdown (or equivalent) in the preview chrome selects the active clip; includes a **T-pose** option (no active clip / bind pose) when a model is loaded
+- [x] Active clip is selected from the Animations library list (same pattern as models); clicking the selected clip again clears to T-pose / bind pose when a model is loaded
 - [x] Playback controls: Play, Pause, Stop, loop toggle
 - [x] Timeline scrubber stays tied to `THREE.AnimationMixer` time
 - [x] Clips that do not match the character skeleton (missing tracks / unknown bones) show a user-visible error — no silent retargeting
@@ -156,21 +156,26 @@ As an editor user, I can choose Edit or Move in the preview, pose bones/meshes o
 - [x] Switching Edit ↔ Move while dirty auto-Restores, then switches tools
 - [x] Changing selection (pick another bone/mesh or clear) while dirty auto-Restores the pending edit on the previous object, then updates selection — preview TRS matches the discarded edit
 - [x] Settings sidebar (`EditorSettingsSidebar` General) shows live **editable X / Y / Z** fields for the **model root position**, available whenever a model is loaded — **independent of Edit / Move tool**. Committing a number updates `scene.position`, marks dirty as a model-root edit, and uses the same Save / Restore path as Move-mode gizmo edits. (Bone/mesh local position is edited via the Edit gizmo, not these fields.)
-- [x] Active Clip dropdown includes a **T-pose** option (no active clip) whenever a model is loaded; choosing it clears the active clip and restores the model’s current bind / rest pose in the preview so Edit-without-clip works without leaving an animation frozen on the last frame
-
-## Post-MVP user stories
-
-Deltas exist under `specs/us-7/` … `specs/us-10/`. Not started; do not implement until explicitly kicked off.
+- [x] Clicking the selected Animations list row (or otherwise clearing the active clip) restores the model’s current bind / rest pose in the preview so Edit-without-clip works without leaving an animation frozen on the last frame
 
 ### US-7 — Multi-clip blending
 
-As an editor user, I can blend or cross-fade between animation clips on the loaded character.
+As an editor user, I can create a new animation from scratch or use an uploaded clip, preview a weighted blend with other library clips, and Bake when I want that mix written into the active clip.
 
 **Acceptance**
 
-- [ ] At least two concurrent actions or an A→B cross-fade
-- [ ] User-controllable blend weights
-- [ ] Live viewport update; export contract defined (bake blend on demand)
+- [x] User can start a **New animation** from the Library (`PlusIcon`) — creates an editable draft from scratch
+- [x] Active animation is selected from the **Animations list** (same pattern as models)
+- [x] Clicking a currently selected animation unselects it to T-pose
+- [x] Draft and uploaded clips support Start/End, playback speed, playback, and keyframe edits on the active clip
+- [x] Settings **Blend** is a collapsible; expanded form has partner select, weight, **Bake**, and **Reset**
+- [x] Blend is viewport-only until Bake; Bake writes into the active clip and resets the form; Reset clears without writing
+- [x] Unsaved pose edits discard on reselect; Hold Pose to End commits into the active clip
+- [x] Export: discrete library clips only — live `blendClipId` / `blendWeight` are not packed; Bake must run first for a mix to appear in the zip (US-5)
+
+## Post-MVP user stories
+
+Deltas exist under `specs/us-8/` … `specs/us-10/`. Not started; do not implement until explicitly kicked off.
 
 ### US-8 — Morph-target editing
 

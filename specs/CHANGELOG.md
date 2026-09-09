@@ -11,7 +11,6 @@
 
 | ID | Summary |
 |----|---------|
-| **US-7** | Multi-clip blending / cross-fade (post-MVP) |
 | **US-8** | Morph-target editing (post-MVP) |
 | **US-9** | Graph / curve keyframe UI (post-MVP) |
 | **US-10** | Full undo / redo stack (post-MVP) |
@@ -20,6 +19,7 @@
 
 | ID | Summary |
 |----|---------|
+| **US-7** | Multi-clip blending — draft clips, weighted viewport blend, Bake into active clip |
 | **US-15** | Edit / Move tools — bind-pose save + whole-model translate + T-pose |
 | **US-14** | Viewport general settings — show/hide axes + length (metres) |
 | **US-6** | Cross-rig retargeting (explicit bone map + vendor registry) |

@@ -115,14 +115,22 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] Settings General: editable model-root X / Y / Z
 - [x] Active Clip **T-pose** option restores rest / bind pose
 
+## US-7 — Multi-clip blending
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] Dual-action mixer + weighted blend overlay (`blendClipId` / `blendWeight` / `blendBaseClip`)
+- [x] New animation draft from scratch; library list selection; click-again → T-pose
+- [x] Settings Blend collapsible: partner, weight, Bake, Reset (viewport-only until Bake)
+- [x] Export stays discrete library clips (US-5); Bake commits mix into the active clip before pack
+
 ## Open deltas
 
-| US                                   | Status                | Tasks                                       |
-| ------------------------------------ | --------------------- | ------------------------------------------- |
-| **US-7** — Multi-clip blending       | post-MVP, not started | [`specs/us-7/tasks.md`](../us-7/tasks.md)   |
-| **US-8** — Morph-target editing      | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md)   |
-| **US-9** — Graph / curve keyframe UI | post-MVP, not started | [`specs/us-9/tasks.md`](../us-9/tasks.md)   |
-| **US-10** — Full undo / redo         | post-MVP, not started | [`specs/us-10/tasks.md`](../us-10/tasks.md) |
+| US                                   | Status                | Tasks                                         |
+| ------------------------------------ | --------------------- | --------------------------------------------- |
+| **US-8** — Morph-target editing      | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md)     |
+| **US-9** — Graph / curve keyframe UI | post-MVP, not started | [`specs/us-9/tasks.md`](../us-9/tasks.md)     |
+| **US-10** — Full undo / redo         | post-MVP, not started | [`specs/us-10/tasks.md`](../us-10/tasks.md)   |
 
 ## Tech debt
 
