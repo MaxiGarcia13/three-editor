@@ -1,9 +1,12 @@
 import { writeNodeKeyframe } from '@/modules/animation/services/keyframe-write';
 import { resumeMixerBindings } from '@/modules/animation/services/mixer-session';
 import { readClipTimelineTime } from '@/modules/animation/utils/to-timeline-time';
-import { $editTool } from '@/modules/viewport/stores/edit-tool-store';
 import { $activeModel } from '@/modules/viewport/stores/model-store';
-import { $poseDirty, clearPoseDirty } from '@/modules/viewport/stores/pose-edit-store';
+import {
+  $poseDirty,
+  $poseEditKind,
+  clearPoseDirty,
+} from '@/modules/viewport/stores/pose-edit-store';
 import { $selection } from '@/modules/viewport/stores/selection-store';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
@@ -13,8 +16,11 @@ export function saveKeyframe(): void {
     return;
   }
 
-  const isMove = $editTool.get() === 'move';
-  const object = isMove ? $activeModel.get()?.scene ?? null : $selection.get().object;
+  const kind = $poseEditKind.get();
+  const object
+    = kind === 'modelRoot'
+      ? $activeModel.get()?.scene ?? null
+      : $selection.get().object;
   if (!object) {
     return;
   }
@@ -22,10 +28,8 @@ export function saveKeyframe(): void {
   const state = $clips.get();
   const active = state.clips.find((entry) => entry.id === state.activeClipId);
 
-  // Bind-pose commit (no clip) and root translation commit (Move): the gizmo
-  // already wrote the local / world TRS onto the live scene graph, so the
-  // model export picks it up as-authored. Confirming here is enough.
-  if (isMove || !isReadyClip(active)) {
+  // Model-root commit and bind-pose commit (no clip): TRS already on the scene.
+  if (kind === 'modelRoot' || !isReadyClip(active)) {
     resumeMixerBindings();
     clearPoseDirty();
     return;
@@ -50,7 +54,6 @@ export function saveKeyframe(): void {
     ),
     duration: working.duration,
   });
-  // Clip identity change rebinds a fresh enabled action; resume is belt-and-suspenders.
   resumeMixerBindings();
   clearPoseDirty();
 }

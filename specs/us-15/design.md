@@ -9,22 +9,22 @@ Preview tool modes for bone/mesh editing vs whole-model placement, bind-pose per
 1. **`$editTool` store** under `viewport/stores` — `'edit' | 'move'`, default `'edit'`. Toggle in `EditorPreview` with `CursorIcon` / `MoveIcon` when a model is loaded.
 2. **Edit mode** — existing raycast selection + `TransformControls` in local space; W / E / R mode toolbar when something is selected (US-4).
 3. **Move mode** — select / attach to active `ModelEntry.scene`; `TransformControls` with `mode="translate"` and `space="world"`; hide transform-mode toolbar; disable or ignore raycast picks so the user stays on the root.
-4. **Dirty + snapshot** — on first gizmo change, mark `$poseDirty` and snapshot the edited object’s pre-edit local position / quaternion / scale so Restore works without a mixer action.
-5. **Save branching**
-   - Edit + active ready clip → existing `saveKeyframe` / Hold Pose to End
-   - Edit + no clip → keep Object3D TRS on the scene (already applied by the gizmo), clear dirty + snapshot; export already packs `model.scene`
-   - Move → keep `scene` translation, clear dirty + snapshot; no keyframe write
+4. **Dirty + snapshot** — on first gizmo / Settings change, mark `$poseDirty`, set `$poseEditKind` (`modelRoot` | `selection`), and snapshot the edited object’s pre-edit local TRS so Restore works without a mixer action.
+5. **Save branching** (by `$poseEditKind`, not active tool)
+   - `selection` + active ready clip → existing `saveKeyframe` / Hold Pose to End
+   - `selection` + no clip → keep Object3D TRS on the scene, clear dirty + snapshot
+   - `modelRoot` → keep `scene` translation, clear dirty + snapshot; no keyframe write
 6. **Restore branching**
-   - Edit + active clip → existing `restoreMixerPose`
-   - Edit + no clip, or Move → write snapshot TRS back onto the object, clear dirty
-7. **Tool switch while dirty** — auto-Restore, then set `$editTool` (no stranded half-edit).
+   - `selection` + active clip → existing `restoreMixerPose`
+   - `modelRoot`, or `selection` + no clip → write snapshot TRS back onto the object, clear dirty
+7. **Tool switch while dirty** — auto-Restore, then set `$editTool` (no stranded half-edit). Settings root edits while a `selection` edit is dirty also auto-Restore first (and the reverse when the gizmo starts a different kind).
 
 ## UI
 
 - Tool toggle: always visible in preview when a model is loaded (near existing overlay chrome)
 - Transform mode toolbar: Edit + selection only
 - Save / Restore: visible only while dirty (extend or replace `SaveKeyframeButton` labels as needed; Hold Pose copy remains correct when an active clip drives Edit save)
-- **Position readout** in `EditorSettingsSidebar` General (alongside world-axes controls): live numeric X / Y / Z. Source is active model `scene.position` in Move mode, or the selected object’s local `position` in Edit mode. Read-only display for this delta (gizmo remains the editor); update on each gizmo change / selection / tool switch.
+- **Position fields** in `EditorSettingsSidebar` General (alongside world-axes controls): live editable X / Y / Z for the **active model root** (`scene.position`), independent of `$editTool`. Writing a finite number applies that axis, captures a `modelRoot` pre-edit snapshot (auto-Restoring a pending `selection` edit first if needed), suspends mixer bindings, and marks dirty. Save / Restore branch on `$poseEditKind`, not the active tool. Live readout updates from the viewport driver while not focused.
 
 ## Non-goals
 

@@ -2,16 +2,21 @@ import type { Object3D } from 'three';
 
 import { atom } from 'nanostores';
 
+export type PoseEditKind = 'modelRoot' | 'selection';
+
 export interface PreEditTransform {
   position: { x: number; y: number; z: number };
   quaternion: { x: number; y: number; z: number; w: number };
   scale: { x: number; y: number; z: number };
 }
 
-/** True when TransformControls has edited the selection since last save / seek / reselect. */
+/** True when a gizmo or Settings edit is pending Save / Restore. */
 export const $poseDirty = atom(false);
 
-/** TRS snapshot captured on first gizmo drag, cleared on save / restore / seek / reselect. */
+/** Which object the current dirty edit applies to (independent of active tool). */
+export const $poseEditKind = atom<PoseEditKind | null>(null);
+
+/** TRS snapshot captured on first edit, cleared on save / restore / seek / reselect. */
 export const $preEditTransform = atom<PreEditTransform | null>(null);
 
 export function markPoseDirty(): void {
@@ -20,10 +25,11 @@ export function markPoseDirty(): void {
   }
 }
 
-export function capturePreEditTransform(object: Object3D): void {
+export function capturePreEditTransform(object: Object3D, kind: PoseEditKind): void {
   if ($preEditTransform.get()) {
     return;
   }
+  $poseEditKind.set(kind);
   $preEditTransform.set({
     position: { x: object.position.x, y: object.position.y, z: object.position.z },
     quaternion: {
@@ -57,4 +63,5 @@ export function clearPoseDirty(): void {
     $poseDirty.set(false);
   }
   $preEditTransform.set(null);
+  $poseEditKind.set(null);
 }

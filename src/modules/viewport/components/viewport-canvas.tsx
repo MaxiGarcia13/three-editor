@@ -16,6 +16,7 @@ import { ModelViewer } from './model-viewer';
 import { SelectionDriver } from './selection-driver';
 import { SelectionHighlight } from './selection-highlight';
 import { TransformControlsDriver } from './transform-controls-driver';
+import { TransformReadoutDriver } from './transform-readout-driver';
 import { WorldAxes } from './world-axes';
 
 export function ViewportCanvas() {
@@ -48,6 +49,7 @@ export function ViewportCanvas() {
       <SelectionDriver />
       <SelectionHighlight />
       <TransformControlsDriver controlsRef={controlsRef} />
+      <TransformReadoutDriver />
     </Canvas>
   );
 }

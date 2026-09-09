@@ -8,10 +8,16 @@ import {
   resumeMixerBindings,
   suspendMixerBindings,
 } from '@/modules/animation/services/mixer-session';
-import { pause } from '@/modules/animation/stores/clip-store';
+import { pause } from '@/modules/animation/stores/clip-store/handlers/playback';
+import { restorePose } from '@/modules/animation/stores/clip-store/handlers/restore-pose';
 import { useActiveModel } from '../hooks/use-active-model';
 import { $editTool } from '../stores/edit-tool-store';
-import { $poseDirty, capturePreEditTransform, markPoseDirty } from '../stores/pose-edit-store';
+import {
+  $poseDirty,
+  $poseEditKind,
+  capturePreEditTransform,
+  markPoseDirty,
+} from '../stores/pose-edit-store';
 import { $selection } from '../stores/selection-store';
 import { $transformMode } from '../stores/transform-mode-store';
 
@@ -57,8 +63,12 @@ export function TransformControlsDriver({ controlsRef }: TransformControlsDriver
     };
 
     const onObjectChange = () => {
+      const kind = isMove ? 'modelRoot' : 'selection';
+      if ($poseDirty.get() && $poseEditKind.get() !== kind) {
+        restorePose();
+      }
       if (!$poseDirty.get() && gizmoObject) {
-        capturePreEditTransform(gizmoObject);
+        capturePreEditTransform(gizmoObject, kind);
       }
       suspendMixerBindings();
       markPoseDirty();

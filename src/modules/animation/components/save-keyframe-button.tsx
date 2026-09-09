@@ -4,8 +4,7 @@ import { Button } from '@/components/button';
 import { RestoreIcon } from '@/components/icons/restore-icon';
 import { SaveIcon } from '@/components/icons/save-icon';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
-import { $editTool } from '@/modules/viewport/stores/edit-tool-store';
-import { $poseDirty } from '@/modules/viewport/stores/pose-edit-store';
+import { $poseDirty, $poseEditKind } from '@/modules/viewport/stores/pose-edit-store';
 import { $clips, restorePose, saveKeyframe } from '../stores/clip-store';
 
 interface SaveKeyframeButtonProps {
@@ -14,12 +13,11 @@ interface SaveKeyframeButtonProps {
 
 export function SaveKeyframeButton({ className }: SaveKeyframeButtonProps) {
   const { activeClipId } = useStore($clips, { keys: ['activeClipId'] });
-  const editTool = useStore($editTool);
   const poseDirty = useStore($poseDirty);
+  const poseEditKind = useStore($poseEditKind);
   const { scene } = useActiveModel();
 
-  const isMove = editTool === 'move';
-  const writeKeyframe = !isMove && activeClipId !== null;
+  const writeKeyframe = poseEditKind === 'selection' && activeClipId !== null;
 
   if (!poseDirty || scene === null) {
     return null;

@@ -15,11 +15,13 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] Save branches: bind-pose commit (no clip), Hold Pose to End (active clip + Edit), root translation commit (Move)
 - [x] Auto-Restore on Edit ↔ Move switch while dirty
 - [x] Show Save / Restore whenever dirty (both tools)
-- [ ] Settings General: live X / Y / Z position readout (model root in Move; selection local position in Edit)
+- [x] Settings General: live editable X / Y / Z for **model root**, independent of Edit / Move tool
+- [x] `$poseEditKind` (`modelRoot` | `selection`) drives Save / Restore branching
 
 ## Verify
 
 - [ ] All US-15 acceptance criteria in [`requirements.md`](./requirements.md) pass
 - [ ] Edit without clip → Save → download `{model}.glb` reflects bind pose
 - [ ] Move → Save → download `{model}.glb` reflects root translation on X / Y / Z
-- [ ] Dragging the gizmo updates the Settings X / Y / Z readout
+- [ ] Dragging the Move gizmo updates the Settings X / Y / Z readout
+- [ ] Typing X / Y / Z in Settings moves the model root while Edit tool is active and enables Save / Restore
