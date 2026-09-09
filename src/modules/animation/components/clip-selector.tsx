@@ -16,7 +16,7 @@ export function ClipSelector({ className }: ClipSelectorProps) {
   const { scene } = useActiveModel();
 
   const readyClips = clips.filter((entry) => entry.status === 'ready');
-  const enabled = scene !== null && readyClips.length > 0;
+  const enabled = scene !== null;
 
   return (
     <label className={cn('flex flex-col gap-1', className)} htmlFor={id}>
@@ -28,7 +28,7 @@ export function ClipSelector({ className }: ClipSelectorProps) {
         disabled={!enabled}
         className="bg-zinc-700 rounded-sm px-2 py-1.5 text-xs text-zinc-100 disabled:opacity-50"
       >
-        {!enabled && <option value="">No clips — import an animation</option>}
+        <option value="">{enabled ? 'T-pose' : 'Load a model'}</option>
         {readyClips.map((entry) => (
           <option key={entry.id} value={entry.id}>
             {entry.name}

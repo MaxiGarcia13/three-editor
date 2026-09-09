@@ -50,7 +50,7 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 - Active clip → one `AnimationAction` (cross-fade later = out of scope)
 - Scrubber sets mixer time; Play/Pause/Stop and loop map to action / mixer APIs
 - Speed: `mixer.timeScale` for live playback
-- Switching active clip stops the previous action and plays the new one
+- Switching active clip stops the previous action and plays the new one; **T-pose** clears the active clip and restores the captured rest / bind pose (not the last animated frame)
 
 ## Animation import
 
@@ -58,7 +58,7 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 2. Validate each clip's track targets against the loaded character node/skeleton map; missing/unknown bones → the entry is marked errored with user-visible copy (no silent remap; no automatic vendor prefix rewriting in playback)
 3. Re-validate entries when the previewed model changes, is replaced, or is removed so stale clips are never silently played on a mismatched rig (`syncClipsToSkeleton`)
 4. Sidebar **library** lists each entry with Replace / Remove / Rename (same pattern as the model row). Replace re-picks one file and updates **that** entry only (first clip in the file; keep the entry id). Remove drops the entry; if it was active, select the next ready clip or clear selection. Errored clips that still have a working `AnimationClip` offer **Retarget**
-5. Preview chrome owns active-clip selection plus Play / Pause / Stop / loop and the scrubber; those controls stay disabled until a model is previewed and at least one valid clip exists for that skeleton
+5. Preview chrome owns active-clip selection plus Play / Pause / Stop / loop and the scrubber. The Active Clip dropdown stays enabled whenever a model is loaded and always offers **T-pose** (no active clip). Play / Pause / Stop / loop / scrubber stay disabled until a valid clip is selected for that skeleton
 6. Preview layout: viewport fills remaining height (`flex-1 min-h-0`); playback bar is a shrink-to-content footer under the canvas (not a fixed magic height overlapping the scene)
 
 ## Cross-rig retargeting (US-6)

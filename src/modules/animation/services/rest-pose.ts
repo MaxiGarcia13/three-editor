@@ -1,0 +1,75 @@
+import type { Object3D } from 'three';
+
+interface NodeRestTransform {
+  position: { x: number; y: number; z: number };
+  quaternion: { x: number; y: number; z: number; w: number };
+  scale: { x: number; y: number; z: number };
+}
+
+type RestPoseMap = Map<string, NodeRestTransform>;
+
+const restPoses = new WeakMap<Object3D, RestPoseMap>();
+
+function readTransform(object: Object3D): NodeRestTransform {
+  return {
+    position: { x: object.position.x, y: object.position.y, z: object.position.z },
+    quaternion: {
+      x: object.quaternion.x,
+      y: object.quaternion.y,
+      z: object.quaternion.z,
+      w: object.quaternion.w,
+    },
+    scale: { x: object.scale.x, y: object.scale.y, z: object.scale.z },
+  };
+}
+
+function writeTransform(object: Object3D, transform: NodeRestTransform): void {
+  object.position.set(transform.position.x, transform.position.y, transform.position.z);
+  object.quaternion.set(
+    transform.quaternion.x,
+    transform.quaternion.y,
+    transform.quaternion.z,
+    transform.quaternion.w,
+  );
+  object.scale.set(transform.scale.x, transform.scale.y, transform.scale.z);
+}
+
+function captureMap(root: Object3D): RestPoseMap {
+  const map: RestPoseMap = new Map();
+  root.traverse((object) => {
+    map.set(object.uuid, readTransform(object));
+  });
+  return map;
+}
+
+/** Snapshot local TRS for the scene graph before any mixer action runs. */
+export function ensureRestPoseCaptured(root: Object3D): void {
+  if (restPoses.has(root)) {
+    return;
+  }
+  restPoses.set(root, captureMap(root));
+}
+
+/** Keep bind / model-root Saves as the rest pose used by T-pose. */
+export function refreshRestPoseNode(root: Object3D, node: Object3D): void {
+  const map = restPoses.get(root) ?? captureMap(root);
+  map.set(node.uuid, readTransform(node));
+  restPoses.set(root, map);
+}
+
+/** Restore captured rest / bind pose after clearing the active clip. */
+export function applyRestPose(root: Object3D): void {
+  ensureRestPoseCaptured(root);
+  const map = restPoses.get(root);
+  if (!map) {
+    return;
+  }
+
+  root.traverse((object) => {
+    const transform = map.get(object.uuid);
+    if (transform) {
+      writeTransform(object, transform);
+    }
+  });
+  root.updateMatrixWorld(true);
+}

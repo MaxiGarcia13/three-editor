@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { AnimationMixer } from 'three';
 
 import { setActiveMixer } from '@/modules/animation/services/mixer-session';
+import { ensureRestPoseCaptured } from '@/modules/animation/services/rest-pose';
 import { $clips, syncClipsToSkeleton } from '@/modules/animation/stores/clip-store';
 
 export function useClipMixerMount(
@@ -19,6 +20,7 @@ export function useClipMixerMount(
       return;
     }
 
+    ensureRestPoseCaptured(scene);
     syncClipsToSkeleton(scene);
 
     const mixer = new AnimationMixer(scene);

@@ -26,6 +26,7 @@ Preview tool modes for bone/mesh editing vs whole-model placement, bind-pose per
 - Transform mode toolbar: Edit + selection only
 - Save / Restore: visible only while dirty (extend or replace `SaveKeyframeButton` labels as needed; Hold Pose copy remains correct when an active clip drives Edit save)
 - **Position fields** in `EditorSettingsSidebar` General (alongside world-axes controls): live editable X / Y / Z for the **active model root** (`scene.position`), independent of `$editTool`. Writing a finite number applies that axis, captures a `modelRoot` pre-edit snapshot (auto-Restoring a pending `selection` edit first if needed), suspends mixer bindings, and marks dirty. Save / Restore branch on `$poseEditKind`, not the active tool. Live readout updates from the viewport driver while not focused.
+- **Active Clip** dropdown: first option is **T-pose** (`activeClipId: null`) whenever a model is loaded. Selecting it discards a pending dirty edit if needed, clears the active clip, and applies the captured rest / bind pose (snapshot at mixer mount; refreshed on bind-pose or model-root Save). Do not auto-select a ready clip on skeleton sync when the user is already on T-pose.
 
 ## Non-goals
 

@@ -21,6 +21,7 @@ As an editor user, I can choose Edit or Move in the preview, pose bones/meshes o
 - [ ] Switching Edit ↔ Move while dirty auto-Restores, then switches tools
 - [ ] Changing selection (pick another bone/mesh or clear) while dirty auto-Restores the pending edit on the previous object, then updates selection — preview TRS matches the discarded edit
 - [ ] Settings sidebar (`EditorSettingsSidebar` General) shows live **editable X / Y / Z** fields for the **model root position**, available whenever a model is loaded — **independent of Edit / Move tool**. Committing a number updates `scene.position`, marks dirty as a model-root edit, and uses the same Save / Restore path as Move-mode gizmo edits. (Bone/mesh local position is edited via the Edit gizmo, not these fields.)
+- [ ] Active Clip dropdown includes a **T-pose** option (no active clip) whenever a model is loaded; choosing it clears the active clip and restores the model’s current bind / rest pose in the preview so Edit-without-clip works without leaving an animation frozen on the last frame
 
 ## Out of scope for this delta
 

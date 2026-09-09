@@ -20,6 +20,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] Show Save / Restore whenever dirty (both tools)
 - [x] Settings General: live editable X / Y / Z for **model root**, independent of Edit / Move tool
 - [x] `$poseEditKind` (`modelRoot` | `selection`) drives Save / Restore branching
+- [x] Active Clip dropdown **T-pose** option: clear active clip + restore rest / bind pose; keep null across skeleton sync
 
 ## Verify
 

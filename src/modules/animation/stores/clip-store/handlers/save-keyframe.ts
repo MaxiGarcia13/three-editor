@@ -4,6 +4,7 @@ import {
 } from '@/modules/animation/services/bind-pose-rebase';
 import { writeNodeKeyframe } from '@/modules/animation/services/keyframe-write';
 import { resumeMixerBindings } from '@/modules/animation/services/mixer-session';
+import { refreshRestPoseNode } from '@/modules/animation/services/rest-pose';
 import {
   accumulateBindPoseDelta,
 } from '@/modules/animation/stores/bind-pose-store';
@@ -29,6 +30,7 @@ function commitBindPoseToClips(nodeName: string): void {
 
   const delta = computeBindPoseDelta(snapshot, object);
   accumulateBindPoseDelta(model.id, nodeName, delta);
+  refreshRestPoseNode(model.scene, object);
 
   const state = $clips.get();
   const clips = state.clips.map((entry) => {
@@ -53,9 +55,10 @@ export function saveKeyframe(): void {
   }
 
   const kind = $poseEditKind.get();
+  const model = $activeModel.get();
   const object
     = kind === 'modelRoot'
-      ? $activeModel.get()?.scene ?? null
+      ? model?.scene ?? null
       : $selection.get().object;
   if (!object) {
     return;
@@ -66,6 +69,9 @@ export function saveKeyframe(): void {
 
   // Model-root commit: TRS already on the scene.
   if (kind === 'modelRoot') {
+    if (model) {
+      refreshRestPoseNode(model.scene, object);
+    }
     resumeMixerBindings();
     clearPoseDirty();
     return;

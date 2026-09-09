@@ -31,11 +31,11 @@ export function syncClipsToSkeleton(skeleton: Object3D | null): void {
     };
   });
 
-  const stillActive
+  // Keep an explicit T-pose (null) — do not auto-pick the first ready clip.
+  const activeClipId
     = state.activeClipId && isReadyClip(clips.find((entry) => entry.id === state.activeClipId))
       ? state.activeClipId
       : null;
-  const activeClipId = stillActive ?? clips.find((entry) => entry.status === 'ready')?.id ?? null;
   const active = activeClipId ? clips.find((entry) => entry.id === activeClipId) : null;
 
   $clips.set({

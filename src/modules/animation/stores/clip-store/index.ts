@@ -1,4 +1,5 @@
 export {
+  clearActiveClip,
   importClipFiles,
   MAX_TIME_SCALE,
   MIN_TIME_SCALE,

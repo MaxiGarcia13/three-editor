@@ -4,6 +4,7 @@ import type { AnimationAction, AnimationClip, AnimationMixer, Group } from 'thre
 import { useEffect } from 'react';
 
 import { setActiveAction } from '@/modules/animation/services/mixer-session';
+import { applyRestPose } from '@/modules/animation/services/rest-pose';
 import { $clips } from '@/modules/animation/stores/clip-store/store';
 import { toTimelineTime } from '@/modules/animation/utils/to-timeline-time';
 import { applyLoopMode } from './apply-loop-mode';
@@ -32,6 +33,9 @@ export function useClipMixerAction(
 
     if (!clip) {
       mixer.setTime(0);
+      if (scene) {
+        applyRestPose(scene);
+      }
       return;
     }
 
