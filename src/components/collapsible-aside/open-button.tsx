@@ -1,6 +1,6 @@
 import { Button } from '../button';
-import { ChevronLeft } from '../icons/chevron-left';
-import { ChevronRight } from '../icons/chevron-right';
+import { ChevronLeft } from '../icons/chevron-left-icon';
+import { ChevronRight } from '../icons/chevron-right-icon';
 import { Text } from '../text';
 
 interface OpenButtonProps {

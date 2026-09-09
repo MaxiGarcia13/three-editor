@@ -1,6 +1,6 @@
 import { Button } from '@/components/button';
-import { ChevronLeft } from '@/components/icons/chevron-left';
-import { ChevronRight } from '@/components/icons/chevron-right';
+import { ChevronLeft } from '@/components/icons/chevron-left-icon';
+import { ChevronRight } from '@/components/icons/chevron-right-icon';
 import { Text } from '@/components/text';
 
 interface AsideHeaderProps {
