@@ -1,6 +1,10 @@
 import type { ModelEntry, ModelLibraryPhase, ModelLibraryState } from '../types/model';
 
 import { computed, map } from 'nanostores';
+import {
+  clearAllBindPoseOverrides,
+  clearBindPoseOverrides,
+} from '@/modules/animation/stores/bind-pose-store';
 import { preserveGltfExtension } from '@/utils/glb-parse';
 import { loadModelFromFile } from '../adapters/model-loader';
 import { disposeScene } from '../services/scene-dispose';
@@ -109,6 +113,7 @@ export function removeModel(id: string): void {
   const removed = state.models[index];
   const wasActive = state.activeModelId === id;
   disposeEntry(removed);
+  clearBindPoseOverrides(id);
 
   const models = state.models.filter((model) => model.id !== id);
   const activeModelId = wasActive ? (models[0]?.id ?? null) : state.activeModelId;
@@ -120,6 +125,10 @@ export function removeModel(id: string): void {
     phase,
     error: null,
   });
+
+  if (models.length === 0) {
+    clearAllBindPoseOverrides();
+  }
 }
 
 export async function replaceModel(id: string, file: File): Promise<void> {
@@ -140,6 +149,7 @@ export async function replaceModel(id: string, file: File): Promise<void> {
 
     const previous = state.models[currentIndex];
     disposeEntry(previous);
+    clearBindPoseOverrides(id);
 
     const models = [...state.models];
     models[currentIndex] = {

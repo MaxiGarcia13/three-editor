@@ -71,6 +71,7 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
    - **This model** — new ready clip remapped to the previewed skeleton; **keep** the source clip
    - **All models** — remap the clip to the mapping’s target names, **replace** the source library entry, and **normalize bone names on every loaded model** to those targets (resolve via the same vendor suggest path). Fail if any model cannot resolve every mapped source bone
 6. Incomplete maps never write a clip; failures leave a clear error and do not corrupt pose
+7. After a successful remap, apply the previewed model’s accumulated **bind-pose deltas** (US-15) to the remapped tracks — mismatched imports cannot rebase on import because track names still use the source rig
 
 ### Bone registry (vendor adapters)
 

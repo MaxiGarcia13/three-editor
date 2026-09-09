@@ -8,6 +8,7 @@ import {
 } from '@/modules/animation/services/normalize-scene-bones';
 import { $model } from '@/modules/viewport/stores/model-store';
 import { $clips } from '../store';
+import { applyActiveModelBindOverrides } from '../utils';
 import { syncClipsToSkeleton } from './sync-clips-to-skeleton';
 
 export type RetargetScope = 'active' | 'all';
@@ -38,7 +39,7 @@ function retargetActive(
     return { clipId: null, error: result.error ?? 'Remap failed' };
   }
 
-  const newEntry = {
+  const newEntry = applyActiveModelBindOverrides({
     id: `${source.id}-retargeted`,
     name: result.clip.name,
     sourceFile: source.sourceFile,
@@ -46,17 +47,18 @@ function retargetActive(
     sourceClip: result.clip,
     status: 'ready' as const,
     error: null,
-  };
+  });
 
   const clips = [...state.clips, newEntry];
+  const duration = newEntry.clip?.duration ?? result.clip.duration;
   $clips.set({
     ...state,
     clips,
     activeClipId: newEntry.id,
     playing: false,
-    duration: newEntry.clip.duration,
+    duration,
     trimStart: 0,
-    trimEnd: newEntry.clip.duration,
+    trimEnd: duration,
   });
 
   setMixerTime(0);
@@ -101,28 +103,26 @@ function retargetAllModels(
     applyBoneRenames(scene, renames);
   }
 
-  const clips = state.clips.map((entry) => {
-    if (entry.id !== id) {
-      return entry;
-    }
-    return {
-      ...entry,
-      name: result.clip!.name,
-      clip: result.clip!,
-      sourceClip: result.clip!,
-      status: 'ready' as const,
-      error: null,
-    };
+  const remapped = applyActiveModelBindOverrides({
+    ...source,
+    name: result.clip.name,
+    clip: result.clip,
+    sourceClip: result.clip,
+    status: 'ready' as const,
+    error: null,
   });
+
+  const clips = state.clips.map((entry) => (entry.id === id ? remapped : entry));
+  const duration = remapped.clip?.duration ?? result.clip.duration;
 
   $clips.set({
     ...state,
     clips,
     activeClipId: id,
     playing: false,
-    duration: result.clip.duration,
+    duration,
     trimStart: 0,
-    trimEnd: result.clip.duration,
+    trimEnd: duration,
   });
 
   syncClipsToSkeleton(activeScene);

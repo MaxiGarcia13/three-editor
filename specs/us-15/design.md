@@ -12,12 +12,13 @@ Preview tool modes for bone/mesh editing vs whole-model placement, bind-pose per
 4. **Dirty + snapshot** — on first gizmo / Settings change, mark `$poseDirty`, set `$poseEditKind` (`modelRoot` | `selection`), and snapshot the edited object’s pre-edit local TRS so Restore works without a mixer action.
 5. **Save branching** (by `$poseEditKind`, not active tool)
    - `selection` + active ready clip → existing `saveKeyframe` / Hold Pose to End
-   - `selection` + no clip → keep Object3D TRS on the scene, clear dirty + snapshot
-   - `modelRoot` → keep `scene` translation, clear dirty + snapshot; no keyframe write
+   - `selection` + no ready clip → keep Object3D TRS on the scene; compute TRS **delta** from pre-edit snapshot → current; rebase that node’s `.position` / `.quaternion` / `.scale` tracks in every library `clip` **and** `sourceClip`; accumulate the delta per active `modelId` + node name so import / replace apply the same rebase; clear dirty + snapshot
+   - `modelRoot` → keep `scene` translation, clear dirty + snapshot; no keyframe write / no clip rebase
 6. **Restore branching**
    - `selection` + active clip → existing `restoreMixerPose`
    - `modelRoot`, or `selection` + no clip → write snapshot TRS back onto the object, clear dirty
 7. **Tool switch while dirty** — auto-Restore, then set `$editTool` (no stranded half-edit). Settings root edits while a `selection` edit is dirty also auto-Restore first (and the reverse when the gizmo starts a different kind).
+8. **Selection change while dirty** — `selectObject` / `clearSelection` call `restorePose()` **before** updating `$selection` (so snapshot still targets the edited object). Same-object re-pick is a no-op (keeps dirty + Save / Restore). Empty pick or a different bone/mesh discards the pending edit in the preview.
 
 ## UI
 
@@ -29,3 +30,11 @@ Preview tool modes for bone/mesh editing vs whole-model placement, bind-pose per
 ## Non-goals
 
 Whole-model rotate/scale; undo stack; changing US-5 pack paths beyond relying on mutated `model.scene` TRS.
+
+## Bind-pose clip rebase
+
+- Deltas are per `modelId` + node name; cleared when that model is removed or replaced
+- Position: `p' = p + Δp`; quaternion: `q' = Δq * q`; scale: `s' = s * Δs` (component-wise)
+- Import / Replace clone then apply the active model’s accumulated deltas before the entry enters the library
+- **Retarget (US-6):** after tracks are remapped to the character’s bone names, apply the same active-model bind deltas (mismatched imports cannot rebase earlier — track names do not match yet)
+- Does not change US-4 Hold Pose to End when a ready clip is active
