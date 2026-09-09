@@ -4,7 +4,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 ## Prep
 
-- [ ] Confirm single-action mixer from US-2
+- [x] Confirm single-action mixer from US-2
 - [ ] Lock export contract: bake blend to one clip on demand
 
 ## Implement
