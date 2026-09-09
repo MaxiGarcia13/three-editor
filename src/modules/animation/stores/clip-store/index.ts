@@ -1,7 +1,9 @@
 export {
   clearActiveClip,
   importClipFiles,
+  MAX_BLEND_WEIGHT,
   MAX_TIME_SCALE,
+  MIN_BLEND_WEIGHT,
   MIN_TIME_SCALE,
   pause,
   play,
@@ -12,6 +14,8 @@ export {
   retargetClip,
   saveKeyframe,
   selectClip,
+  setBlendClip,
+  setBlendWeight,
   setTimeScale,
   stop,
   syncClipsToSkeleton,

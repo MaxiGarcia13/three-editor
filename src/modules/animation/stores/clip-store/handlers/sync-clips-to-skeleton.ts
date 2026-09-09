@@ -12,6 +12,8 @@ export function syncClipsToSkeleton(skeleton: Object3D | null): void {
     $clips.set({
       ...state,
       activeClipId: null,
+      blendClipId: null,
+      blendWeight: 0,
       playing: false,
       duration: 0,
     });
@@ -38,9 +40,16 @@ export function syncClipsToSkeleton(skeleton: Object3D | null): void {
       : null;
   const active = activeClipId ? clips.find((entry) => entry.id === activeClipId) : null;
 
+  const blendClipId
+    = state.blendClipId && isReadyClip(clips.find((entry) => entry.id === state.blendClipId))
+      ? state.blendClipId
+      : null;
+
   $clips.set({
     clips,
     activeClipId,
+    blendClipId,
+    blendWeight: blendClipId ? state.blendWeight : 0,
     playing: false,
     loop: state.loop,
     duration: active?.clip?.duration ?? 0,

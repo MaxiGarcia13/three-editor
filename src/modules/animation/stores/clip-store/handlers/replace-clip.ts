@@ -59,9 +59,12 @@ export async function replaceClip(
 function applyReplacedEntry(clips: ClipEntry[], id: string, replacedIsReady: boolean): void {
   const state = $clips.get();
   const wasActive = state.activeClipId === id;
+  const wasBlend = state.blendClipId === id;
+  const blendClipId = wasBlend && !replacedIsReady ? null : state.blendClipId;
+  const blendWeight = blendClipId ? state.blendWeight : 0;
 
   if (!wasActive) {
-    $clips.setKey('clips', clips);
+    $clips.set({ ...state, clips, blendClipId, blendWeight });
     return;
   }
 
@@ -72,6 +75,8 @@ function applyReplacedEntry(clips: ClipEntry[], id: string, replacedIsReady: boo
     $clips.set({
       ...state,
       clips,
+      blendClipId,
+      blendWeight,
       playing: false,
       duration: activeDuration,
       trimStart: 0,
@@ -84,6 +89,8 @@ function applyReplacedEntry(clips: ClipEntry[], id: string, replacedIsReady: boo
   $clips.set({
     ...state,
     clips,
+    blendClipId,
+    blendWeight,
     activeClipId: null,
     playing: false,
     duration: 0,

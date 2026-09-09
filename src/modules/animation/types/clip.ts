@@ -15,6 +15,8 @@ export interface ClipEntry {
 export interface ClipLibraryState {
   clips: ClipEntry[];
   activeClipId: string | null;
+  blendClipId: string | null;
+  blendWeight: number;
   playing: boolean;
   loop: boolean;
   duration: number;

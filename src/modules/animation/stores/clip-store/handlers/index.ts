@@ -1,3 +1,4 @@
+export { MAX_BLEND_WEIGHT, MIN_BLEND_WEIGHT, setBlendClip, setBlendWeight } from './blend';
 export { clearActiveClip } from './clear-active-clip';
 export { importClipFiles } from './import-clip-files';
 export { MAX_TIME_SCALE, MIN_TIME_SCALE, pause, play, setTimeScale, stop, toggleLoop } from './playback';

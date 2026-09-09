@@ -18,8 +18,15 @@ So the dual-action work must first relax the single-action assumptions in `mixer
 ## Approach
 
 - Extend playback beyond single active action: secondary action + `crossFadeTo` / `setEffectiveWeight`
-- Sidebar: select clip A / B (or from→to), fade duration, optional weight sliders
 - Blend playback stays viewport-only until the user explicitly requests a bake (see **Export contract (locked)**)
+
+### Playback API (implemented)
+
+- `$clips` gains `blendClipId` + `blendWeight` (0..1); handlers `setBlendClip(id | null)` / `setBlendWeight(w)` in `clip-store`
+- `mixer-session` owns a **secondary action**: primary keeps `setEffectiveWeight(1 - weight)`, blend gets `weight`; suspend/resume/restore and `setMixerTime` cover both actions
+- `crossFadeToBlend(duration)` runs a native `AnimationAction.crossFadeTo` A→B from primary into the blend action
+- `useClipMixerBlend` mounts/stops the secondary action, snaps both actions to one playhead, and mirrors `blendWeight` and loop mode
+- Library hygiene: removing / replacing / invalidating the blend clip clears `blendClipId` so it never dangles
 
 ## Export contract (locked)
 

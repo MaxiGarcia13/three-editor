@@ -12,6 +12,7 @@ export function useClipMixerMount(
   scene: Group | null,
   mixerRef: RefObject<AnimationMixer | null>,
   actionRef: RefObject<AnimationAction | null>,
+  blendActionRef: RefObject<AnimationAction | null>,
 ): void {
   useEffect(() => {
     if (!scene) {
@@ -33,7 +34,8 @@ export function useClipMixerMount(
       mixer.uncacheRoot(scene);
       mixerRef.current = null;
       actionRef.current = null;
+      blendActionRef.current = null;
       setActiveMixer(null);
     };
-  }, [scene, mixerRef, actionRef]);
+  }, [scene, mixerRef, actionRef, blendActionRef]);
 }

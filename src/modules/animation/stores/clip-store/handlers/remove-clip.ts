@@ -1,3 +1,4 @@
+import type { ClipLibraryState } from '@/modules/animation/types/clip';
 import { $retargetClipId, closeRetarget } from '@/modules/animation/stores/retarget-ui-store';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
@@ -15,15 +16,28 @@ export function removeClip(id: string): void {
   }
 
   const wasActive = state.activeClipId === id;
-  if (!wasActive) {
+  const wasBlend = state.blendClipId === id;
+
+  if (!wasActive && !wasBlend) {
     $clips.setKey('clips', clips);
+    return;
+  }
+
+  const base: ClipLibraryState = {
+    ...state,
+    clips,
+    blendClipId: wasBlend ? null : state.blendClipId,
+    blendWeight: wasBlend ? 0 : state.blendWeight,
+  };
+
+  if (!wasActive) {
+    $clips.set(base);
     return;
   }
 
   const nextReady = clips.find((entry) => isReadyClip(entry));
   $clips.set({
-    ...state,
-    clips,
+    ...base,
     activeClipId: null,
     playing: false,
     duration: 0,
