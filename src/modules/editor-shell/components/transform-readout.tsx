@@ -63,7 +63,7 @@ export function TransformReadout() {
     <div className="flex flex-col gap-2">
       <Text variant="muted">Model root position</Text>
 
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-2">
         {AXES.map((axis) => (
           <Input
             key={axis}
@@ -72,7 +72,7 @@ export function TransformReadout() {
             step={0.01}
             value={enabled ? draft[axis] : '—'}
             disabled={!enabled}
-            className="min-w-0 flex-1 max-w-16"
+            className="flex-1 w-full"
             onFocus={() => setFocused(axis)}
             onChange={(event) => handleChange(axis, event.target.value)}
             onBlur={() => handleBlur(axis)}
