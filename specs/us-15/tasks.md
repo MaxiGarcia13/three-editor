@@ -12,7 +12,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] `$editTool` store (`edit` | `move`) + Edit / Move toggle in `EditorPreview` (`CursorIcon` / `MoveIcon`)
 - [x] Move mode: attach translate / world TransformControls to active model root; hide W / E / R; gate raycast
 - [x] Pre-edit TRS snapshot on first dirty; Restore without mixer when no active clip or in Move mode
-- [ ] Save branches: bind-pose commit (no clip), Hold Pose to End (active clip + Edit), root translation commit (Move)
+- [x] Save branches: bind-pose commit (no clip), Hold Pose to End (active clip + Edit), root translation commit (Move)
 - [ ] Auto-Restore on Edit ↔ Move switch while dirty
 - [ ] Show Save / Restore whenever dirty (both tools)
 - [ ] Settings General: live X / Y / Z position readout (model root in Move; selection local position in Edit)
