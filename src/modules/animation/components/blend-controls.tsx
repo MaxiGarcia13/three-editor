@@ -2,15 +2,18 @@ import { debounce } from '@maxigarcia/js-utils';
 
 import { useStore } from '@nanostores/react';
 import { useEffect, useRef, useState } from 'react';
+import { Button } from '@/components/button';
 import { Input } from '@/components/input/input';
 import { Text } from '@/components/text';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import {
   $clips,
+  bakeBlend,
   isReadyClip,
   MAX_BLEND_FADE_DURATION,
   MAX_BLEND_WEIGHT,
   MIN_BLEND_FADE_DURATION,
+  resetBlend,
   setBlendClip,
   setBlendFadeDuration,
   setBlendWeight,
@@ -38,7 +41,7 @@ export function BlendControls() {
 
   useEffect(() => {
     setDraftWeight($clips.get().blendWeight);
-  }, [blendClipId]);
+  }, [blendClipId, blendWeight]);
 
   const activeEntry = clips.find((entry) => entry.id === activeClipId);
   const canBlend = scene !== null && isReadyClip(activeEntry);
@@ -46,22 +49,19 @@ export function BlendControls() {
     (entry) => isReadyClip(entry) && entry.id !== activeClipId,
   );
   const blendEnabled = canBlend && blendClipId !== null;
+  const canBake = blendEnabled && blendWeight > 0;
+  const canReset = blendClipId !== null || blendWeight > 0;
 
   if (!canBlend) {
     return (
-      <div className="flex flex-col gap-1">
-        <Text variant="muted">Blend</Text>
-        <Text as="p" variant="muted">
-          Select an animation to blend or fade with another clip.
-        </Text>
-      </div>
+      <Text as="p" variant="muted">
+        Select an animation to blend or fade with another clip.
+      </Text>
     );
   }
 
   return (
-    <div className="flex flex-col gap-3">
-      <Text variant="muted">Blend</Text>
-
+    <div className="flex flex-col gap-4">
       <label className="flex flex-col gap-1">
         <Text variant="muted">Blend Clip</Text>
         <select
@@ -113,6 +113,26 @@ export function BlendControls() {
         onChange={(event) => setBlendFadeDuration(Number(event.currentTarget.value))}
         disabled={!blendEnabled}
       />
+
+      <div className="flex flex-wrap items-center gap-2">
+        <Button
+          onClick={() => resetBlend()}
+          disabled={!canReset}
+          variant="ghost"
+          className="px-3 flex-1"
+        >
+          Reset
+        </Button>
+        <Button
+          onClick={() => bakeBlend()}
+          disabled={!canBake}
+          variant="primary"
+          className="px-3 flex-1"
+        >
+          Bake
+        </Button>
+
+      </div>
     </div>
   );
 }

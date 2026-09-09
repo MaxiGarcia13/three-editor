@@ -1,4 +1,5 @@
 export {
+  bakeBlend,
   clearActiveClip,
   importClipFiles,
   MAX_BLEND_FADE_DURATION,
@@ -12,6 +13,7 @@ export {
   removeClip,
   renameClip,
   replaceClip,
+  resetBlend,
   restorePose,
   retargetClip,
   saveKeyframe,

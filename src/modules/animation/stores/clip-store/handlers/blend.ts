@@ -36,53 +36,18 @@ function bakeAtWeight(
   return bakeBlendClip(primaryForBake, secondaryForBake, weight);
 }
 
-/** Write the current blend settings into the active library clip. */
-function commitBlendToActive(): void {
-  const state = $clips.get();
-  const active = state.clips.find((entry) => entry.id === state.activeClipId);
-  if (!isReadyClip(active)) {
-    return;
-  }
-
-  const base = state.blendBaseClip ?? active.clip;
-
-  if (!state.blendClipId || state.blendWeight <= 0) {
-    if (state.blendBaseClip) {
-      const restored = state.blendBaseClip.clone();
-      restored.name = active.name;
-      $clips.set({
-        ...state,
-        clips: state.clips.map((entry) =>
-          entry.id === active.id ? { ...entry, clip: restored } : entry,
-        ),
-        duration: restored.duration,
-        trimEnd: restored.duration,
-      });
-      restoreMixerPose();
-    }
-    return;
-  }
-
-  const secondary = state.clips.find((entry) => entry.id === state.blendClipId);
-  if (!isReadyClip(secondary)) {
-    return;
-  }
-
-  const baked = bakeAtWeight(base, secondary.clip, state.blendWeight);
-  baked.name = active.name;
-
+function clearBlendForm(extra?: Partial<ReturnType<typeof $clips.get>>): void {
+  cancelBlendFade();
   $clips.set({
-    ...state,
-    clips: state.clips.map((entry) =>
-      entry.id === active.id ? { ...entry, clip: baked } : entry,
-    ),
-    duration: baked.duration,
-    trimEnd: baked.duration,
+    ...$clips.get(),
+    ...extra,
+    blendClipId: null,
+    blendWeight: 0,
+    blendBaseClip: null,
   });
-  restoreMixerPose();
 }
 
-/** Select the secondary clip for the blend overlay; null clears it. */
+/** Select the secondary clip for the blend overlay; null clears it (live preview only). */
 export function setBlendClip(id: string | null): void {
   const state = $clips.get();
   if (id) {
@@ -95,29 +60,12 @@ export function setBlendClip(id: string | null): void {
   cancelBlendFade();
 
   if (!id) {
-    const active = state.clips.find((entry) => entry.id === state.activeClipId);
-    if (state.blendBaseClip && isReadyClip(active)) {
-      const restored = state.blendBaseClip.clone();
-      restored.name = active.name;
-      $clips.set({
-        ...state,
-        clips: state.clips.map((entry) =>
-          entry.id === active.id ? { ...entry, clip: restored } : entry,
-        ),
-        blendClipId: null,
-        blendWeight: 0,
-        blendBaseClip: null,
-        duration: restored.duration,
-        trimEnd: restored.duration,
-      });
-    } else {
-      $clips.set({
-        ...state,
-        blendClipId: null,
-        blendWeight: 0,
-        blendBaseClip: null,
-      });
-    }
+    $clips.set({
+      ...state,
+      blendClipId: null,
+      blendWeight: 0,
+      blendBaseClip: null,
+    });
     restoreMixerPose();
     return;
   }
@@ -133,21 +81,14 @@ export function setBlendClip(id: string | null): void {
     blendWeight: nextWeight,
     blendBaseClip,
   });
-
-  if (nextWeight > 0) {
-    commitBlendToActive();
-  }
 }
 
-/** Lerp to the new weight over the current Fade (s) duration (0 = instant). */
+/** Lerp to the new weight over the current Fade (s) duration (0 = instant). Viewport only. */
 export function setBlendWeight(weight: number): void {
   const clamped = Math.min(Math.max(weight, MIN_BLEND_WEIGHT), MAX_BLEND_WEIGHT);
   const duration = $clips.get().blendFadeDuration;
   fadeBlendWeightTo(clamped, duration, (next) => {
     $clips.setKey('blendWeight', next);
-    if (Math.abs(next - clamped) < 1e-6) {
-      commitBlendToActive();
-    }
   });
 }
 
@@ -157,4 +98,49 @@ export function setBlendFadeDuration(duration: number): void {
     MAX_BLEND_FADE_DURATION,
   );
   $clips.setKey('blendFadeDuration', clamped);
+}
+
+/**
+ * Bake the live blend into the active library clip, then reset the blend form.
+ * Sources stay unchanged; the active clip receives the flattened result.
+ */
+export function bakeBlend(): void {
+  const state = $clips.get();
+  const active = state.clips.find((entry) => entry.id === state.activeClipId);
+  if (!isReadyClip(active) || !state.blendClipId || state.blendWeight <= 0) {
+    return;
+  }
+
+  const secondary = state.clips.find((entry) => entry.id === state.blendClipId);
+  if (!isReadyClip(secondary)) {
+    return;
+  }
+
+  const base = state.blendBaseClip ?? active.clip;
+  const baked = bakeAtWeight(base, secondary.clip, state.blendWeight);
+  baked.name = active.name;
+
+  clearBlendForm({
+    clips: state.clips.map((entry) =>
+      entry.id === active.id ? { ...entry, clip: baked } : entry,
+    ),
+    playing: false,
+    duration: baked.duration,
+    trimStart: 0,
+    trimEnd: baked.duration,
+  });
+  restoreMixerPose();
+}
+
+/** Discard live blend overlay and reset the form without writing the active clip. */
+export function resetBlend(): void {
+  const state = $clips.get();
+  cancelBlendFade();
+  $clips.set({
+    ...state,
+    blendClipId: null,
+    blendWeight: 0,
+    blendBaseClip: null,
+  });
+  restoreMixerPose();
 }
