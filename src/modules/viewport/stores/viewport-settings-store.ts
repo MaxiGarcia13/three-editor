@@ -10,7 +10,7 @@ export interface ViewportSettingsState {
 }
 
 export const $viewportSettings = map<ViewportSettingsState>({
-  axesVisible: true,
+  axesVisible: false,
   axesSize: AXES_SIZE,
 });
 
