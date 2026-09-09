@@ -21,7 +21,7 @@ export function RetargetPanelHeader({
         Map each clip bone to a character bone. Short names are for reading;
         full ids stay on the tracks. Apply is still required.
       </Text>
-      <Text as="p" variant="error" className="break-words">
+      <Text as="p" variant="error" className="wrap-break-word">
         Mismatch:
         {' '}
         {mismatch}
