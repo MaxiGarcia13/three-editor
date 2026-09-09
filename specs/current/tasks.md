@@ -79,11 +79,18 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] `SelectionNameOverlay` reads `$selection` and shows `Object3D.name`
 - [x] Mounted in `EditorPreview` as a non-interactive floating label; hidden when nothing selected
 
+## US-12 — Rename library entries
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] `renameModel` / `renameClip` store handlers (stable ids; clip syncs embedded `AnimationClip.name`; empty names rejected)
+- [x] `AssetEntry` inline rename (Finder-style basename select; restore `.glb`/`.gltf` if omitted on commit)
+- [x] Wired from `ModelLibrary` and `ClipLibrary`; zip basenames follow renames
+
 ## Open deltas
 
 | US                                   | Status                | Tasks                                       |
 | ------------------------------------ | --------------------- | ------------------------------------------- |
-| **US-12** — Rename library entries   | not started           | [`specs/us-12/tasks.md`](../us-12/tasks.md) |
 | **US-6** — Cross-rig retargeting     | post-MVP, not started | [`specs/us-6/tasks.md`](../us-6/tasks.md)   |
 | **US-7** — Multi-clip blending       | post-MVP, not started | [`specs/us-7/tasks.md`](../us-7/tasks.md)   |
 | **US-8** — Morph-target editing      | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md)   |

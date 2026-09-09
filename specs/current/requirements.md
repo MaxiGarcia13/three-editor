@@ -92,21 +92,21 @@ As an editor user, when I click a bone or part of the model, I can see its name 
 - [x] The label updates when the selection changes and is hidden when there is no selection
 - [x] The overlay is non-interactive (`pointer-events-none`) and does not block orbit, picking, or the transform-mode toolbar
 
-## Open deltas (not started)
-
-Deltas under `specs/us-<n>/`. Do not implement until explicitly kicked off.
-
 ### US-12 — Rename library entries
 
 As an editor user, I can rename a model or animation in the library so labels and exported filenames match what I intend.
 
 **Acceptance**
 
-- [ ] Rename model and clip library entries; labels update in sidebar and clip selector
-- [ ] Stable entry ids; clip rename syncs embedded `AnimationClip.name`; zip basenames follow renames
-- [ ] Empty names rejected; clip `sourceFile` provenance unchanged
-
-See [`specs/us-12/`](../us-12/).
+- [x] User can rename any model library entry; the new name appears in the sidebar and as the previewed-row label
+- [x] User can rename any clip library entry (ready or errored); the new name appears in the sidebar, the active-clip selector, and related chrome that shows `ClipEntry.name`
+- [x] Entry `id` stays stable across rename (selection, replace, retarget, and mixer bindings must not break)
+- [x] Clip rename updates `ClipEntry.name` and, when present, `AnimationClip.name` on both the working `clip` and `sourceClip` so exported GLB animation metadata matches the library label
+- [x] Model rename updates `ModelEntry.fileName` (the field used for display and zip naming)
+- [x] Clip `sourceFile` stays the original import file name (provenance); rename does not rewrite it
+- [x] Empty or whitespace-only names are rejected; the previous name is kept
+- [x] Zip export (US-5) uses the renamed values for `{model}.glb` / `{clip}.glb` basenames (existing extension strip + collision suffix still apply)
+- [x] Rename is keyboard-operable and labelled (NFR-4)
 
 ## Post-MVP user stories
 
