@@ -71,7 +71,7 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
    - **This model** — new ready clip remapped to the previewed skeleton; **keep** the source clip
    - **All models** — remap the clip to the mapping’s target names, **replace** the source library entry, and **normalize bone names on every loaded model** to those targets (resolve via the same vendor suggest path). Fail if any model cannot resolve every mapped source bone
 6. Incomplete maps never write a clip; failures leave a clear error and do not corrupt pose
-7. After a successful remap, apply the previewed model’s accumulated **bind-pose deltas** (US-15) to the remapped tracks — mismatched imports cannot rebase on import because track names still use the source rig
+7. After a successful remap, apply the previewed model’s accumulated **bind-pose deltas** to the remapped tracks — mismatched imports cannot rebase on import because track names still use the source rig
 
 ### Bone registry (vendor adapters)
 
@@ -105,15 +105,35 @@ Playback uses `mixer.timeScale` only. On export, **bake** the current speed into
 ## Keyframe write (US-4)
 
 1. Pause (or scrub) so the timeline playhead is the target timestamp
-2. Raycast → select bone or mesh; attach TransformControls
-3. Editing the selection with TransformControls marks pose dirty; “Hold Pose to End” and “Restore Pose” appear in the preview overlay only while dirty
-4. On hold:
+2. Raycast → select bone or mesh; attach TransformControls (Edit tool)
+3. Editing the selection with TransformControls marks pose dirty; Save / Restore appear in the preview overlay only while dirty (Hold Pose to End copy when an active ready clip drives the save)
+4. On hold (active ready clip):
    - Read selection local position, quaternion, scale
    - Find or create `VectorKeyframeTrack` / `QuaternionKeyframeTrack` for that node on the active clip
    - Write a hold plateau from clip-local playhead `t` through `duration` (sample at `t` and at `duration`; remove keys strictly inside); do not extend clip duration. Scrub + edit + hold again later overwrites from the new playhead forward
    - Clear pose dirty
-5. Restore: resume mixer bindings and re-apply the clip at the current playhead (discard unsaved gizmo edit)
+5. Restore with an active clip: resume mixer bindings and re-apply the clip at the current playhead (discard unsaved gizmo edit)
 6. After hold, rebind / update the mixer action at that same clip-local time so the edit is audible on next play
+
+Bind-pose / Move / T-pose Save–Restore branching: see **Edit / Move tools & bind pose (US-15)** below.
+
+## Edit / Move tools & bind pose (US-15)
+
+1. **`$editTool`** (`'edit' | 'move'`, default `'edit'`) — toggle in `EditorPreview` with `CursorIcon` / `MoveIcon` when a model is loaded
+2. **Edit** — raycast selection + TransformControls in local space; W / E / R when something is selected; works with **no** active clip (T-pose)
+3. **Move** — attach translate / world TransformControls to the active model root; hide W / E / R; ignore raycast picks so the user stays on the root
+4. **Dirty + snapshot** — on first gizmo / Settings root change, mark `$poseDirty`, set `$poseEditKind` (`modelRoot` | `selection`), snapshot pre-edit local TRS
+5. **Save** (by `$poseEditKind`, not active tool)
+   - `selection` + active ready clip → US-4 Hold Pose to End
+   - `selection` + no ready clip → keep Object3D TRS; rebase that node’s tracks in every library `clip` / `sourceClip` by pre-edit → current delta; accumulate per `modelId` + node name for import / replace / post-retarget; refresh rest-pose snapshot; clear dirty
+   - `modelRoot` → keep `scene` translation; refresh rest-pose snapshot; no keyframe write / no clip rebase
+6. **Restore** — `selection` + active clip → `restoreMixerPose`; otherwise write snapshot TRS back onto the object
+7. Tool switch or Settings/gizmo kind change while dirty → auto-Restore first. Selection change / clear while dirty → `restorePose()` before updating `$selection`
+8. **Settings General** — live editable X / Y / Z for model root position (independent of tool); same dirty / Save / Restore path as Move
+9. **T-pose** in Active Clip dropdown — `activeClipId: null`; clears clip and applies captured rest / bind pose (snapshot at mixer mount; refreshed on bind-pose or model-root Save). Skeleton sync does not auto-select a ready clip when already on T-pose
+10. **Bind-pose deltas** — per `modelId` + node name; cleared on model remove/replace. Position `p' = p + Δp`; quaternion `q' = Δq * q`; scale `s' = s * Δs`. Import / Replace / retarget apply accumulated overrides for the active model
+
+Out of scope: whole-model rotate/scale in Move; multi-model simultaneous transform; full undo stack (US-10).
 
 ## Selection name overlay (US-13)
 
@@ -125,17 +145,18 @@ Playback uses `mixer.timeScale` only. On export, **bake** the current speed into
 
 1. `$viewportSettings` (`nanostores` `map`) in `viewport/stores/viewport-settings-store.ts`: `{ axesVisible, axesSize }` with setters; defaults `true` / `AXES_SIZE` (`10`); clamp size to `1`–`50`
 2. Settings sidebar **General** section (above Animation) hosts checkbox + metres `Input` (`WorldAxesControls`) — not library sidebar or preview chrome
-3. `ViewportCanvas` mounts `<WorldAxes axesSize={…} />` only when `axesVisible`; `WorldAxes` rebuilds tick geometry from `axesSize` at runtime (major/minor steps stay in `viewport/constants/world-axes`)
-4. Session-only — no persistence. Out of scope: ground-grid toggle, tick-step UI, unit system changes
+3. General also hosts live editable **model root** X / Y / Z (`TransformReadout`) whenever a model is loaded — independent of Edit / Move (US-15)
+4. `ViewportCanvas` mounts `<WorldAxes axesSize={…} />` only when `axesVisible`; `WorldAxes` rebuilds tick geometry from `axesSize` at runtime (major/minor steps stay in `viewport/constants/world-axes`)
+5. Session-only — no persistence. Out of scope: ground-grid toggle, tick-step UI, unit system changes
 
 ## Viewport
 
 - Full-bleed R3F `Canvas` with lights; orbit / pan / zoom via `OrbitControls`
 - World XYZ axes at the origin with metre rulers on +X/+Y (major `Nm`, minor `0.1` ticks; length from `$viewportSettings.axesSize`; toggle via Settings → General)
 - Dark infinite ground grid at `y = 0` (1 m cells, stronger section lines; `viewport/constants/ground-grid`) plus soft contact shadow under the model (`ContactShadows`)
-- TransformControls for selected object; modes translate / rotate / scale via preview toolbar + W / E / R (default translate); gizmo space is local; dragging pauses playback and suspends mixer bindings so tracks cannot overwrite the pose
+- Edit / Move tool toggle when a model is loaded; TransformControls for selection (Edit) or model root (Move); Edit modes translate / rotate / scale via preview toolbar + W / E / R (default translate, local space); Move is translate / world only; dragging pauses playback and suspends mixer bindings so tracks cannot overwrite the pose
 - Collapsible sidebar docks beside the canvas (`editor-shell`); collapse/expand with labelled chevron controls
-- Preview chrome hosts playback + transform mode toolbar (when selected) + selection name overlay + dirty-only save/restore pose controls (not the settings sidebar)
+- Preview chrome hosts playback + Edit/Move tools + transform mode toolbar (Edit + selection) + selection name overlay + dirty-only Save / Restore (not the settings sidebar)
 
 ## Export (US-5)
 
