@@ -11,9 +11,16 @@ interface CollapsibleAsideProps {
   title: string;
   direction: 'left' | 'right';
   className?: string;
+  contentClassName?: string;
 }
 
-export function CollapsibleAside({ children, direction, title, className }: CollapsibleAsideProps) {
+export function CollapsibleAside({
+  children,
+  direction,
+  title,
+  className,
+  contentClassName,
+}: CollapsibleAsideProps) {
   const isMobile = isMobileViewport();
 
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
@@ -56,7 +63,7 @@ export function CollapsibleAside({ children, direction, title, className }: Coll
         title={title}
       />
 
-      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+      <div className={cn('flex-1 overflow-y-auto p-4 flex flex-col gap-6', contentClassName)}>
         {children}
       </div>
     </aside>
