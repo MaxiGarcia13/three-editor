@@ -27,7 +27,7 @@ flowchart LR
 | Model GLB/GLTF     | Skinned mesh + skeleton; many in the session, **one** previewed in the viewport       |
 | Animation GLB/GLTF | Source of `AnimationClip`s only; mesh payload ignored or discarded after clip extract |
 
-Clips are a **shared** library. They bind to the **previewed** model. Track names must resolve to bones/nodes on that skeleton. Mismatch → user-visible error (no retarget). Switching the previewed model re-validates every clip against the new skeleton.
+Clips are a **shared** library. They bind to the **previewed** model. Track names must resolve to bones/nodes on that skeleton. Mismatch → user-visible error; explicit retarget flow (US-6). Switching the previewed model re-validates every clip against the new skeleton.
 
 ## Model load (US-11)
 
@@ -55,11 +55,32 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 ## Animation import
 
 1. User selects one or more `.glb` / `.gltf` files; adapter loads each and collects `animations` into library entries (stable id + display name + clip) — file meshes are never shown
-2. Validate each clip's track targets against the loaded character node/skeleton map; missing/unknown bones → the entry is marked errored with user-visible copy (no retargeting, no automatic vendor prefix rewriting)
+2. Validate each clip's track targets against the loaded character node/skeleton map; missing/unknown bones → the entry is marked errored with user-visible copy (no silent remap; no automatic vendor prefix rewriting in playback)
 3. Re-validate entries when the previewed model changes, is replaced, or is removed so stale clips are never silently played on a mismatched rig (`syncClipsToSkeleton`)
-4. Sidebar **library** lists each entry with Replace / Remove / Rename (same pattern as the model row). Replace re-picks one file and updates **that** entry only (first clip in the file; keep the entry id). Remove drops the entry; if it was active, select the next ready clip or clear selection
+4. Sidebar **library** lists each entry with Replace / Remove / Rename (same pattern as the model row). Replace re-picks one file and updates **that** entry only (first clip in the file; keep the entry id). Remove drops the entry; if it was active, select the next ready clip or clear selection. Errored clips that still have a working `AnimationClip` offer **Retarget**
 5. Preview chrome owns active-clip selection plus Play / Pause / Stop / loop and the scrubber; those controls stay disabled until a model is previewed and at least one valid clip exists for that skeleton
 6. Preview layout: viewport fills remaining height (`flex-1 min-h-0`); playback bar is a shrink-to-content footer under the canvas (not a fixed magic height overlapping the scene)
+
+## Cross-rig retargeting (US-6)
+
+1. Detect mismatch (unknown track targets vs character bone names) — same US-2 validation path
+2. Library **Retarget** on errored clips opens a **modal** (`$retargetClipId`); Settings aside stays available; Cancel / overlay / Escape closes
+3. Mapping UI: clip bone → character bone, with registry suggestions, mapped/unmapped status, progress, and “show unmapped only”. UI shows short vendor labels (e.g. `Hips`); hover/`title` keeps the raw id. Mapping values and remapped tracks always use real bone names
+4. Target dropdown lists **skeleton bones only** (not meshes / scene roots)
+5. Apply scope (explicit):
+   - **This model** — new ready clip remapped to the previewed skeleton; **keep** the source clip
+   - **All models** — remap the clip to the mapping’s target names, **replace** the source library entry, and **normalize bone names on every loaded model** to those targets (resolve via the same vendor suggest path). Fail if any model cannot resolve every mapped source bone
+6. Incomplete maps never write a clip; failures leave a clear error and do not corrupt pose
+
+### Bone registry (vendor adapters)
+
+- **Core** (`bone-registry.ts`) is vendor-blind: exact name match, then first confident suggestion from registered adapters, then `buildAutoMapping` / `buildTargetBoneNames` / `boneDisplayName`
+- **Adapters** implement `BoneVendorAdapter` (`types/bone-vendor.ts`): `suggest` + `displayName`. Each vendor is a separate module under `services/bone-vendors/`
+- Playback / mixer / remap never import vendor strings — only resolved target names
+- Composition: `services/bone-vendors/index.ts` lists adapters. Add/remove a vendor by editing that list only
+- `mixamo` adapter: prefixes `mixamorig:` / `mixamorig` (longest first); strip leading digits after the prefix; alias local names to project convention where they differ; UI `displayName` is the local bone
+
+Suggestions autofill the mapping UI only; Apply is still required (no silent retarget on import).
 
 ## Rename library entries (US-12)
 

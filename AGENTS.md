@@ -42,5 +42,5 @@ See [`.cursor/rules/plan-before-implementing.mdc`](.cursor/rules/plan-before-imp
 
 ## Post-MVP / still excluded
 
-- Post-MVP stories **US-6…US-10** (retargeting, blending, morphs, curve UI, undo) live under `specs/us-6/` … `specs/us-10/` — do not start unless explicitly kicked off
+- Post-MVP stories **US-7…US-10** (blending, morphs, curve UI, undo) live under `specs/us-7/` … `specs/us-10/` — do not start unless explicitly kicked off
 - Still excluded: material/texture editing, server accounts, collab — see [`specs/current/requirements.md`](specs/current/requirements.md)

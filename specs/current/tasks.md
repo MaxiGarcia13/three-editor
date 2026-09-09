@@ -87,11 +87,19 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] `AssetEntry` inline rename (Finder-style basename select; restore `.glb`/`.gltf` if omitted on commit)
 - [x] Wired from `ModelLibrary` and `ClipLibrary`; zip basenames follow renames
 
+## US-6 — Cross-rig retargeting
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] Bone / track alias registry + vendor adapters (`bone-vendors/`); suggestions only — Apply required
+- [x] Retarget modal + mapping UI; This model | All models apply scope
+- [x] Clip remap → playable working clip; incomplete maps error without corrupting pose
+- [x] Library Retarget on mismatched clips (including after previewed-model switch)
+
 ## Open deltas
 
 | US                                   | Status                | Tasks                                       |
 | ------------------------------------ | --------------------- | ------------------------------------------- |
-| **US-6** — Cross-rig retargeting     | post-MVP, not started | [`specs/us-6/tasks.md`](../us-6/tasks.md)   |
 | **US-7** — Multi-clip blending       | post-MVP, not started | [`specs/us-7/tasks.md`](../us-7/tasks.md)   |
 | **US-8** — Morph-target editing      | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md)   |
 | **US-9** — Graph / curve keyframe UI | post-MVP, not started | [`specs/us-9/tasks.md`](../us-9/tasks.md)   |

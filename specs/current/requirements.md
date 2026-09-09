@@ -108,20 +108,26 @@ As an editor user, I can rename a model or animation in the library so labels an
 - [x] Zip export (US-5) uses the renamed values for `{model}.glb` / `{clip}.glb` basenames (existing extension strip + collision suffix still apply)
 - [x] Rename is keyboard-operable and labelled (NFR-4)
 
-## Post-MVP user stories
-
-Deltas exist under `specs/us-6/` … `specs/us-10/`. Not started; do not implement until explicitly kicked off (typically after US-1…US-5 ship).
-
 ### US-6 — Cross-rig retargeting
 
 As an editor user, I can apply an animation authored for a different rig to my loaded character via an explicit retarget mapping.
 
 **Acceptance**
 
-- [ ] Retarget flow when imported tracks do not match the character skeleton
-- [ ] Mapping is explicit (suggestions OK; silent remap forbidden)
-- [ ] Vendor prefixes only via a documented registry
-- [ ] Retargeted clips become playable working clips; failures do not corrupt pose
+- [x] User can open a retarget flow when imported clip tracks do not match the character skeleton
+- [x] Mapping is explicit (auto-suggest allowed; silent remap without confirmation is forbidden)
+- [x] Vendor bone prefixes (e.g. Mixamo) are handled only via a documented registry / mapping table — no hardcoded one-off string hacks in playback code
+- [x] Successfully retargeted clips become playable working clips in the library
+- [x] Failed or incomplete mappings leave a clear error and do not corrupt the character pose
+- [x] Retarget mapping UI opens in a modal (Settings aside stays available)
+- [x] After switching the previewed model, clips that no longer match show Fix / Retarget for that character
+- [x] **This model** apply: new ready clip for the current character; source clip kept
+- [x] **All models** apply: one remapped library clip (source replaced) and every loaded model’s bones renamed to the mapping targets; fail clearly if a model cannot resolve the map
+- [x] Apply UI offers an explicit This model / All models choice (no silent all-model normalize)
+
+## Post-MVP user stories
+
+Deltas exist under `specs/us-7/` … `specs/us-10/`. Not started; do not implement until explicitly kicked off.
 
 ### US-7 — Multi-clip blending
 
