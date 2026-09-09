@@ -24,6 +24,6 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 Do not start remaining items until explicitly kicked off. Tick only after acceptance.
 
 - [x] Retarget UI opens in a modal (not the Settings aside); Cancel / overlay closes
-- [ ] When the previewed model makes a clip mismatch, offer Fix / Retarget (library + after model switch)
-- [ ] Apply adds a new ready clip for the current character; leave the source clip in the library (needed when the same clip still matches another model)
-- [ ] Verify: Model A ready + Model B error → fix for B → both clips remain; A still plays on A
+- [x] When the previewed model makes a clip mismatch, offer Fix / Retarget (library + after model switch)
+- [x] Apply adds a new ready clip for the current character; leave the source clip in the library (needed when the same clip still matches another model)
+- [x] Verify: Model A ready + Model B error → fix for B → both clips remain; A still plays on A

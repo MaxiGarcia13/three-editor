@@ -19,8 +19,8 @@ As an editor user, I can apply an animation authored for a different rig to my l
 ## Follow-up acceptance (not started)
 
 - [x] Retarget mapping UI opens in a modal (Settings aside stays available)
-- [ ] After switching the previewed model, clips that no longer match show Fix / Retarget for that character
-- [ ] Apply produces a new ready clip for the current character and keeps the source clip (so a clip that still matches another model is not deleted)
+- [x] After switching the previewed model, clips that no longer match show Fix / Retarget for that character
+- [x] Apply produces a new ready clip for the current character and keeps the source clip (so a clip that still matches another model is not deleted)
 
 ## Out of scope for this delta
 
