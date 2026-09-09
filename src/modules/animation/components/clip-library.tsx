@@ -60,16 +60,18 @@ export function ClipLibrary() {
             onRemove={() => removeClip(entry.id)}
             replaceDisabled={scene === null}
             primaryAction={
-              canRetarget ? (
-                <Button
-                  onClick={() => openRetarget(entry.id)}
-                  variant="primary"
-                  className="px-2"
-                  disabled={isRetargeting}
-                >
-                  {isRetargeting ? 'Retargeting…' : 'Retarget'}
-                </Button>
-              ) : undefined
+              canRetarget
+                ? (
+                    <Button
+                      onClick={() => openRetarget(entry.id)}
+                      variant="primary"
+                      className="px-2"
+                      disabled={isRetargeting}
+                    >
+                      {isRetargeting ? 'Retargeting…' : 'Retarget'}
+                    </Button>
+                  )
+                : undefined
             }
           />
         );

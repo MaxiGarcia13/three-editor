@@ -18,7 +18,6 @@ Explicit retarget of foreign `AnimationClip` tracks onto the loaded character sk
 
 ## Registry (vendor adapters)
 
-
 - **Core** (`bone-registry.ts`) is vendor-blind: exact name match, then first confident suggestion from registered adapters, then `buildAutoMapping` / `buildTargetBoneNames` / `boneDisplayName`
 - **Adapters** implement `BoneVendorAdapter` (`types/bone-vendor.ts`): `suggest` + `displayName`. Each vendor is a separate module under `services/bone-vendors/`
 - Playback / mixer / remap never import vendor strings — only resolved target names

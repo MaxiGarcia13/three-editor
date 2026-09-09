@@ -82,6 +82,22 @@ As an editor user, I can keep several character GLBs in the session and choose w
 - [x] Removing the previewed model selects another loaded model, or empty state if none remain
 - [x] Clip import still requires a previewed model
 
+## Open deltas (not started)
+
+Deltas under `specs/us-<n>/`. Do not implement until explicitly kicked off.
+
+### US-12 — Rename library entries
+
+As an editor user, I can rename a model or animation in the library so labels and exported filenames match what I intend.
+
+**Acceptance**
+
+- [ ] Rename model and clip library entries; labels update in sidebar and clip selector
+- [ ] Stable entry ids; clip rename syncs embedded `AnimationClip.name`; zip basenames follow renames
+- [ ] Empty names rejected; clip `sourceFile` provenance unchanged
+
+See [`specs/us-12/`](../us-12/).
+
 ## Post-MVP user stories
 
 Deltas exist under `specs/us-6/` … `specs/us-10/`. Not started; do not implement until explicitly kicked off (typically after US-1…US-5 ship).

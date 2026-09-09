@@ -53,7 +53,7 @@ export function validateClipAgainstSkeleton(
       valid: false,
       error:
         count === 1
-          ? "1 track doesn't match this model"
+          ? '1 track doesn\'t match this model'
           : `${count} tracks don't match this model`,
     };
   }
