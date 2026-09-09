@@ -1,5 +1,4 @@
 import type { AnimationClip } from 'three';
-
 import { bakeBlendClip } from '@/modules/animation/services/blend-bake';
 import {
   cancelBlendFade,
