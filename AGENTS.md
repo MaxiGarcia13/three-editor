@@ -42,5 +42,6 @@ See [`.cursor/rules/plan-before-implementing.mdc`](.cursor/rules/plan-before-imp
 
 ## Post-MVP / still excluded
 
+- Open delta **US-16** (FBX import via convert API) lives under [`specs/us-16/`](specs/us-16/) — do not start unless explicitly kicked off
 - Post-MVP stories **US-8…US-10** (morphs, curve UI, undo) live under `specs/us-8/` … `specs/us-10/` — do not start unless explicitly kicked off
 - Still excluded: material/texture editing, server accounts, collab — see [`specs/current/requirements.md`](specs/current/requirements.md)

@@ -173,6 +173,21 @@ As an editor user, I can create a new animation from scratch or use an uploaded 
 - [x] Unsaved pose edits discard on reselect; Hold Pose to End commits into the active clip
 - [x] Export: discrete library clips only — live `blendClipId` / `blendWeight` are not packed; Bake must run first for a mix to appear in the zip (US-5)
 
+### US-16 — FBX import via convert API
+
+As an editor user, I can upload a `.fbx` model or animation file and have it converted to GLB so it loads like any other library asset.
+
+Delta: [`specs/us-16/`](../us-16/). Not started; do not implement until explicitly kicked off.
+
+**Acceptance**
+
+- [ ] Model import and Replace accept `.fbx` in addition to `.glb` / `.gltf`
+- [ ] Clip import and Replace accept `.fbx` in addition to `.glb` / `.gltf`
+- [ ] `.fbx` files are converted via `POST /api/fbx-to-glb` **before** skeleton / clip validation; `.glb` / `.gltf` stay local (no convert hop)
+- [ ] After convert, library entry names use `{basename}.glb` so rename and zip export stay unchanged
+- [ ] Convert / oversize / non-fbx failures are user-visible (same surfaces as a bad GLB: model `error`, clip failed entry)
+- [ ] Convert API is a Vercel Node serverless function (`@astrojs/vercel`, not Edge); request body cap matches Vercel’s payload limit (typically 4.5MB)
+
 ## Post-MVP user stories
 
 Deltas exist under `specs/us-8/` … `specs/us-10/`. Not started; do not implement until explicitly kicked off.
@@ -207,7 +222,7 @@ As an editor user, I can undo and redo animation edits within the session.
 
 ## Non-functional requirements
 
-- **NFR-1 Modular domains:** Logic lives under `src/modules/<domain>/` (`editor-shell`, `viewport`, `animation`, `export`); pages stay thin
+- **NFR-1 Modular domains:** Logic lives under `src/modules/<domain>/` (`editor-shell`, `viewport`, `animation`, `export`; `import` when US-16 ships); pages stay thin
 - **NFR-2 Layering:** No Three.js / R3F / Tailwind inside pure `services/` or `utils/`
 - **NFR-3 Island boundary:** Canvas and editor interactivity hydrate as a client React island; Astro owns the static shell
 - **NFR-4 Accessibility:** Sidebar controls are keyboard-operable and properly labelled
@@ -216,6 +231,7 @@ As an editor user, I can undo and redo animation edits within the session.
 ## Out of scope (still excluded)
 
 - Material / texture editing
-- Server-side processing or accounts
+- Server accounts (FBX convert via US-16 is the allowed server round-trip; no user accounts)
 - Collaborative editing / durable undo across reloads
 - Full NLA strip editorial beyond US-7 blend/cross-fade
+- FBX larger than Vercel’s function payload (typically 4.5MB) until a later blob / chunked upload

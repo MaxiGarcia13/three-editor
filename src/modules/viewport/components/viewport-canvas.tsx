@@ -1,5 +1,4 @@
 import type { OrbitControlsRef } from './model-framing';
-import { useStore } from '@nanostores/react';
 import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useRef } from 'react';
@@ -9,7 +8,6 @@ import {
   DEFAULT_CAMERA_POSITION,
   DEFAULT_CAMERA_TARGET,
 } from '../constants/camera';
-import { $viewportSettings } from '../stores/viewport-settings-store';
 import { GroundGrid } from './ground-grid';
 import { ModelFraming } from './model-framing';
 import { ModelViewer } from './model-viewer';

@@ -18,7 +18,7 @@ flowchart LR
 ```
 
 - [`src/pages/index.astro`](../../src/pages/index.astro) mounts `EditorSidebar` and `EditorPreview` as `client:only="react"` islands
-- Domains: `editor-shell`, `viewport`, `animation`, `export` under `src/modules/`
+- Domains: `editor-shell`, `viewport`, `animation`, `export` under `src/modules/` (`import` when US-16 ships)
 
 ## Assets
 
@@ -26,12 +26,13 @@ flowchart LR
 | ------------------ | ------------------------------------------------------------------------------------- |
 | Model GLB/GLTF     | Skinned mesh + skeleton; many in the session, **one** previewed in the viewport       |
 | Animation GLB/GLTF | Source of `AnimationClip`s only; mesh payload ignored or discarded after clip extract |
+| Model / clip FBX   | Converted to GLB via `POST /api/fbx-to-glb` (US-16), then the same load path as above |
 
 Clips are a **shared** library. They bind to the **previewed** model. Track names must resolve to bones/nodes on that skeleton. Mismatch → user-visible error; explicit retarget flow (US-6). Switching the previewed model re-validates every clip against the new skeleton.
 
 ## Model load (US-11)
 
-1. User picks one or more `.glb` / `.gltf` files (File API)
+1. User picks one or more `.glb` / `.gltf` files (File API); US-16 also accepts `.fbx` (convert first — see **FBX import** below)
 2. Adapter parses each via imperative `GLTFLoader` and a blob URL (`viewport/adapters`)
 3. Validate skinned mesh + skeleton per file; else user-visible error and that file does not join the library
 4. Append successful loads to `models[]`. First successful load becomes `activeModelId` (previewed); later loads do not steal the preview
@@ -65,7 +66,7 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 
 ## Animation import
 
-1. User selects one or more `.glb` / `.gltf` files; adapter loads each and collects `animations` into library entries (stable id + display name + clip) — file meshes are never shown
+1. User selects one or more `.glb` / `.gltf` files; adapter loads each and collects `animations` into library entries (stable id + display name + clip) — file meshes are never shown. US-16 also accepts `.fbx` (convert first — see **FBX import** below)
 2. Validate each clip's track targets against the loaded character node/skeleton map; missing/unknown bones → the entry is marked errored with user-visible copy (no silent remap; no automatic vendor prefix rewriting in playback)
 3. Re-validate entries when the previewed model changes, is replaced, or is removed so stale clips are never silently played on a mismatched rig (`syncClipsToSkeleton`)
 4. Sidebar **library** lists each entry with Replace / Remove / Rename (same pattern as the model row). Replace re-picks one file and updates **that** entry only (first clip in the file; keep the entry id). Remove drops the entry; if it was active, select the next ready clip or clear selection. Errored clips that still have a working `AnimationClip` offer **Retarget**
@@ -182,6 +183,17 @@ One “Download” control builds a **zip** in the browser (no server):
 A model with no matching clips still ships as a mesh-only `.glb`. There is no “one combined GLB” option and no per-row download buttons.
 
 **Blend vs zip (locked):** live blend is viewport playback only (`blendClipId` / `blendWeight` / `blendBaseClip` never enter the exporter). `packModelGlb` / `packClipGlb` / `downloadExportZip` read each entry’s working `clip` (+ `timeScale` bake) — the same discrete library data as US-5. After **Bake**, the flattened mix replaces the active entry’s `clip` and therefore exports with that clip; without Bake, the zip is unchanged by the overlay.
+
+## FBX import (US-16)
+
+Not started; see [`specs/us-16/design.md`](../us-16/design.md). When kicked off:
+
+1. File picker `accept` is `.glb,.gltf,.fbx`. `parseGltfFile` stays GLB/GLTF-only
+2. `ensureGltfFile` in model and clip loaders: `.glb`/`.gltf` pass through; `.fbx` → `POST /api/fbx-to-glb` → `File` named `{basename}.glb`
+3. Convert **before** skeleton / clip validation. Failures use existing model `error` / clip failed-entry copy
+4. API is `@astrojs/vercel` Node serverless (`prerender = false`), not Edge. `fbx2gltf` writes under `os.tmpdir()`; Linux binary via `includeFiles`; Darwin/Windows excluded from the Vercel bundle
+5. Body cap matches Vercel payload (typically 4.5MB). No Mixamo convert flags; bone mismatch still uses US-6
+6. Zip export (US-5) stays in-browser — convert is the only server round-trip
 
 ## Layering rules
 
