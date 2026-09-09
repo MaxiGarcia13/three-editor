@@ -30,7 +30,8 @@ So the dual-action work must first relax the single-action assumptions in `mixer
 
 - `$clips`: `blendClipId`, `blendWeight`, `blendFadeDuration`, `blendBaseClip`
 - Primary action = active clip (or `blendBaseClip` while blending); secondary = blend clip
-- Weights via `fadeBlendWeightTo` (not `crossFadeTo` + `setEffectiveWeight`)
+- Weights snap instantly on the slider; Fade (s) is stored for intentional fade timing (not applied on every weight drag)
+- Weights via mixer `setEffectiveWeight` (not `crossFadeTo` + `setEffectiveWeight`)
 - `isReadyClip` treats draft entries with clip data as playable/editable (`status !== 'error'`)
 
 ### UI

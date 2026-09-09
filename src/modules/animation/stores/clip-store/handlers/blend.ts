@@ -3,8 +3,8 @@ import type { AnimationClip } from 'three';
 import { bakeBlendClip } from '@/modules/animation/services/blend-bake';
 import {
   cancelBlendFade,
-  fadeBlendWeightTo,
   restoreMixerPose,
+  setBlendWeight as setMixerBlendWeight,
 } from '@/modules/animation/services/mixer-session';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
@@ -83,13 +83,12 @@ export function setBlendClip(id: string | null): void {
   });
 }
 
-/** Lerp to the new weight over the current Fade (s) duration (0 = instant). Viewport only. */
+/** Snap weight immediately — slider should not crawl over Fade (s). Viewport only. */
 export function setBlendWeight(weight: number): void {
   const clamped = Math.min(Math.max(weight, MIN_BLEND_WEIGHT), MAX_BLEND_WEIGHT);
-  const duration = $clips.get().blendFadeDuration;
-  fadeBlendWeightTo(clamped, duration, (next) => {
-    $clips.setKey('blendWeight', next);
-  });
+  cancelBlendFade();
+  setMixerBlendWeight(clamped);
+  $clips.setKey('blendWeight', clamped);
 }
 
 export function setBlendFadeDuration(duration: number): void {
