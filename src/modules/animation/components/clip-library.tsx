@@ -3,6 +3,7 @@ import { useStore } from '@nanostores/react';
 import { AssetEntry } from '@/components/asset-entry/asset-entry';
 import { Button } from '@/components/button';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
+import { Text } from '@/components/text';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { $clips, removeClip, replaceClip } from '../stores/clip-store';
 import { $retargetClipId, openRetarget } from '../stores/retarget-ui-store';
@@ -26,32 +27,53 @@ export function ClipLibrary() {
     return null;
   }
 
+  const hasErrors = clips.some((entry) => entry.status === 'error');
+
   return (
     <div className="flex flex-col gap-3">
       {replaceInput}
       <RetargetModal />
 
-      {clips.map((entry) => (
-        <div key={entry.id} className="flex flex-col gap-2">
+      {hasErrors && (
+        <Text as="p" variant="muted">
+          Some animations need retargeting before they can play on this model.
+        </Text>
+      )}
+
+      {clips.map((entry) => {
+        const isError = entry.status === 'error';
+        const canRetarget = isError && entry.clip !== null;
+        const isRetargeting = retargetClipId === entry.id;
+
+        return (
           <AssetEntry
+            key={entry.id}
             label={entry.name}
-            title={entry.error ?? `${entry.name} (${entry.sourceFile})`}
-            error={entry.status === 'error' ? entry.error : null}
+            title={`${entry.name} (${entry.sourceFile})`}
+            description={isError ? entry.error : entry.sourceFile}
+            errorDetail={entry.error}
+            status={isError ? 'error' : undefined}
+            statusLabel={
+              isError ? (canRetarget ? 'Needs retarget' : 'Failed') : undefined
+            }
             onReplace={() => openReplace(entry.id)}
             onRemove={() => removeClip(entry.id)}
             replaceDisabled={scene === null}
+            primaryAction={
+              canRetarget ? (
+                <Button
+                  onClick={() => openRetarget(entry.id)}
+                  variant="primary"
+                  className="px-2"
+                  disabled={isRetargeting}
+                >
+                  {isRetargeting ? 'Retargeting…' : 'Retarget'}
+                </Button>
+              ) : undefined
+            }
           />
-          {entry.status === 'error' && entry.clip && (
-            <Button
-              onClick={() => openRetarget(entry.id)}
-              variant={retargetClipId === entry.id ? 'primary' : 'ghost'}
-              className="w-full"
-            >
-              {retargetClipId === entry.id ? 'Retargeting…' : 'Retarget'}
-            </Button>
-          )}
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

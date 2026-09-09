@@ -48,10 +48,13 @@ export function validateClipAgainstSkeleton(
   }
 
   if (missing.length > 0) {
-    const unique = [...new Set(missing)].slice(0, 5);
+    const count = new Set(missing).size;
     return {
       valid: false,
-      error: `Clip targets unknown bones/nodes: ${unique.join(', ')}`,
+      error:
+        count === 1
+          ? "1 track doesn't match this model"
+          : `${count} tracks don't match this model`,
     };
   }
 
