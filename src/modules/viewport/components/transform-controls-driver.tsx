@@ -11,7 +11,7 @@ import {
 import { pause } from '@/modules/animation/stores/clip-store';
 import { useActiveModel } from '../hooks/use-active-model';
 import { $editTool } from '../stores/edit-tool-store';
-import { $poseDirty, markPoseDirty } from '../stores/pose-edit-store';
+import { $poseDirty, capturePreEditTransform, markPoseDirty } from '../stores/pose-edit-store';
 import { $selection } from '../stores/selection-store';
 import { $transformMode } from '../stores/transform-mode-store';
 
@@ -57,6 +57,9 @@ export function TransformControlsDriver({ controlsRef }: TransformControlsDriver
     };
 
     const onObjectChange = () => {
+      if (!$poseDirty.get() && gizmoObject) {
+        capturePreEditTransform(gizmoObject);
+      }
       suspendMixerBindings();
       markPoseDirty();
     };
