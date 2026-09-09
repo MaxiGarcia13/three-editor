@@ -14,8 +14,17 @@ export const MAX_TIME_SCALE = 3;
 
 export function setTimeScale(scale: number): void {
   const clamped = Math.min(Math.max(scale, MIN_TIME_SCALE), MAX_TIME_SCALE);
+  const state = $clips.get();
+  const activeClipId = state.activeClipId;
+  if (!activeClipId) {
+    return;
+  }
+
+  const clips = state.clips.map((entry) =>
+    entry.id === activeClipId ? { ...entry, timeScale: clamped } : entry,
+  );
+  $clips.setKey('clips', clips);
   setMixerTimeScale(clamped);
-  $clips.setKey('timeScale', clamped);
 }
 
 export function play(): void {

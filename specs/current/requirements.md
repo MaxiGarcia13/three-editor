@@ -42,7 +42,7 @@ As an editor user, I can shorten a clip and change playback speed.
 
 - [x] Start Time / End Time inputs trim the **working** copy of the active clip into a `[start, end]` window (track `trim` + time shift + duration on a clone — `AnimationClip.trim()` is a no-arg internal helper in three 0.185)
 - [x] Trim always clones first so the pre-trim clip remains recoverable in the session
-- [x] Speed multiplier slider drives `mixer.timeScale` for playback
+- [x] Speed multiplier slider stores `timeScale` on the **active** clip and drives live playback for that clip only
 - [x] Export bake behavior for time scale is defined in design and followed when US-5 ships
 
 ### US-4 — Keyframe edit
@@ -66,7 +66,7 @@ As an editor user, I can download a zip of each model and of each animation as s
 - [x] “Download” uses `GLTFExporter` and builds a zip in the browser — no server round-trip
 - [x] Zip contains one `{model}.glb` per loaded model: that model’s scene plus **only** library clips that validate against that model’s skeleton (working / trimmed / keyed form)
 - [x] Zip contains one `{clip}.glb` per library clip that has a working `AnimationClip` — animation-only, no mesh
-- [x] Current playback `timeScale` is baked into exported track times / clip duration per design
+- [x] Each clip’s stored `timeScale` is baked into that clip’s exported track times / duration per design
 - [x] Filename collisions inside the zip get a numeric suffix
 - [x] Download is disabled or errors when there is nothing to pack; exporter failure does not download a partial zip
 

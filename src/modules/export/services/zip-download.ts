@@ -24,11 +24,11 @@ export async function downloadExportZip(): Promise<void> {
   const entries: ZipEntry[] = [];
 
   for (const model of models) {
-    entries.push(await packModelGlb(model, clipState.clips, clipState.timeScale));
+    entries.push(await packModelGlb(model, clipState.clips));
   }
 
   for (const entry of workingClips) {
-    entries.push(await packClipGlb(entry, skeletonScene, clipState.timeScale));
+    entries.push(await packClipGlb(entry, skeletonScene));
   }
 
   const blob = await buildZipArchive(entries);

@@ -1,4 +1,5 @@
 import type { AxesHelper } from 'three';
+import { useStore } from '@nanostores/react';
 import { useLayoutEffect, useMemo, useRef } from 'react';
 import { Color } from 'three';
 import {
@@ -7,11 +8,24 @@ import {
   AXES_MAJOR_STEP,
   AXES_MINOR_STEP,
 } from '@/modules/viewport/constants/world-axes';
+import { $viewportSettings } from '@/modules/viewport/stores/viewport-settings-store';
 import { buildRulerTicks } from '@/modules/viewport/utils/axis-ruler';
 import { AxisRulerLabels } from './axis-ruler-labels';
 import { buildTickGeometry } from './tick-geometry';
 
-export function WorldAxes({ axesSize }: { axesSize: number }) {
+export function WorldAxes() {
+  const { axesVisible, axesSize } = useStore($viewportSettings, {
+    keys: ['axesVisible', 'axesSize'],
+  });
+
+  if (!axesVisible) {
+    return null;
+  }
+
+  return <WorldAxesRenderer axesSize={axesSize} />;
+}
+
+function WorldAxesRenderer({ axesSize }: { axesSize: number }) {
   const ref = useRef<AxesHelper>(null);
 
   const rulerTicks = useMemo(

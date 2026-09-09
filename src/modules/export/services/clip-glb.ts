@@ -74,13 +74,12 @@ function addTrackTargetPlaceholders(scene: Group, clip: AnimationClip): void {
 export async function packClipGlb(
   entry: ClipEntry,
   skeletonScene: Group,
-  timeScale: number,
 ): Promise<ClipGlbResult> {
   if (!entry.clip) {
     throw new Error(`Clip "${entry.name}" has no working AnimationClip`);
   }
 
-  const clip = bakeTimeScale(entry.clip, timeScale);
+  const clip = bakeTimeScale(entry.clip, entry.timeScale);
 
   for (const track of clip.tracks) {
     const { suffix } = splitTrackName(track.name);

@@ -49,7 +49,7 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 - One `AnimationMixer` rooted on the model scene graph
 - Active clip → one `AnimationAction` (cross-fade later = out of scope)
 - Scrubber sets mixer time; Play/Pause/Stop and loop map to action / mixer APIs
-- Speed: `mixer.timeScale` for live playback
+- Speed: per-clip `timeScale` on the library entry; live playback applies the **active** clip’s scale via `mixer.timeScale`
 - Switching active clip stops the previous action and plays the new one; **T-pose** clears the active clip and restores the captured rest / bind pose (not the last animated frame)
 
 ## Animation import
@@ -100,7 +100,7 @@ Suggestions autofill the mapping UI only; Apply is still required (no silent ret
 
 ## Time scale on export (US-5 contract)
 
-Playback uses `mixer.timeScale` only. On export, **bake** the current speed into track times / clip duration so the downloaded GLB plays at the edited speed in other viewers (no reliance on runtime `timeScale`).
+Each library entry stores its own `timeScale` (default `1` on import / new draft). The Speed slider edits only the active entry; live playback sets `mixer.timeScale` from that entry. On export, **bake** each clip’s own scale into track times / clip duration so the downloaded GLB plays at the edited speed in other viewers (no reliance on runtime `timeScale`).
 
 ## Keyframe write (US-4)
 
@@ -163,7 +163,7 @@ Out of scope: whole-model rotate/scale in Move; multi-model simultaneous transfo
 One “Download” control builds a **zip** in the browser (no server):
 
 1. If there are no loaded models **and** no working clips → disable or error; do not download
-2. For each loaded model: `GLTFExporter.parse` (`binary: true`) of that scene plus **only** working library clips that validate against **that** model’s skeleton (pack-time validation — do not reuse the UI `ready` flag, which is relative to the previewed model). Bake `timeScale` into clones when it is not `1`
+2. For each loaded model: `GLTFExporter.parse` (`binary: true`) of that scene plus **only** working library clips that validate against **that** model’s skeleton (pack-time validation — do not reuse the UI `ready` flag, which is relative to the previewed model). Bake each clip’s own `timeScale` into clones when it is not `1`
 3. For each library clip that has a working `AnimationClip`: animation-only `.glb` (empty / minimal scene, one clip, same bake). Ignore current preview validation
 4. Filename collisions inside the zip get a numeric suffix
 5. Trigger a single download of the zip blob. Any exporter or zip failure → user-visible error; no partial archive

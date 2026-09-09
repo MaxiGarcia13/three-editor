@@ -1,4 +1,4 @@
-import { setMixerTime } from '@/modules/animation/services/mixer-session';
+import { setMixerTime, setMixerTimeScale } from '@/modules/animation/services/mixer-session';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
 import { clearActiveClip } from './clear-active-clip';
@@ -21,6 +21,7 @@ export function selectClip(id: string): void {
   }
 
   setMixerTime(0);
+  setMixerTimeScale(target.timeScale);
   $clips.set({
     ...$clips.get(),
     activeClipId: id,

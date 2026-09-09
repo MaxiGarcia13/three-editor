@@ -2,7 +2,7 @@ import type { Object3D } from 'three';
 import type { ClipEntry } from '@/modules/animation/types/clip';
 import { loadClipsFromFile } from '@/modules/animation/adapters/clip-loader';
 import { buildSkeletonNodeSet, validateClipAgainstSkeleton } from '@/modules/animation/services/clip-validate';
-import { setMixerTime } from '@/modules/animation/services/mixer-session';
+import { setMixerTime, setMixerTimeScale } from '@/modules/animation/services/mixer-session';
 import { $clips } from '../store';
 import { applyActiveModelBindOverrides, isReadyClip, toEntry } from '../utils';
 import { selectClip } from './select-clip';
@@ -72,6 +72,7 @@ function applyReplacedEntry(clips: ClipEntry[], id: string, replacedIsReady: boo
     setMixerTime(0);
     const active = clips.find((entry) => entry.id === id);
     const activeDuration = active && isReadyClip(active) ? active.clip.duration : 0;
+    setMixerTimeScale(active?.timeScale ?? 1);
     $clips.set({
       ...state,
       clips,

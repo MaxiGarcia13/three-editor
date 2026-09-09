@@ -3,12 +3,14 @@ import type { Object3D } from 'three';
 import type { ClipEntry } from '@/modules/animation/types/clip';
 
 import { buildSkeletonNodeSet, validateClipAgainstSkeleton } from '@/modules/animation/services/clip-validate';
+import { setMixerTimeScale } from '@/modules/animation/services/mixer-session';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
 
 export function syncClipsToSkeleton(skeleton: Object3D | null): void {
   const state = $clips.get();
   if (!skeleton) {
+    setMixerTimeScale(1);
     $clips.set({
       ...state,
       activeClipId: null,
@@ -60,6 +62,7 @@ export function syncClipsToSkeleton(skeleton: Object3D | null): void {
 
   const duration = active?.clip?.duration ?? 0;
 
+  setMixerTimeScale(active?.timeScale ?? 1);
   $clips.set({
     clips,
     activeClipId,
@@ -71,6 +74,5 @@ export function syncClipsToSkeleton(skeleton: Object3D | null): void {
     duration,
     trimStart: 0,
     trimEnd: duration,
-    timeScale: state.timeScale,
   });
 }

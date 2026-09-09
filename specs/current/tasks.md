@@ -48,7 +48,7 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] Clone → working window trim → replace working library entry
 - [x] Session recoverability of pre-trim clip (`sourceClip` + re-trim from source)
 - [x] Rebind mixer action after trim; update scrubber duration
-- [x] Speed multiplier slider → `mixer.timeScale`
+- [x] Speed multiplier slider → per-clip `timeScale` (live via `mixer.timeScale` for the active clip)
 
 ## US-4 — Keyframe edit
 

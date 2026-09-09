@@ -1,7 +1,7 @@
 import type { Object3D } from 'three';
 
 import { remapClipTracks } from '@/modules/animation/services/clip-remap';
-import { setMixerTime } from '@/modules/animation/services/mixer-session';
+import { setMixerTime, setMixerTimeScale } from '@/modules/animation/services/mixer-session';
 import {
   applyBoneRenames,
   buildBoneRenamesForScene,
@@ -47,6 +47,7 @@ function retargetActive(
     sourceClip: result.clip,
     status: 'ready' as const,
     error: null,
+    timeScale: source.timeScale,
   });
 
   const clips = [...state.clips, newEntry];
@@ -62,6 +63,7 @@ function retargetActive(
   });
 
   setMixerTime(0);
+  setMixerTimeScale(newEntry.timeScale);
   return { clipId: newEntry.id, error: null };
 }
 
@@ -127,6 +129,7 @@ function retargetAllModels(
 
   syncClipsToSkeleton(activeScene);
   setMixerTime(0);
+  setMixerTimeScale(remapped.timeScale);
   return { clipId: id, error: null };
 }
 

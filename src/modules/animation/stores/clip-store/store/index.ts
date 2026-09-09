@@ -13,5 +13,4 @@ export const $clips = map<ClipLibraryState>({
   duration: 0,
   trimStart: 0,
   trimEnd: 0,
-  timeScale: 1,
 });

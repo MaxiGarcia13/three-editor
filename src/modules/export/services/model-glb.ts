@@ -19,14 +19,13 @@ export interface ModelGlbResult {
 export async function packModelGlb(
   model: ModelEntry,
   clips: ClipEntry[],
-  timeScale: number,
 ): Promise<ModelGlbResult> {
   const nodeNames = buildSkeletonNodeSet(model.scene);
   const animations: AnimationClip[] = [];
 
   for (const entry of clips) {
     if (entry.clip && validateClipAgainstSkeleton(entry.clip, nodeNames).valid) {
-      animations.push(bakeTimeScale(entry.clip, timeScale));
+      animations.push(bakeTimeScale(entry.clip, entry.timeScale));
     }
   }
 

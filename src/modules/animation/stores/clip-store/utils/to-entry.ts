@@ -16,6 +16,7 @@ export function toEntry(
     sourceClip: clip,
     status: validationResult.valid ? 'ready' : 'error',
     error: validationResult.valid ? null : validationResult.error,
+    timeScale: 1,
   };
 }
 
@@ -29,6 +30,7 @@ export function toFailedFileEntry(baseId: string, fileName: string, error: unkno
     sourceClip: null,
     status: 'error',
     error: message,
+    timeScale: 1,
   };
 }
 
@@ -47,5 +49,6 @@ export function toNewAnimationEntry(baseId: string, name: string): ClipEntry {
     sourceClip,
     status: 'draft',
     error: null,
+    timeScale: 1,
   };
 }

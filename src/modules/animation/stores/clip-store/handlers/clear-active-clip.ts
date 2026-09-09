@@ -1,3 +1,4 @@
+import { setMixerTimeScale } from '@/modules/animation/services/mixer-session';
 import { $poseDirty } from '@/modules/viewport/stores/pose-edit-store';
 import { $clips } from '../store';
 import { restorePose } from './restore-pose';
@@ -13,6 +14,7 @@ export function clearActiveClip(): void {
     restorePose();
   }
 
+  setMixerTimeScale(1);
   $clips.set({
     ...$clips.get(),
     activeClipId: null,

@@ -10,6 +10,8 @@ export interface ClipEntry {
   sourceClip: THREE.AnimationClip | null;
   status: ClipStatus;
   error: string | null;
+  /** Playback / export speed multiplier for this clip (default 1). */
+  timeScale: number;
 }
 
 export interface ClipLibraryState {
@@ -24,7 +26,6 @@ export interface ClipLibraryState {
   duration: number;
   trimStart: number;
   trimEnd: number;
-  timeScale: number;
 }
 
 export interface ClipLoadResult {

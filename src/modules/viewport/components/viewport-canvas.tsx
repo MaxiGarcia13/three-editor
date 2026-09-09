@@ -22,10 +22,6 @@ import { WorldAxes } from './world-axes';
 export function ViewportCanvas() {
   const controlsRef = useRef<OrbitControlsRef>(null);
 
-  const { axesVisible, axesSize } = useStore($viewportSettings, {
-    keys: ['axesVisible', 'axesSize'],
-  });
-
   return (
     <Canvas
       camera={{
@@ -37,7 +33,9 @@ export function ViewportCanvas() {
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
       <GroundGrid />
-      {axesVisible && <WorldAxes axesSize={axesSize} />}
+
+      <WorldAxes />
+
       <OrbitControls
         enableDamping
         ref={controlsRef}

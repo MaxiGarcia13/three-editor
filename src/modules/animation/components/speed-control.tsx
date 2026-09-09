@@ -5,12 +5,13 @@ import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { $clips, isReadyClip, MAX_TIME_SCALE, MIN_TIME_SCALE, setTimeScale } from '../stores/clip-store';
 
 export function SpeedControl() {
-  const { timeScale, activeClipId, clips } = useStore($clips, {
-    keys: ['timeScale', 'activeClipId', 'clips'],
+  const { activeClipId, clips } = useStore($clips, {
+    keys: ['activeClipId', 'clips'],
   });
   const { scene } = useActiveModel();
 
   const active = clips.find((entry) => entry.id === activeClipId);
+  const timeScale = active?.timeScale ?? 1;
   // Speed applies to whichever editable clip is active (ready or draft-with-clip).
   const enabled = scene !== null && activeClipId !== null && isReadyClip(active);
 

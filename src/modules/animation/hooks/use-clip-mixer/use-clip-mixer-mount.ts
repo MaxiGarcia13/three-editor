@@ -25,7 +25,8 @@ export function useClipMixerMount(
     syncClipsToSkeleton(scene);
 
     const mixer = new AnimationMixer(scene);
-    mixer.timeScale = $clips.get().timeScale;
+    const active = $clips.get().clips.find((entry) => entry.id === $clips.get().activeClipId);
+    mixer.timeScale = active?.timeScale ?? 1;
     mixerRef.current = mixer;
     setActiveMixer(mixer);
 
