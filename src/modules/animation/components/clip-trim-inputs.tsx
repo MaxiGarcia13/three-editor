@@ -22,7 +22,7 @@ export function ClipTrimInputs() {
   };
 
   return (
-    <div className="flex items-center gap-2 flex-wrap">
+    <div className="flex items-center gap-2">
       <Input
         label="Start Time"
         type="number"
@@ -32,6 +32,7 @@ export function ClipTrimInputs() {
         step={0.01}
         onChange={handleStart}
         disabled={!enabled}
+        className="flex-1 w-full"
       />
       <Input
         label="End Time"
@@ -42,6 +43,7 @@ export function ClipTrimInputs() {
         step={0.01}
         onChange={handleEnd}
         disabled={!enabled}
+        className="flex-1 w-full"
       />
     </div>
   );
