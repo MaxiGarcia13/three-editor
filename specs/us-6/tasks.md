@@ -21,9 +21,9 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 ## Follow-up
 
-Do not start remaining items until explicitly kicked off. Tick only after acceptance.
-
 - [x] Retarget UI opens in a modal (not the Settings aside); Cancel / overlay closes
 - [x] When the previewed model makes a clip mismatch, offer Fix / Retarget (library + after model switch)
-- [x] Apply adds a new ready clip for the current character; leave the source clip in the library (needed when the same clip still matches another model)
-- [x] Verify: Model A ready + Model B error → fix for B → both clips remain; A still plays on A
+- [x] **This model** apply: new ready clip; leave the source clip in the library
+- [x] Apply UI: explicit scope — This model | All models
+- [x] **All models** apply: replace source with remapped clip; normalize bone names on every loaded model to mapping targets (vendor suggest to resolve); error if any model cannot resolve the full map
+- [ ] Verify: This model keeps source; All models → one clip plays on every loaded character after normalize

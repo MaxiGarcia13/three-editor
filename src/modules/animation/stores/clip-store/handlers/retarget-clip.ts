@@ -1,17 +1,41 @@
+import type { Object3D } from 'three';
+
 import { remapClipTracks } from '@/modules/animation/services/clip-remap';
 import { setMixerTime } from '@/modules/animation/services/mixer-session';
+import {
+  applyBoneRenames,
+  buildBoneRenamesForScene,
+} from '@/modules/animation/services/normalize-scene-bones';
+import { $model } from '@/modules/viewport/stores/model-store';
 import { $clips } from '../store';
+import { syncClipsToSkeleton } from './sync-clips-to-skeleton';
 
-export function retargetClip(id: string, mapping: Map<string, string>): string | null {
+export type RetargetScope = 'active' | 'all';
+
+export interface RetargetClipOptions {
+  scope: RetargetScope;
+  /** Previewed model scene — used to re-sync after apply. */
+  activeScene: Object3D | null;
+}
+
+export interface RetargetClipResult {
+  clipId: string | null;
+  error: string | null;
+}
+
+function retargetActive(
+  id: string,
+  mapping: Map<string, string>,
+): RetargetClipResult {
   const state = $clips.get();
   const source = state.clips.find((entry) => entry.id === id);
   if (!source?.clip) {
-    return null;
+    return { clipId: null, error: 'Clip not found' };
   }
 
   const result = remapClipTracks(source.clip, mapping);
   if (!result.clip || result.error) {
-    return null;
+    return { clipId: null, error: result.error ?? 'Remap failed' };
   }
 
   const newEntry = {
@@ -36,5 +60,83 @@ export function retargetClip(id: string, mapping: Map<string, string>): string |
   });
 
   setMixerTime(0);
-  return newEntry.id;
+  return { clipId: newEntry.id, error: null };
+}
+
+function retargetAllModels(
+  id: string,
+  mapping: Map<string, string>,
+  activeScene: Object3D | null,
+): RetargetClipResult {
+  const state = $clips.get();
+  const source = state.clips.find((entry) => entry.id === id);
+  if (!source?.clip) {
+    return { clipId: null, error: 'Clip not found' };
+  }
+
+  const models = $model.get().models;
+  if (models.length === 0) {
+    return { clipId: null, error: 'No models loaded' };
+  }
+
+  const planned: { scene: Object3D; renames: Map<string, string> }[] = [];
+
+  for (const model of models) {
+    const { renames, error } = buildBoneRenamesForScene(model.scene, mapping);
+    if (error) {
+      return {
+        clipId: null,
+        error: `${model.fileName}: ${error}`,
+      };
+    }
+    planned.push({ scene: model.scene, renames });
+  }
+
+  const result = remapClipTracks(source.clip, mapping);
+  if (!result.clip || result.error) {
+    return { clipId: null, error: result.error ?? 'Remap failed' };
+  }
+
+  for (const { scene, renames } of planned) {
+    applyBoneRenames(scene, renames);
+  }
+
+  const clips = state.clips.map((entry) => {
+    if (entry.id !== id) {
+      return entry;
+    }
+    return {
+      ...entry,
+      name: result.clip!.name,
+      clip: result.clip!,
+      sourceClip: result.clip!,
+      status: 'ready' as const,
+      error: null,
+    };
+  });
+
+  $clips.set({
+    ...state,
+    clips,
+    activeClipId: id,
+    playing: false,
+    duration: result.clip.duration,
+    trimStart: 0,
+    trimEnd: result.clip.duration,
+  });
+
+  syncClipsToSkeleton(activeScene);
+  setMixerTime(0);
+  return { clipId: id, error: null };
+}
+
+export function retargetClip(
+  id: string,
+  mapping: Map<string, string>,
+  options: RetargetClipOptions = { scope: 'active', activeScene: null },
+): RetargetClipResult {
+  if (options.scope === 'all') {
+    return retargetAllModels(id, mapping, options.activeScene);
+  }
+  return retargetActive(id, mapping);
 }

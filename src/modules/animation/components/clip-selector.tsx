@@ -26,7 +26,7 @@ export function ClipSelector({ className }: ClipSelectorProps) {
         value={activeClipId ?? ''}
         onChange={(event) => selectClip(event.target.value)}
         disabled={!enabled}
-        className="bg-zinc-700 rounded px-2 py-1.5 text-xs text-zinc-100 disabled:opacity-50"
+        className="bg-zinc-700 rounded-sm px-2 py-1.5 text-xs text-zinc-100 disabled:opacity-50"
       >
         {!enabled && <option value="">No clips — import an animation</option>}
         {readyClips.map((entry) => (

@@ -16,15 +16,17 @@ As an editor user, I can apply an animation authored for a different rig to my l
 - [ ] Successfully retargeted clips become playable working clips in the library
 - [ ] Failed or incomplete mappings leave a clear error and do not corrupt the character pose
 
-## Follow-up acceptance (not started)
+## Follow-up acceptance
 
 - [x] Retarget mapping UI opens in a modal (Settings aside stays available)
 - [x] After switching the previewed model, clips that no longer match show Fix / Retarget for that character
-- [x] Apply produces a new ready clip for the current character and keeps the source clip (so a clip that still matches another model is not deleted)
+- [x] **This model** apply: new ready clip for the current character; source clip kept
+- [x] **All models** apply: one remapped library clip (source replaced) and every loaded model’s bones renamed to the mapping targets; fail clearly if a model cannot resolve the map
+- [x] Apply UI offers an explicit This model / All models choice (no silent all-model normalize)
 
 ## Out of scope for this delta
 
 - Full NLA / multi-clip blending (US-7)
 - Morph editing, curve UI, undo stack
-- Auto-selecting which clip variant to play per model (shared library list only)
-- Deleting the source clip on successful retarget (breaks multi-model workflows)
+- Auto-selecting which clip variant to play per model when multiple clips exist (This model scope)
+- Per-model bind remap without renaming bones (normalize-bones path chosen instead)

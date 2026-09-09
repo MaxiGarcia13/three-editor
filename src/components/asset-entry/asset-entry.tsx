@@ -28,7 +28,7 @@ export function AssetEntry({
   return (
     <div
       className={cn(
-        'flex flex-col gap-2 rounded p-2',
+        'flex flex-col gap-2 rounded-sm p-2',
         selected && 'bg-sky-500/10 ring-1 ring-sky-400/40',
       )}
     >
@@ -37,7 +37,7 @@ export function AssetEntry({
         onClick={onSelect}
         disabled={!onSelect}
         className={cn(
-          'flex flex-col gap-2 rounded text-left',
+          'flex flex-col gap-2 rounded-sm text-left',
           onSelect ? 'cursor-pointer' : 'cursor-default',
           hasError ? 'text-red-400' : 'text-green-400',
         )}

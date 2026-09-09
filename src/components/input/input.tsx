@@ -12,7 +12,7 @@ export function Input({ label, className, ...props }: InputProps) {
       <input
         className={
           cn(
-            'bg-zinc-700 rounded px-2 py-1.5 text-xs text-zinc-100 disabled:opacity-50',
+            'bg-zinc-700 rounded-sm px-2 py-1.5 text-xs text-zinc-100 disabled:opacity-50',
             className,
           )
         }

@@ -34,7 +34,7 @@ export function TransformModeToolbar({ className }: TransformModeToolbarProps) {
     <div
       role="toolbar"
       aria-label="Transform mode"
-      className={cn('pointer-events-auto flex items-center gap-1 rounded bg-zinc-800/90 p-1', className)}
+      className={cn('pointer-events-auto flex items-center gap-1 rounded-sm bg-zinc-800/90 p-1', className)}
     >
       {MODES.map(({ mode: nextMode, label, hotkey }) => {
         const active = mode === nextMode;

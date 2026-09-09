@@ -67,7 +67,7 @@ export function Modal({ open, title, onClose, children, className }: ModalProps)
         tabIndex={-1}
         className={cn(
           'relative z-10 flex flex-col max-h-[min(90vh,42rem)] w-full max-w-3xl',
-          'rounded-lg bg-zinc-800 border border-zinc-700 shadow-xl outline-none text-white',
+          'rounded-sm bg-zinc-800 border border-zinc-700 shadow-xl outline-none text-white',
           className,
         )}
       >

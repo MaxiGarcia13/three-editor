@@ -16,5 +16,6 @@ export {
   toggleLoop,
   trimClip,
 } from './handlers';
+export type { RetargetClipOptions, RetargetClipResult, RetargetScope } from './handlers';
 export { $clips } from './store';
 export { isReadyClip } from './utils';
