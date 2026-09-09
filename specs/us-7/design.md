@@ -34,6 +34,7 @@ So the dual-action work must first relax the single-action assumptions in `mixer
 Blended playback is viewport-only. When the user requests **Bake blend**, produce one new library `AnimationClip` from the active blend, then export it through the existing US-5 zip packing as a `{clip}.glb` like any trim/keyframe working clip.
 
 - Bake samples the concurrent actions at their current weights / fade across the target duration and writes one `AnimationClip` (reuse the existing trim/scale bake path)
+- `bakeBlend(scene)` samples the two working clips at the live `blendWeight` via `bakeBlendClip()` and appends a new ready library entry named `A + B` (validated against the active skeleton), so it flows into US-5 zip packing unchanged
 - Trade-off with discrete clips is chosen: **no hidden runtime weight metadata is ever written to GLB**; without an explicit Bake blend, export stays discrete library clips
 - Playing cross-fades are folded into the baked result at the destination weight (A→B fade ends at B = 1.0)
 

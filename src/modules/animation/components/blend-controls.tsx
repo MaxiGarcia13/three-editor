@@ -2,11 +2,13 @@ import { debounce } from '@maxigarcia/js-utils';
 
 import { useStore } from '@nanostores/react';
 import { useEffect, useRef, useState } from 'react';
+import { Button } from '@/components/button';
 import { Input } from '@/components/input/input';
 import { Text } from '@/components/text';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import {
   $clips,
+  bakeBlend,
   MAX_BLEND_FADE_DURATION,
   MAX_BLEND_WEIGHT,
   MIN_BLEND_FADE_DURATION,
@@ -99,6 +101,10 @@ export function BlendControls() {
         onChange={(event) => setBlendFadeDuration(Number(event.currentTarget.value))}
         disabled={!blendEnabled}
       />
+
+      <Button onClick={() => bakeBlend(scene)} disabled={!blendEnabled}>
+        Bake blend
+      </Button>
     </div>
   );
 }

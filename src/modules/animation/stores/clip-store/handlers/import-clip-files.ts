@@ -3,10 +3,8 @@ import type { ClipEntry } from '@/modules/animation/types/clip';
 import { loadClipsFromFile } from '@/modules/animation/adapters/clip-loader';
 import { buildSkeletonNodeSet, validateClipAgainstSkeleton } from '@/modules/animation/services/clip-validate';
 import { $clips } from '../store';
-import { applyActiveModelBindOverrides, toEntry, toFailedFileEntry } from '../utils';
+import { applyActiveModelBindOverrides, nextClipId, toEntry, toFailedFileEntry } from '../utils';
 import { selectClip } from './select-clip';
-
-let clipIdCounter = 0;
 
 export async function importClipFiles(files: File[], skeleton: Object3D | null): Promise<void> {
   if (!skeleton) {
@@ -17,7 +15,7 @@ export async function importClipFiles(files: File[], skeleton: Object3D | null):
   const entries: ClipEntry[] = [];
 
   for (const file of files) {
-    const baseId = `clip-${clipIdCounter++}`;
+    const baseId = nextClipId();
     try {
       const result = await loadClipsFromFile(file);
       for (const clip of result.clips) {

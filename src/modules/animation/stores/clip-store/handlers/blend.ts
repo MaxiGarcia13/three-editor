@@ -1,9 +1,13 @@
+import type { Object3D } from 'three';
+
+import { bakeBlendClip } from '@/modules/animation/services/blend-bake';
+import { buildSkeletonNodeSet, validateClipAgainstSkeleton } from '@/modules/animation/services/clip-validate';
 import {
   cancelBlendFade,
   fadeBlendWeightTo,
 } from '@/modules/animation/services/mixer-session';
 import { $clips } from '../store';
-import { isReadyClip } from '../utils';
+import { applyActiveModelBindOverrides, isReadyClip, nextClipId, toEntry } from '../utils';
 
 export const MIN_BLEND_WEIGHT = 0;
 export const MAX_BLEND_WEIGHT = 1;
@@ -41,4 +45,26 @@ export function setBlendFadeDuration(duration: number): void {
     MAX_BLEND_FADE_DURATION,
   );
   $clips.setKey('blendFadeDuration', clamped);
+}
+
+/** Bake the live blend into a new library clip (viewport blend stays viewport-only). */
+export function bakeBlend(scene: Object3D | null): void {
+  if (!scene) {
+    return;
+  }
+  const state = $clips.get();
+  const primary = state.clips.find((entry) => entry.id === state.activeClipId);
+  const secondary = state.clips.find((entry) => entry.id === state.blendClipId);
+  if (!isReadyClip(primary) || !isReadyClip(secondary)) {
+    return;
+  }
+
+  const baked = bakeBlendClip(primary.clip, secondary.clip, state.blendWeight);
+  const nodeNames = buildSkeletonNodeSet(scene);
+  const validation = validateClipAgainstSkeleton(baked, nodeNames);
+  const entry = applyActiveModelBindOverrides(
+    toEntry(validation, nextClipId(), baked, 'Baked blend'),
+  );
+
+  $clips.setKey('clips', [...state.clips, entry]);
 }

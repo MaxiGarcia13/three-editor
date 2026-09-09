@@ -1,4 +1,5 @@
 export {
+  bakeBlend,
   clearActiveClip,
   importClipFiles,
   MAX_BLEND_FADE_DURATION,
