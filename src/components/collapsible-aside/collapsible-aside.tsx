@@ -4,7 +4,7 @@ import { isMobileViewport } from '@/utils/device';
 import { AsideHeader } from './aside-header';
 import { OpenButton } from './open-button';
 
-const SIDEBAR_WIDTH = '16rem';
+const SIDEBAR_WIDTH = '18rem';
 
 interface CollapsibleAsideProps {
   children: React.ReactNode;
