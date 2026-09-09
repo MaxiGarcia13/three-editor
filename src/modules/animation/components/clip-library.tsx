@@ -1,4 +1,5 @@
 import { useStore } from '@nanostores/react';
+
 import { AssetEntry } from '@/components/asset-entry/asset-entry';
 import { Button } from '@/components/button';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
@@ -28,6 +29,7 @@ export function ClipLibrary() {
   return (
     <div className="flex flex-col gap-3">
       {replaceInput}
+      <RetargetModal />
 
       {clips.map((entry) => (
         <div key={entry.id} className="flex flex-col gap-2">
@@ -40,16 +42,13 @@ export function ClipLibrary() {
             replaceDisabled={scene === null}
           />
           {entry.status === 'error' && entry.clip && (
-            <>
-              <Button
-                onClick={() => openRetarget(entry.id)}
-                variant={retargetClipId === entry.id ? 'primary' : 'ghost'}
-                className="w-full"
-              >
-                {retargetClipId === entry.id ? 'Retargeting…' : 'Retarget'}
-              </Button>
-              <RetargetModal />
-            </>
+            <Button
+              onClick={() => openRetarget(entry.id)}
+              variant={retargetClipId === entry.id ? 'primary' : 'ghost'}
+              className="w-full"
+            >
+              {retargetClipId === entry.id ? 'Retargeting…' : 'Retarget'}
+            </Button>
           )}
         </div>
       ))}
