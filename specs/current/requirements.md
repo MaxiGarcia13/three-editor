@@ -98,6 +98,18 @@ As an editor user, I can rename a model or animation in the library so labels an
 
 See [`specs/us-12/`](../us-12/).
 
+### US-13 — Selection name overlay
+
+As an editor user, when I click a bone or part of the model, I can see its name in a floating label on the preview so I know what is selected.
+
+**Acceptance**
+
+- [ ] Top-right preview label shows the selected bone/mesh name; hidden when nothing is selected
+- [ ] Bones use registry-friendly labels (raw name in tooltip when different); empty mesh names get a fallback
+- [ ] Overlay is non-interactive and does not block viewport controls
+
+See [`specs/us-13/`](../us-13/).
+
 ## Post-MVP user stories
 
 Deltas exist under `specs/us-6/` … `specs/us-10/`. Not started; do not implement until explicitly kicked off (typically after US-1…US-5 ship).

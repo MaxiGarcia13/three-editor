@@ -11,6 +11,7 @@
 
 | ID | Summary |
 |----|---------|
+| **US-13** | Selection name overlay in preview (bone / mesh) |
 | **US-12** | Rename model and animation library entries |
 | **US-6** | Cross-rig retargeting (post-MVP) |
 | **US-7** | Multi-clip blending / cross-fade (post-MVP) |
