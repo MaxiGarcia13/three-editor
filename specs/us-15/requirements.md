@@ -19,6 +19,7 @@ As an editor user, I can choose Edit or Move in the preview, pose bones/meshes o
 - [ ] **Move — Save:** commits the model root translation (persists on the scene graph and in exported `{model}.glb`); never writes animation keyframes
 - [ ] **Restore:** discards the unsaved gizmo edit (with an active clip in Edit mode, re-applies the clip at the playhead; otherwise restores the pre-edit TRS snapshot)
 - [ ] Switching Edit ↔ Move while dirty auto-Restores, then switches tools
+- [ ] Settings sidebar (`EditorSettingsSidebar` General) shows live **X / Y / Z** position values for the active target: model root in **Move**; selected bone/mesh local position in **Edit** when something is selected (hidden or empty when nothing applies)
 
 ## Out of scope for this delta
 

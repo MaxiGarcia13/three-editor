@@ -24,6 +24,7 @@ Preview tool modes for bone/mesh editing vs whole-model placement, bind-pose per
 - Tool toggle: always visible in preview when a model is loaded (near existing overlay chrome)
 - Transform mode toolbar: Edit + selection only
 - Save / Restore: visible only while dirty (extend or replace `SaveKeyframeButton` labels as needed; Hold Pose copy remains correct when an active clip drives Edit save)
+- **Position readout** in `EditorSettingsSidebar` General (alongside world-axes controls): live numeric X / Y / Z. Source is active model `scene.position` in Move mode, or the selected object’s local `position` in Edit mode. Read-only display for this delta (gizmo remains the editor); update on each gizmo change / selection / tool switch.
 
 ## Non-goals
 

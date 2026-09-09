@@ -15,9 +15,11 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [ ] Save branches: bind-pose commit (no clip), Hold Pose to End (active clip + Edit), root translation commit (Move)
 - [ ] Auto-Restore on Edit ↔ Move switch while dirty
 - [ ] Show Save / Restore whenever dirty (both tools)
+- [ ] Settings General: live X / Y / Z position readout (model root in Move; selection local position in Edit)
 
 ## Verify
 
 - [ ] All US-15 acceptance criteria in [`requirements.md`](./requirements.md) pass
 - [ ] Edit without clip → Save → download `{model}.glb` reflects bind pose
 - [ ] Move → Save → download `{model}.glb` reflects root translation on X / Y / Z
+- [ ] Dragging the gizmo updates the Settings X / Y / Z readout
