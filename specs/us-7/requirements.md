@@ -6,14 +6,15 @@ Delta for playing / mixing more than one clip with weights or cross-fades. Paren
 
 ## Story
 
-As an editor user, I can blend or cross-fade between animation clips on the loaded character.
+As an editor user, I can create a new animation in the library and blend or cross-fade source clips into that draft without mutating the source clips.
 
 ## Acceptance
 
-- [ ] User can enable at least two concurrent actions (or an explicit A→B cross-fade) on the mixer
-- [ ] Blend weights or fade duration are user-controllable
-- [ ] Resulting pose updates live in the viewport
-- [ ] Export behavior for blended results is locked: **bake a single clip on demand** — see [`design.md`](./design.md#export-contract-locked); export otherwise stays discrete library clips
+- [ ] User can start a **New animation** from the Library Animations section (blank draft entry)
+- [ ] User can enable at least two concurrent actions (or an explicit A→B cross-fade) while authoring the draft
+- [ ] Blend weights or fade duration are user-controllable; timing for the draft is editable
+- [ ] Resulting pose updates live in the viewport on the draft (source library clips stay read-only)
+- [ ] Export behavior for blended results is locked: **save/bake the draft to one library clip** — see [`design.md`](./design.md#export-contract-locked); export otherwise stays discrete library clips
 
 ## Out of scope for this delta
 
