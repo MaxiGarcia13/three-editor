@@ -79,6 +79,14 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] `SelectionNameOverlay` reads `$selection` and shows `Object3D.name`
 - [x] Mounted in `EditorPreview` as a non-interactive floating label; hidden when nothing selected
 
+## US-14 — Viewport general settings (axes)
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] `$viewportSettings` store (`axesVisible`, `axesSize`) under `viewport/stores`
+- [x] General section in Settings sidebar (checkbox + metres input)
+- [x] Conditionally render `WorldAxes` from `axesVisible`; length from `axesSize`
+
 ## US-12 — Rename library entries
 
 **Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).

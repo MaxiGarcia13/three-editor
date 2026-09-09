@@ -11,7 +11,6 @@
 
 | ID | Summary |
 |----|---------|
-| **US-14** | Viewport general settings — show/hide axes + length (metres) |
 | **US-7** | Multi-clip blending / cross-fade (post-MVP) |
 | **US-8** | Morph-target editing (post-MVP) |
 | **US-9** | Graph / curve keyframe UI (post-MVP) |
@@ -21,6 +20,7 @@
 
 | ID | Summary |
 |----|---------|
+| **US-14** | Viewport general settings — show/hide axes + length (metres) |
 | **US-6** | Cross-rig retargeting (explicit bone map + vendor registry) |
 | **US-12** | Rename model and animation library entries |
 | **US-13** | Selection name overlay in preview (bone / mesh) |

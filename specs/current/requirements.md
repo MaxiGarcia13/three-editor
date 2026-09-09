@@ -92,6 +92,20 @@ As an editor user, when I click a bone or part of the model, I can see its name 
 - [x] The label updates when the selection changes and is hidden when there is no selection
 - [x] The overlay is non-interactive (`pointer-events-none`) and does not block orbit, picking, or the transform-mode toolbar
 
+### US-14 — Viewport general settings (axes)
+
+As an editor user, I can show or hide the world axes and change how far the metre rulers extend from the Settings sidebar.
+
+**Acceptance**
+
+- [x] Settings sidebar (`editor-settings-sidebar`) has a **General** section above Animation
+- [x] General includes a checkbox to show/hide world XYZ axes (and X/Y metre rulers)
+- [x] General includes a numeric control for axes length in metres
+- [x] Toggling visibility mounts/unmounts axes in the viewport immediately
+- [x] Changing length updates `axesHelper` and X/Y rulers live
+- [x] Defaults match prior behavior: axes visible, length `10`
+- [x] Settings are session-only (no persistence across reloads)
+
 ### US-12 — Rename library entries
 
 As an editor user, I can rename a model or animation in the library so labels and exported filenames match what I intend.
