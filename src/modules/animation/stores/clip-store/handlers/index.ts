@@ -1,12 +1,9 @@
 export {
   bakeBlend,
-  MAX_BLEND_FADE_DURATION,
   MAX_BLEND_WEIGHT,
-  MIN_BLEND_FADE_DURATION,
   MIN_BLEND_WEIGHT,
   resetBlend,
   setBlendClip,
-  setBlendFadeDuration,
   setBlendWeight,
 } from './blend';
 export { clearActiveClip } from './clear-active-clip';

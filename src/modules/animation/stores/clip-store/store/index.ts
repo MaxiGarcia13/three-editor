@@ -8,7 +8,6 @@ export const $clips = map<ClipLibraryState>({
   blendBaseClip: null,
   blendClipId: null,
   blendWeight: 0,
-  blendFadeDuration: 1,
   playing: false,
   loop: false,
   duration: 0,

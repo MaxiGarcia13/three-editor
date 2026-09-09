@@ -3,19 +3,15 @@ import { debounce } from '@maxigarcia/js-utils';
 import { useStore } from '@nanostores/react';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/button';
-import { Input } from '@/components/input/input';
 import { Text } from '@/components/text';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import {
   $clips,
   bakeBlend,
   isReadyClip,
-  MAX_BLEND_FADE_DURATION,
   MAX_BLEND_WEIGHT,
-  MIN_BLEND_FADE_DURATION,
   resetBlend,
   setBlendClip,
-  setBlendFadeDuration,
   setBlendWeight,
 } from '../stores/clip-store';
 
@@ -27,9 +23,8 @@ export function BlendControls() {
     activeClipId,
     blendClipId,
     blendWeight,
-    blendFadeDuration,
   } = useStore($clips, {
-    keys: ['clips', 'activeClipId', 'blendClipId', 'blendWeight', 'blendFadeDuration'],
+    keys: ['clips', 'activeClipId', 'blendClipId', 'blendWeight'],
   });
   const { scene } = useActiveModel();
   const [draftWeight, setDraftWeight] = useState(blendWeight);
@@ -55,7 +50,7 @@ export function BlendControls() {
   if (!canBlend) {
     return (
       <Text as="p" variant="muted">
-        Select an animation to blend or fade with another clip.
+        Select an animation to blend with another clip.
       </Text>
     );
   }
@@ -103,17 +98,6 @@ export function BlendControls() {
         </div>
       </label>
 
-      <Input
-        label="Fade (s)"
-        type="number"
-        value={blendFadeDuration}
-        min={MIN_BLEND_FADE_DURATION}
-        max={MAX_BLEND_FADE_DURATION}
-        step={0.1}
-        onChange={(event) => setBlendFadeDuration(Number(event.currentTarget.value))}
-        disabled={!blendEnabled}
-      />
-
       <div className="flex flex-wrap items-center gap-2">
         <Button
           onClick={() => resetBlend()}
@@ -131,7 +115,6 @@ export function BlendControls() {
         >
           Bake
         </Button>
-
       </div>
     </div>
   );

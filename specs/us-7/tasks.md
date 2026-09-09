@@ -18,7 +18,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] Clicking selected animation again unselects to T-pose
 - [x] Draft Start/End, speed, play, and keyframes write only the draft
 - [x] Reusable `Collapsible` for Settings Blend section
-- [x] Blend form: partner select, weight, fade, Bake + Reset (viewport until Bake; Bake resets form)
+- [x] Blend form: partner select, weight, Bake + Reset (viewport until Bake; Bake resets form)
 - [ ] Document and test export interaction with US-5
 
 ## Verify

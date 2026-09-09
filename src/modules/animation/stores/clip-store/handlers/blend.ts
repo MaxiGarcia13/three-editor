@@ -1,7 +1,7 @@
 import type { AnimationClip } from 'three';
+
 import { bakeBlendClip } from '@/modules/animation/services/blend-bake';
 import {
-  cancelBlendFade,
   restoreMixerPose,
   setBlendWeight as setMixerBlendWeight,
 } from '@/modules/animation/services/mixer-session';
@@ -10,8 +10,6 @@ import { isReadyClip } from '../utils';
 
 export const MIN_BLEND_WEIGHT = 0;
 export const MAX_BLEND_WEIGHT = 1;
-export const MIN_BLEND_FADE_DURATION = 0;
-export const MAX_BLEND_FADE_DURATION = 10;
 
 function captureBlendBase(): AnimationClip | null {
   const state = $clips.get();
@@ -36,7 +34,6 @@ function bakeAtWeight(
 }
 
 function clearBlendForm(extra?: Partial<ReturnType<typeof $clips.get>>): void {
-  cancelBlendFade();
   $clips.set({
     ...$clips.get(),
     ...extra,
@@ -55,8 +52,6 @@ export function setBlendClip(id: string | null): void {
       return;
     }
   }
-
-  cancelBlendFade();
 
   if (!id) {
     $clips.set({
@@ -82,20 +77,11 @@ export function setBlendClip(id: string | null): void {
   });
 }
 
-/** Snap weight immediately — slider should not crawl over Fade (s). Viewport only. */
+/** Snap weight immediately. Viewport only. */
 export function setBlendWeight(weight: number): void {
   const clamped = Math.min(Math.max(weight, MIN_BLEND_WEIGHT), MAX_BLEND_WEIGHT);
-  cancelBlendFade();
   setMixerBlendWeight(clamped);
   $clips.setKey('blendWeight', clamped);
-}
-
-export function setBlendFadeDuration(duration: number): void {
-  const clamped = Math.min(
-    Math.max(duration, MIN_BLEND_FADE_DURATION),
-    MAX_BLEND_FADE_DURATION,
-  );
-  $clips.setKey('blendFadeDuration', clamped);
 }
 
 /**
@@ -133,7 +119,6 @@ export function bakeBlend(): void {
 /** Discard live blend overlay and reset the form without writing the active clip. */
 export function resetBlend(): void {
   const state = $clips.get();
-  cancelBlendFade();
   $clips.set({
     ...state,
     blendClipId: null,

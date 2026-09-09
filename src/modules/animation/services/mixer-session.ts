@@ -6,14 +6,12 @@ let currentMixer: AnimationMixer | null = null;
 let currentAction: AnimationAction | null = null;
 let blendAction: AnimationAction | null = null;
 let blendWeight = 0;
-let blendFadeRaf = 0;
 
 export function setActiveMixer(mixer: AnimationMixer | null): void {
   currentMixer = mixer;
   if (!mixer) {
     currentAction = null;
     blendAction = null;
-    cancelBlendFade();
   }
 }
 
@@ -52,54 +50,6 @@ export function setBlendWeight(weight: number): void {
 
 export function getBlendWeight(): number {
   return blendWeight;
-}
-
-export function cancelBlendFade(): void {
-  if (blendFadeRaf !== 0) {
-    cancelAnimationFrame(blendFadeRaf);
-    blendFadeRaf = 0;
-  }
-}
-
-/**
- * A→B fade by lerping effective weights (primary = 1−w, blend = w).
- *
- * Do not use AnimationAction.crossFadeTo here: that path assumes both actions
- * start at weight 1 and owns its own fade interpolants. Combined with
- * setEffectiveWeight it can leave total weight < 1, which blends toward bind
- * pose (the “weird T-pose”).
- */
-export function fadeBlendWeightTo(
-  targetWeight: number,
-  durationSeconds: number,
-  onWeight: (weight: number) => void,
-): void {
-  cancelBlendFade();
-
-  const target = Math.min(Math.max(targetWeight, 0), 1);
-  const durationMs = Math.max(durationSeconds, 0) * 1000;
-  const start = blendWeight;
-
-  if (durationMs === 0 || start === target) {
-    setBlendWeight(target);
-    onWeight(target);
-    return;
-  }
-
-  const startedAt = performance.now();
-
-  function tick(now: number): void {
-    const t = Math.min((now - startedAt) / durationMs, 1);
-    setBlendWeight(start + (target - start) * t);
-    onWeight(blendWeight);
-    if (t < 1) {
-      blendFadeRaf = requestAnimationFrame(tick);
-      return;
-    }
-    blendFadeRaf = 0;
-  }
-
-  blendFadeRaf = requestAnimationFrame(tick);
 }
 
 /** Stop clip bindings from overwriting a manual pose edit. */

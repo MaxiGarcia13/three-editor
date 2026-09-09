@@ -22,16 +22,15 @@ So the dual-action work must first relax the single-action assumptions in `mixer
 - Library **Animations** **New animation** (`PlusIcon`) creates a new `status: 'draft'` clip from scratch (default duration: 1s)
 - Drafts and imported ready clips are editable when active: Start/End, Speed, keyframes (writes only mutate the active clip)
 - **Selection:** click an Animations list row (same pattern as models). Clicking the currently selected clip clears to T-pose. No Active Clip dropdown
-- Settings: Start/End and Speed always visible; **Blend** is a reusable `Collapsible` section with partner select, weight, fade, **Bake**, and **Reset**
-- Blend/fade is **viewport-only** until **Bake** writes into the active clip and resets the form; **Reset** clears the form without writing
+- Settings: Start/End and Speed always visible; **Blend** is a reusable `Collapsible` section with partner select, weight, **Bake**, and **Reset**
+- Blend is **viewport-only** until **Bake** writes into the active clip and resets the form; **Reset** clears the form without writing
 - Unsaved bone/gizmo edits discard on reselect; **Hold Pose to End** commits into the active clip
 
 ### Playback API
 
-- `$clips`: `blendClipId`, `blendWeight`, `blendFadeDuration`, `blendBaseClip`
+- `$clips`: `blendClipId`, `blendWeight`, `blendBaseClip`
 - Primary action = active clip (or `blendBaseClip` while blending); secondary = blend clip
-- Weights snap instantly on the slider; Fade (s) is stored for intentional fade timing (not applied on every weight drag)
-- Weights via mixer `setEffectiveWeight` (not `crossFadeTo` + `setEffectiveWeight`)
+- Weights snap instantly via mixer `setEffectiveWeight` (not `crossFadeTo`)
 - `isReadyClip` treats draft entries with clip data as playable/editable (`status !== 'error'`)
 
 ### UI
@@ -43,7 +42,7 @@ So the dual-action work must first relax the single-action assumptions in `mixer
 
 ## Export contract (locked)
 
-Blend/fade is viewport playback until Bake. Export stays discrete library clips (no hidden runtime weight metadata in GLB). Baked/keyframed edits on a clip are part of that clip’s data and export with it.
+Blend is viewport playback until Bake. Export stays discrete library clips (no hidden runtime weight metadata in GLB). Baked/keyframed edits on a clip are part of that clip’s data and export with it.
 
 ## Non-goals
 

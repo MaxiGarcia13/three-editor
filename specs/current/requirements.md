@@ -169,7 +169,7 @@ As an editor user, I can blend or cross-fade between animation clips on the load
 **Acceptance**
 
 - [ ] At least two concurrent actions or an A→B cross-fade
-- [ ] User-controllable weights or fade duration
+- [ ] User-controllable blend weights
 - [ ] Live viewport update; export contract defined (bake blend on demand)
 
 ### US-8 — Morph-target editing
