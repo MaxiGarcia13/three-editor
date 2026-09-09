@@ -1,5 +1,4 @@
 import type { ClipEntry } from '@/modules/animation/types/clip';
-
 import { useMemo, useState } from 'react';
 import { Button } from '@/components/button';
 import { Text } from '@/components/text';
