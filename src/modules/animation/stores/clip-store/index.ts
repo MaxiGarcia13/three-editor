@@ -7,6 +7,7 @@ export {
   removeClip,
   replaceClip,
   restorePose,
+  retargetClip,
   saveKeyframe,
   selectClip,
   setTimeScale,

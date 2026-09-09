@@ -1,3 +1,4 @@
+import { $retargetClipId, closeRetarget } from '@/modules/animation/stores/retarget-ui-store';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
 import { selectClip } from './select-clip';
@@ -7,6 +8,10 @@ export function removeClip(id: string): void {
   const clips = state.clips.filter((entry) => entry.id !== id);
   if (clips.length === state.clips.length) {
     return;
+  }
+
+  if ($retargetClipId.get() === id) {
+    closeRetarget();
   }
 
   const wasActive = state.activeClipId === id;

@@ -3,6 +3,7 @@ export { MAX_TIME_SCALE, MIN_TIME_SCALE, pause, play, setTimeScale, stop, toggle
 export { removeClip } from './remove-clip';
 export { replaceClip } from './replace-clip';
 export { restorePose } from './restore-pose';
+export { retargetClip } from './retarget-clip';
 export { saveKeyframe } from './save-keyframe';
 export { selectClip } from './select-clip';
 export { syncClipsToSkeleton } from './sync-clips-to-skeleton';

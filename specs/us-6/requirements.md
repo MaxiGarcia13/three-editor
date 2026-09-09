@@ -16,7 +16,15 @@ As an editor user, I can apply an animation authored for a different rig to my l
 - [ ] Successfully retargeted clips become playable working clips in the library
 - [ ] Failed or incomplete mappings leave a clear error and do not corrupt the character pose
 
+## Follow-up acceptance (not started)
+
+- [x] Retarget mapping UI opens in a modal (Settings aside stays available)
+- [ ] After switching the previewed model, clips that no longer match show Fix / Retarget for that character
+- [ ] Apply produces a new ready clip for the current character and keeps the source clip (so a clip that still matches another model is not deleted)
+
 ## Out of scope for this delta
 
 - Full NLA / multi-clip blending (US-7)
 - Morph editing, curve UI, undo stack
+- Auto-selecting which clip variant to play per model (shared library list only)
+- Deleting the source clip on successful retarget (breaks multi-model workflows)
