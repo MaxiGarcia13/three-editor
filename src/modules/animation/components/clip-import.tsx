@@ -17,21 +17,31 @@ export function ClipImport() {
   });
 
   return (
-    <div className="flex flex-col gap-2">
+    <>
       {fileInput}
       <Button
         onClick={() => open()}
         disabled={!enabled}
-        className="flex items-center gap-2 w-full justify-center"
+        variant="ghost"
+        aria-label="Import animations"
+        title="Import animations"
+        className="p-1.5"
       >
         <UploadIcon />
-        Import Animations
       </Button>
-      {!enabled && (
-        <Text as="p" variant="muted">
-          Load a model before importing animations.
-        </Text>
-      )}
-    </div>
+    </>
+  );
+}
+
+export function ClipImportHint() {
+  const { scene } = useActiveModel();
+  if (scene !== null) {
+    return null;
+  }
+
+  return (
+    <Text as="p" variant="muted">
+      Load a model before importing animations.
+    </Text>
   );
 }
