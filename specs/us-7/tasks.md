@@ -5,21 +5,20 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 ## Prep
 
 - [x] Confirm single-action mixer from US-2
-- [x] Lock export contract: bake blend to one clip on demand
+- [x] Lock export contract: viewport blend; discrete clips on export
 
 ## Implement (playback — done)
 
 - [x] Dual-action / cross-fade playback API in `animation` domain
-- [x] Sidebar blend / fade controls (Settings `BlendControls` — superseded by draft UX below)
-- [x] Optional “Bake blend” → new library clip (superseded by save-draft below)
 
 ## Implement (draft / New animation UX)
 
-- [x] Lock authorship: blank draft is sole write target; source clips stay read-only
-- [x] Library Animations: **New animation** button using `PlusIcon` next to import (`EditorLibrarySidebar` / section header action)
-- [x] New animation appends a blank draft library entry and selects it for authoring
-- [ ] Rewire blend + fade + draft timing controls onto the active draft (not overlay bake on an arbitrary active clip)
-- [ ] Save/bake writes one result into that draft; remove Settings **Bake blend** button
+- [x] New animation creates an **editable** draft from scratch (not a clone)
+- [x] Library list selection like models; no Active Clip dropdown
+- [x] Clicking selected animation again unselects to T-pose
+- [x] Draft Start/End, speed, play, and keyframes write only the draft
+- [x] Blend partner via Blend select for **any** active editable clip (uploaded or new)
+- [x] Weight + fade apply immediately (no Save animation button)
 - [ ] Document and test export interaction with US-5
 
 ## Verify

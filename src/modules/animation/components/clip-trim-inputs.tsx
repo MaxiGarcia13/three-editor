@@ -1,7 +1,7 @@
 import { useStore } from '@nanostores/react';
 import { Input } from '@/components/input/input';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
-import { $clips, trimClip } from '../stores/clip-store';
+import { $clips, isReadyClip, trimClip } from '../stores/clip-store';
 
 export function ClipTrimInputs() {
   const { activeClipId, trimStart, trimEnd, clips } = useStore($clips, {
@@ -10,7 +10,7 @@ export function ClipTrimInputs() {
   const { scene } = useActiveModel();
 
   const active = clips.find((entry) => entry.id === activeClipId);
-  const enabled = scene !== null && activeClipId !== null;
+  const enabled = scene !== null && isReadyClip(active);
   const maxEnd = active?.sourceClip?.duration ?? trimEnd;
 
   const handleStart = (event: React.ChangeEvent<HTMLInputElement>) => {

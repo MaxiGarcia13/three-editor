@@ -5,12 +5,20 @@ import { Button } from '@/components/button';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
 import { Text } from '@/components/text';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
-import { $clips, removeClip, renameClip, replaceClip } from '../stores/clip-store';
+import {
+  $clips,
+  removeClip,
+  renameClip,
+  replaceClip,
+  selectClip,
+} from '../stores/clip-store';
 import { $retargetClipId, openRetarget } from '../stores/retarget-ui-store';
 import { RetargetModal } from './retarget-modal';
 
 export function ClipLibrary() {
-  const { clips } = useStore($clips, { keys: ['clips'] });
+  const { clips, activeClipId, blendClipId } = useStore($clips, {
+    keys: ['clips', 'activeClipId', 'blendClipId'],
+  });
   const retargetClipId = useStore($retargetClipId);
   const { scene } = useActiveModel();
 
@@ -42,8 +50,15 @@ export function ClipLibrary() {
 
       {clips.map((entry) => {
         const isError = entry.status === 'error';
+        const isDraft = entry.status === 'draft';
         const canRetarget = isError && entry.clip !== null;
         const isRetargeting = retargetClipId === entry.id;
+        const roleLabel
+          = entry.id === blendClipId
+            ? 'Blend'
+            : isDraft
+              ? 'Draft'
+              : undefined;
 
         return (
           <AssetEntry
@@ -54,12 +69,14 @@ export function ClipLibrary() {
             errorDetail={entry.error}
             status={isError ? 'error' : undefined}
             statusLabel={
-              isError ? (canRetarget ? 'Needs retarget' : 'Failed') : undefined
+              roleLabel ?? (isError ? (canRetarget ? 'Needs retarget' : 'Failed') : undefined)
             }
+            selected={entry.id === activeClipId}
+            onSelect={isError ? undefined : () => selectClip(entry.id)}
             onReplace={() => openReplace(entry.id)}
             onRemove={() => removeClip(entry.id)}
             onRename={(name) => renameClip(entry.id, name)}
-            replaceDisabled={scene === null}
+            replaceDisabled={scene === null || isDraft}
             primaryAction={
               canRetarget
                 ? (

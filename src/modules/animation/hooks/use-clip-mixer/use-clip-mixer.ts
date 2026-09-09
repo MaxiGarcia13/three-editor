@@ -14,17 +14,32 @@ export function useClipMixer(scene: Group | null): void {
 
   const {
     activeClipId,
+    blendBaseClip,
     blendClipId,
     blendWeight,
     playing,
     loop,
     clips,
   } = useStore($clips, {
-    keys: ['activeClipId', 'blendClipId', 'blendWeight', 'playing', 'loop', 'clips'],
+    keys: [
+      'activeClipId',
+      'blendBaseClip',
+      'blendClipId',
+      'blendWeight',
+      'playing',
+      'loop',
+      'clips',
+    ],
   });
 
   const entry = clips.find((item) => item.id === activeClipId);
-  const clip = isReadyClip(entry) ? entry.clip : null;
+  // While blending, preview layers base + partner; the baked result lives on the entry.
+  const clip
+    = blendClipId && blendBaseClip
+      ? blendBaseClip
+      : isReadyClip(entry)
+        ? entry.clip
+        : null;
 
   const blendEntry = clips.find((item) => item.id === blendClipId);
   const blendClip = isReadyClip(blendEntry) ? blendEntry.clip : null;

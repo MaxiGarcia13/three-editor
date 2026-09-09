@@ -1,7 +1,6 @@
-import type { AnimationClip } from 'three';
-
 import type { ClipValidationResult } from '@/modules/animation/services/clip-validate';
 import type { ClipEntry } from '@/modules/animation/types/clip';
+import { AnimationClip } from 'three';
 
 export function toEntry(
   validationResult: ClipValidationResult,
@@ -33,14 +32,19 @@ export function toFailedFileEntry(baseId: string, fileName: string, error: unkno
   };
 }
 
-/** Blank authoring target — the only entry later blend/time writes may mutate. */
-export function toBlankDraftEntry(baseId: string, name: string): ClipEntry {
+/**
+ * Editable new animation from scratch.
+ * Starts with a default duration so trim/keyframe edits are immediately possible.
+ */
+export function toNewAnimationEntry(baseId: string, name: string): ClipEntry {
+  const sourceClip = new AnimationClip(name, 1, []);
+  const clip = sourceClip.clone();
   return {
-    id: `${baseId}-draft`,
+    id: `${baseId}-new`,
     name,
-    sourceFile: 'Blank draft',
-    clip: null,
-    sourceClip: null,
+    sourceFile: 'New animation',
+    clip,
+    sourceClip,
     status: 'draft',
     error: null,
   };

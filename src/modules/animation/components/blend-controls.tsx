@@ -2,13 +2,12 @@ import { debounce } from '@maxigarcia/js-utils';
 
 import { useStore } from '@nanostores/react';
 import { useEffect, useRef, useState } from 'react';
-import { Button } from '@/components/button';
 import { Input } from '@/components/input/input';
 import { Text } from '@/components/text';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import {
   $clips,
-  bakeBlend,
+  isReadyClip,
   MAX_BLEND_FADE_DURATION,
   MAX_BLEND_WEIGHT,
   MIN_BLEND_FADE_DURATION,
@@ -30,7 +29,6 @@ export function BlendControls() {
     keys: ['clips', 'activeClipId', 'blendClipId', 'blendWeight', 'blendFadeDuration'],
   });
   const { scene } = useActiveModel();
-  // Slider shows the user's last intent; store/mixer may still be fading toward it.
   const [draftWeight, setDraftWeight] = useState(blendWeight);
   const commitWeight = useRef(
     debounce((weight: number) => {
@@ -38,27 +36,41 @@ export function BlendControls() {
     }, BLEND_WEIGHT_DEBOUNCE_MS),
   ).current;
 
-  // External resets (clear blend clip → weight 0) should reset the thumb.
   useEffect(() => {
     setDraftWeight($clips.get().blendWeight);
   }, [blendClipId]);
 
-  const readyClips = clips.filter((entry) => entry.status === 'ready' && entry.id !== activeClipId);
-  const enabled = scene !== null && activeClipId !== null && readyClips.length > 0;
-  const blendEnabled = enabled && blendClipId !== null;
+  const activeEntry = clips.find((entry) => entry.id === activeClipId);
+  const canBlend = scene !== null && isReadyClip(activeEntry);
+  const blendOptions = clips.filter(
+    (entry) => isReadyClip(entry) && entry.id !== activeClipId,
+  );
+  const blendEnabled = canBlend && blendClipId !== null;
+
+  if (!canBlend) {
+    return (
+      <div className="flex flex-col gap-1">
+        <Text variant="muted">Blend</Text>
+        <Text as="p" variant="muted">
+          Select an animation to blend or fade with another clip.
+        </Text>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-3">
+      <Text variant="muted">Blend</Text>
+
       <label className="flex flex-col gap-1">
         <Text variant="muted">Blend Clip</Text>
         <select
           value={blendClipId ?? ''}
           onChange={(event) => setBlendClip(event.target.value || null)}
-          disabled={!enabled}
-          className="bg-zinc-700 rounded-sm px-2 py-1.5 text-xs text-zinc-100 disabled:opacity-50"
+          className="bg-zinc-700 rounded-sm px-2 py-1.5 text-xs text-zinc-100"
         >
           <option value="">None</option>
-          {readyClips.map((entry) => (
+          {blendOptions.map((entry) => (
             <option key={entry.id} value={entry.id}>
               {entry.name}
             </option>
@@ -101,10 +113,6 @@ export function BlendControls() {
         onChange={(event) => setBlendFadeDuration(Number(event.currentTarget.value))}
         disabled={!blendEnabled}
       />
-
-      <Button onClick={() => bakeBlend(scene)} disabled={!blendEnabled}>
-        Bake blend
-      </Button>
     </div>
   );
 }

@@ -6,15 +6,17 @@ Delta for playing / mixing more than one clip with weights or cross-fades. Paren
 
 ## Story
 
-As an editor user, I can create a new animation in the library and blend or cross-fade source clips into that draft without mutating the source clips.
+As an editor user, I can create a new animation from scratch or use an uploaded clip, blend/fade it with other library clips, and have blend controls apply immediately.
 
 ## Acceptance
 
-- [ ] User can start a **New animation** from the Library Animations section (blank draft entry)
-- [ ] User can enable at least two concurrent actions (or an explicit A→B cross-fade) while authoring the draft
-- [ ] Blend weights or fade duration are user-controllable; timing for the draft is editable
-- [ ] Resulting pose updates live in the viewport on the draft (source library clips stay read-only)
-- [ ] Export behavior for blended results is locked: **save/bake the draft to one library clip** — see [`design.md`](./design.md#export-contract-locked); export otherwise stays discrete library clips
+- [ ] User can start a **New animation** from the Library (`PlusIcon`) — creates an editable draft from scratch
+- [ ] Active animation is selected from the **Animations list** (same pattern as models)
+- [ ] Clicking a currently selected animation unselects it to T-pose
+- [ ] Draft and uploaded clips support Start/End, playback speed, playback, and keyframe edits on the active clip
+- [ ] Any active editable clip can set a Blend partner via select, and weight/fade apply immediately (no Save animation button)
+- [ ] Unsaved pose edits discard on reselect; Hold Pose to End commits into the active clip
+- [ ] Export: discrete library clips — see [`design.md`](./design.md#export-contract-locked)
 
 ## Out of scope for this delta
 

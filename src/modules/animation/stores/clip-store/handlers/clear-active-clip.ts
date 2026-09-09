@@ -16,6 +16,9 @@ export function clearActiveClip(): void {
   $clips.set({
     ...$clips.get(),
     activeClipId: null,
+    blendBaseClip: null,
+    blendClipId: null,
+    blendWeight: 0,
     playing: false,
     duration: 0,
     trimStart: 0,

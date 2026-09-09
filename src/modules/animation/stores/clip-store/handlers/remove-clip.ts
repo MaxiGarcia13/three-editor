@@ -26,6 +26,7 @@ export function removeClip(id: string): void {
   const base: ClipLibraryState = {
     ...state,
     clips,
+    blendBaseClip: wasBlend ? null : state.blendBaseClip,
     blendClipId: wasBlend ? null : state.blendClipId,
     blendWeight: wasBlend ? 0 : state.blendWeight,
   };

@@ -36,7 +36,7 @@ export function SaveKeyframeButton({ className }: SaveKeyframeButtonProps) {
       </Button>
       <Button
         variant="primary"
-        onClick={saveKeyframe}
+        onClick={() => saveKeyframe({ holdToEnd: writeKeyframe })}
         aria-label={writeKeyframe ? 'Hold pose to end of clip' : 'Save edit'}
         title={
           writeKeyframe

@@ -3,7 +3,7 @@ import type { Object3D } from 'three';
 import type { ClipEntry } from '@/modules/animation/types/clip';
 import { setMixerTime } from '@/modules/animation/services/mixer-session';
 import { $clips } from '../store';
-import { nextClipId, toBlankDraftEntry } from '../utils';
+import { nextClipId, toNewAnimationEntry } from '../utils';
 
 function nextDraftName(existing: ClipEntry[]): string {
   const used = new Set(existing.map((entry) => entry.name));
@@ -16,7 +16,7 @@ function nextDraftName(existing: ClipEntry[]): string {
   return `New animation ${n}`;
 }
 
-/** New writing target only: appends a blank draft and selects it for authoring. */
+/** Create a new editable animation from scratch and select it. */
 export function startNewAnimation(scene: Object3D | null): string | null {
   if (!scene) {
     return null;
@@ -24,20 +24,23 @@ export function startNewAnimation(scene: Object3D | null): string | null {
 
   const state = $clips.get();
   const id = nextClipId();
-  const entry = toBlankDraftEntry(id, nextDraftName(state.clips));
+  const name = nextDraftName(state.clips);
+  const entry = toNewAnimationEntry(id, name);
+  const duration = entry.clip?.duration ?? 0;
 
   $clips.set({
     ...state,
     clips: [...state.clips, entry],
-    activeClipId: id,
+    activeClipId: entry.id,
+    blendBaseClip: null,
     blendClipId: null,
     blendWeight: 0,
     playing: false,
-    duration: 0,
+    duration,
     trimStart: 0,
-    trimEnd: 0,
+    trimEnd: duration,
   });
   setMixerTime(0);
 
-  return id;
+  return entry.id;
 }

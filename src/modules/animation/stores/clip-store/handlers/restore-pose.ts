@@ -9,7 +9,13 @@ import {
 import { $selection } from '@/modules/viewport/stores/selection-store';
 import { $clips } from '../store';
 
-/** Discard unsaved gizmo / Settings edits. */
+/**
+ * Discard unsaved gizmo / Settings edits.
+ *
+ * Always restore the pre-edit snapshot on the edited object. Empty drafts (and
+ * clips without tracks for that node) cannot be corrected by mixer.setTime alone,
+ * so snapshot restore is required before optionally re-applying the active clip.
+ */
 export function restorePose(): void {
   if (!$poseDirty.get()) {
     return;
@@ -22,10 +28,11 @@ export function restorePose(): void {
       ? $activeModel.get()?.scene ?? null
       : $selection.get().object;
 
+  if (object) {
+    restoreFromSnapshot(object);
+  }
+
   if (kind === 'modelRoot' || !activeClipId) {
-    if (object) {
-      restoreFromSnapshot(object);
-    }
     clearPoseDirty();
     return;
   }

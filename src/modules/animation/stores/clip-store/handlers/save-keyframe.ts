@@ -3,7 +3,7 @@ import {
   rebaseClipNode,
 } from '@/modules/animation/services/bind-pose-rebase';
 import { writeNodeKeyframe } from '@/modules/animation/services/keyframe-write';
-import { resumeMixerBindings } from '@/modules/animation/services/mixer-session';
+import { restoreMixerPose, resumeMixerBindings } from '@/modules/animation/services/mixer-session';
 import { refreshRestPoseNode } from '@/modules/animation/services/rest-pose';
 import {
   accumulateBindPoseDelta,
@@ -49,7 +49,7 @@ function commitBindPoseToClips(nodeName: string): void {
   $clips.set({ ...state, clips });
 }
 
-export function saveKeyframe(): void {
+export function saveKeyframe(options?: { holdToEnd?: boolean }): void {
   if (!$poseDirty.get()) {
     return;
   }
@@ -66,6 +66,7 @@ export function saveKeyframe(): void {
 
   const state = $clips.get();
   const active = state.clips.find((entry) => entry.id === state.activeClipId);
+  const holdToEnd = options?.holdToEnd ?? true;
 
   // Model-root commit: TRS already on the scene.
   if (kind === 'modelRoot') {
@@ -87,16 +88,23 @@ export function saveKeyframe(): void {
   }
 
   const nodeName = object.name || object.uuid;
-  const working = writeNodeKeyframe(active.clip, nodeName, readClipTimelineTime(), {
-    position: [object.position.x, object.position.y, object.position.z],
-    quaternion: [
-      object.quaternion.x,
-      object.quaternion.y,
-      object.quaternion.z,
-      object.quaternion.w,
-    ],
-    scale: [object.scale.x, object.scale.y, object.scale.z],
-  });
+  const timelineTime = readClipTimelineTime();
+  const working = writeNodeKeyframe(
+    active.clip,
+    nodeName,
+    timelineTime,
+    {
+      position: [object.position.x, object.position.y, object.position.z],
+      quaternion: [
+        object.quaternion.x,
+        object.quaternion.y,
+        object.quaternion.z,
+        object.quaternion.w,
+      ],
+      scale: [object.scale.x, object.scale.y, object.scale.z],
+    },
+    holdToEnd ? active.clip.duration : timelineTime,
+  );
 
   $clips.set({
     ...state,
@@ -105,6 +113,8 @@ export function saveKeyframe(): void {
     ),
     duration: working.duration,
   });
-  resumeMixerBindings();
+  // Rebind + re-sample at the same playhead so non-hold saves are visible immediately.
+  // Plain resume/setTime can keep stale accumulation when time hasn't advanced.
+  restoreMixerPose();
   clearPoseDirty();
 }

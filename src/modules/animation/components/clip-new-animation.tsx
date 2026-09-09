@@ -5,11 +5,12 @@ import { startNewAnimation } from '../stores/clip-store';
 
 export function ClipNewAnimation() {
   const { scene } = useActiveModel();
+  const enabled = scene !== null;
 
   return (
     <Button
       onClick={() => startNewAnimation(scene)}
-      disabled={scene === null}
+      disabled={!enabled}
       variant="ghost"
       aria-label="New animation"
       title="New animation"

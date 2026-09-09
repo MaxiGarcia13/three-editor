@@ -15,6 +15,8 @@ export interface ClipEntry {
 export interface ClipLibraryState {
   clips: ClipEntry[];
   activeClipId: string | null;
+  /** Primary layer snapshot captured when a blend partner is selected. */
+  blendBaseClip: THREE.AnimationClip | null;
   blendClipId: string | null;
   blendWeight: number;
   blendFadeDuration: number;
