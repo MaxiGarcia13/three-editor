@@ -4,8 +4,8 @@ import { Button } from '@/components/button';
 import { RestoreIcon } from '@/components/icons/restore-icon';
 import { SaveIcon } from '@/components/icons/save-icon';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
+import { $editTool } from '@/modules/viewport/stores/edit-tool-store';
 import { $poseDirty } from '@/modules/viewport/stores/pose-edit-store';
-import { $selection } from '@/modules/viewport/stores/selection-store';
 import { $clips, restorePose, saveKeyframe } from '../stores/clip-store';
 
 interface SaveKeyframeButtonProps {
@@ -14,12 +14,14 @@ interface SaveKeyframeButtonProps {
 
 export function SaveKeyframeButton({ className }: SaveKeyframeButtonProps) {
   const { activeClipId } = useStore($clips, { keys: ['activeClipId'] });
-  const { object: selected } = useStore($selection, { keys: ['object'] });
+  const editTool = useStore($editTool);
   const poseDirty = useStore($poseDirty);
   const { scene } = useActiveModel();
 
-  const visible = poseDirty && scene !== null && activeClipId !== null && selected !== null;
-  if (!visible) {
+  const isMove = editTool === 'move';
+  const writeKeyframe = !isMove && activeClipId !== null;
+
+  if (!poseDirty || scene === null) {
     return null;
   }
 
@@ -28,21 +30,25 @@ export function SaveKeyframeButton({ className }: SaveKeyframeButtonProps) {
       <Button
         variant="default"
         onClick={restorePose}
-        aria-label="Restore pose"
+        aria-label="Restore edit"
         className="flex flex-row gap-2 items-center"
       >
         <RestoreIcon />
-        Restore Pose
+        Restore
       </Button>
       <Button
         variant="primary"
         onClick={saveKeyframe}
-        aria-label="Hold pose to end of clip"
-        title="Keeps this pose from the playhead to the end of the clip. Scrub and edit again anytime to change it."
+        aria-label={writeKeyframe ? 'Hold pose to end of clip' : 'Save edit'}
+        title={
+          writeKeyframe
+            ? 'Keeps this pose from the playhead to the end of the clip. Scrub and edit again anytime to change it.'
+            : 'Commits the current transform onto the model.'
+        }
         className="flex flex-row gap-2 items-center"
       >
         <SaveIcon />
-        Hold Pose to End
+        {writeKeyframe ? 'Hold Pose to End' : 'Save'}
       </Button>
     </div>
   );

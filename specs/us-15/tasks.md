@@ -14,7 +14,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] Pre-edit TRS snapshot on first dirty; Restore without mixer when no active clip or in Move mode
 - [x] Save branches: bind-pose commit (no clip), Hold Pose to End (active clip + Edit), root translation commit (Move)
 - [x] Auto-Restore on Edit ↔ Move switch while dirty
-- [ ] Show Save / Restore whenever dirty (both tools)
+- [x] Show Save / Restore whenever dirty (both tools)
 - [ ] Settings General: live X / Y / Z position readout (model root in Move; selection local position in Edit)
 
 ## Verify
