@@ -10,7 +10,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 ## Implement
 
 - [x] Dual-action / cross-fade playback API in `animation` domain
-- [ ] Sidebar blend / fade controls
+- [x] Sidebar blend / fade controls
 - [ ] Optional “Bake blend” → new library clip
 - [ ] Document and test export interaction with US-5
 

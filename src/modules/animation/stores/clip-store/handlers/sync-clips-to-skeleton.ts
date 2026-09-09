@@ -50,6 +50,7 @@ export function syncClipsToSkeleton(skeleton: Object3D | null): void {
     activeClipId,
     blendClipId,
     blendWeight: blendClipId ? state.blendWeight : 0,
+    blendFadeDuration: state.blendFadeDuration,
     playing: false,
     loop: state.loop,
     duration: active?.clip?.duration ?? 0,

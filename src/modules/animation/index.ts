@@ -1,3 +1,4 @@
+export { BlendControls } from './components/blend-controls';
 export { ClipSelector } from './components/clip-selector';
 export { ClipTrimInputs } from './components/clip-trim-inputs';
 export { PlaybackControls } from './components/playback-controls';

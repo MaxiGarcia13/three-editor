@@ -17,14 +17,15 @@ So the dual-action work must first relax the single-action assumptions in `mixer
 
 ## Approach
 
-- Extend playback beyond single active action: secondary action + `crossFadeTo` / `setEffectiveWeight`
+- Extend playback beyond single active action: secondary action + weighted `setEffectiveWeight`
+- Settings sidebar **Animation** section gains `BlendControls`: Blend Clip selector (ready clips, active excluded), weight slider, and fade duration input. Changing the weight lerps over `blendFadeDuration` (0 = instant) — no separate Fade button
 - Blend playback stays viewport-only until the user explicitly requests a bake (see **Export contract (locked)**)
 
 ### Playback API (implemented)
 
-- `$clips` gains `blendClipId` + `blendWeight` (0..1); handlers `setBlendClip(id | null)` / `setBlendWeight(w)` in `clip-store`
-- `mixer-session` owns a **secondary action**: primary keeps `setEffectiveWeight(1 - weight)`, blend gets `weight`; suspend/resume/restore and `setMixerTime` cover both actions
-- `crossFadeToBlend(duration)` runs a native `AnimationAction.crossFadeTo` A→B from primary into the blend action
+- `$clips` gains `blendClipId` + `blendWeight` (0..1) + `blendFadeDuration`; handlers `setBlendClip(id | null)` / `setBlendWeight(w)` / `setBlendFadeDuration(s)` in `clip-store`
+- `mixer-session` owns a **secondary action**: primary keeps `setEffectiveWeight(1 - weight)`, blend gets `weight`; suspend/resume/restore and `setMixerTime` cover both actions. Weight changes flush `mixer.setTime(t)` so paused previews update (frame loop only advances while playing)
+- **Weight changes** lerp via `fadeBlendWeightTo` over `blendFadeDuration` — do **not** use `AnimationAction.crossFadeTo` together with `setEffectiveWeight` (that leaves total weight < 1 and blends toward bind / rest pose)
 - `useClipMixerBlend` mounts/stops the secondary action, snaps both actions to one playhead, and mirrors `blendWeight` and loop mode
 - Library hygiene: removing / replacing / invalidating the blend clip clears `blendClipId` so it never dangles
 

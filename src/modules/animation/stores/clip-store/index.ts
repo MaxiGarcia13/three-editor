@@ -1,8 +1,10 @@
 export {
   clearActiveClip,
   importClipFiles,
+  MAX_BLEND_FADE_DURATION,
   MAX_BLEND_WEIGHT,
   MAX_TIME_SCALE,
+  MIN_BLEND_FADE_DURATION,
   MIN_BLEND_WEIGHT,
   MIN_TIME_SCALE,
   pause,
@@ -15,6 +17,7 @@ export {
   saveKeyframe,
   selectClip,
   setBlendClip,
+  setBlendFadeDuration,
   setBlendWeight,
   setTimeScale,
   stop,

@@ -1,6 +1,6 @@
 import { CollapsibleAside } from '@/components/collapsible-aside/collapsible-aside';
 import { Text } from '@/components/text';
-import { ClipTrimInputs, SpeedControl } from '@/modules/animation';
+import { BlendControls, ClipTrimInputs, SpeedControl } from '@/modules/animation';
 import { DownloadExport } from './download-export';
 import { TransformReadout } from './transform-readout';
 import { WorldAxesControls } from './world-axes-controls';
@@ -30,6 +30,7 @@ export function EditorSettingsSidebar() {
         <div className="flex flex-col gap-4">
           <ClipTrimInputs />
           <SpeedControl />
+          <BlendControls />
         </div>
       </div>
 

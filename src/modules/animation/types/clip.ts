@@ -17,6 +17,7 @@ export interface ClipLibraryState {
   activeClipId: string | null;
   blendClipId: string | null;
   blendWeight: number;
+  blendFadeDuration: number;
   playing: boolean;
   loop: boolean;
   duration: number;
