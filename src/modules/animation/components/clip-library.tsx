@@ -1,6 +1,6 @@
 import { useStore } from '@nanostores/react';
 
-import { AssetEntry } from '@/components/asset-entry/asset-entry';
+import { AssetEntry } from '@/components/asset-entry';
 import { Button } from '@/components/button';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
 import { Text } from '@/components/text';

@@ -24,6 +24,8 @@ No adapter / loader changes. Import still seeds names from file / clip as today.
 
 - Extend shared `AssetEntry` with an optional rename affordance (e.g. double-click label and/or a “Rename” control that swaps the label for an input)
 - Commit on Enter / blur; Escape cancels and restores the prior label
+- Finder-style selection: select basename only when the label ends in `.glb`/`.gltf`; leave the suffix in the field so it stays editable
+- If commit omits the extension entirely, restore the previous `.glb`/`.gltf`; a user-typed suffix (including switching `.glb` ↔ `.gltf`) is kept as typed
 - Wire from `ModelLibrary` and `ClipLibrary` to the store handlers
 - Active-clip `<select>` already binds `entry.name` — no separate rename UI there
 
