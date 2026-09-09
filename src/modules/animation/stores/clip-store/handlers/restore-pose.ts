@@ -1,5 +1,6 @@
 import { restoreMixerPose } from '@/modules/animation/services/mixer-session';
 import { $editTool } from '@/modules/viewport/stores/edit-tool-store';
+import { $activeModel } from '@/modules/viewport/stores/model-store';
 import {
   $poseDirty,
   restoreFromSnapshot,
@@ -14,12 +15,12 @@ export function restorePose(): void {
   }
 
   const { activeClipId } = $clips.get();
-  const { object: selected } = $selection.get();
   const isMove = $editTool.get() === 'move';
+  const object = isMove ? $activeModel.get()?.scene ?? null : $selection.get().object;
 
   if (isMove || !activeClipId) {
-    if (selected) {
-      restoreFromSnapshot(selected);
+    if (object) {
+      restoreFromSnapshot(object);
     }
     $poseDirty.set(false);
     return;
