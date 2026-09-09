@@ -21,14 +21,14 @@ flowchart LR
 ### Server
 
 - `@astrojs/vercel` adapter; editor page stays prerendered; only the API is on-demand (`export const prerender = false`)
-- Adapter: `includeFiles` for `node_modules/fbx2gltf/bin/Linux/`; `excludeFiles` for Darwin + Windows binaries; `maxDuration` enough for convert (e.g. 60s)
+- Adapter: `includeFiles: ['./node_modules/fbx2gltf/bin/Linux/FBX2glTF']` (the binary file — `@astrojs/vercel` copies listed paths, not directory trees); `excludeFiles` for `./node_modules/fbx2gltf/bin/Darwin/FBX2glTF` and `./node_modules/fbx2gltf/bin/Windows_NT/FBX2glTF.exe` (exact paths; exclude is identity match); `maxDuration: 60`
 - Do **not** use Edge middleware / Edge runtime for this route
 - Thin route `src/pages/api/fbx-to-glb.ts`: `POST` only, `multipart/form-data` field `file`
 - Server-only convert module (imported only by that route), e.g. `src/modules/import/services/convert-fbx.ts`:
   - Reject non-`.fbx` and oversize bodies (~4.5MB Vercel payload)
   - Write under `os.tmpdir()` (`/tmp` on Vercel) → `fbx2gltf` `convert(src, dest.glb)` via `createRequire`
   - Return `model/gltf-binary`; `try/finally` delete the temp dir
-- Externalize `fbx2gltf` from the Vite SSR bundle
+- `vite.ssr.external: ['fbx2gltf']` so the CJS wrapper keeps `__dirname` at `node_modules/fbx2gltf` (runtime lookup is `bin/${os.type()}/FBX2glTF`)
 - Domain `import` owns convert API + client adapter; do not import `fbx2gltf` from client islands
 
 ### Client

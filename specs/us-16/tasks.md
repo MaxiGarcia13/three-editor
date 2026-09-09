@@ -4,8 +4,8 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 ## Prep
 
-- [ ] Add `@astrojs/vercel` and `fbx2gltf`; keep the editor page prerendered
-- [ ] Confirm Linux binary `includeFiles` / Darwin+Windows `excludeFiles` and Vite SSR external for `fbx2gltf`
+- [x] Add `@astrojs/vercel` and `fbx2gltf`; keep the editor page prerendered
+- [x] Confirm Linux binary `includeFiles` / Darwin+Windows `excludeFiles` and Vite SSR external for `fbx2gltf`
 
 ## Implement
 

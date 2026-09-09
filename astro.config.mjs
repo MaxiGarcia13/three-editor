@@ -40,7 +40,22 @@ export default defineConfig({
         },
       },
     },
+
+    // CJS wrapper locates bin/${os.type()}/FBX2glTF via __dirname. Bundling
+    // would rewrite that path; keep the package on the Node module graph.
+    ssr: {
+      external: ['fbx2gltf'],
+    },
   },
 
-  adapter: vercel(),
+  adapter: vercel({
+    // NFT cannot see the dynamic spawn path. include/exclude are exact files
+    // (the adapter does not recurse directories or glob these lists).
+    includeFiles: ['./node_modules/fbx2gltf/bin/Linux/FBX2glTF'],
+    excludeFiles: [
+      './node_modules/fbx2gltf/bin/Darwin/FBX2glTF',
+      './node_modules/fbx2gltf/bin/Windows_NT/FBX2glTF.exe',
+    ],
+    maxDuration: 60,
+  }),
 });
