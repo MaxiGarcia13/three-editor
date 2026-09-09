@@ -108,6 +108,7 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 
 | US                                   | Status                | Tasks                                       |
 | ------------------------------------ | --------------------- | ------------------------------------------- |
+| **US-15** — Edit / Move tools        | not started           | [`specs/us-15/tasks.md`](../us-15/tasks.md) |
 | **US-7** — Multi-clip blending       | post-MVP, not started | [`specs/us-7/tasks.md`](../us-7/tasks.md)   |
 | **US-8** — Morph-target editing      | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md)   |
 | **US-9** — Graph / curve keyframe UI | post-MVP, not started | [`specs/us-9/tasks.md`](../us-9/tasks.md)   |
