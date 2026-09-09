@@ -1,4 +1,5 @@
 import type { OrbitControlsRef } from './model-framing';
+import { useStore } from '@nanostores/react';
 import { OrbitControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useRef } from 'react';
@@ -8,6 +9,7 @@ import {
   DEFAULT_CAMERA_POSITION,
   DEFAULT_CAMERA_TARGET,
 } from '../constants/camera';
+import { $viewportSettings } from '../stores/viewport-settings-store';
 import { GroundGrid } from './ground-grid';
 import { ModelFraming } from './model-framing';
 import { ModelViewer } from './model-viewer';
@@ -18,6 +20,10 @@ import { WorldAxes } from './world-axes';
 
 export function ViewportCanvas() {
   const controlsRef = useRef<OrbitControlsRef>(null);
+
+  const { axesVisible, axesSize } = useStore($viewportSettings, {
+    keys: ['axesVisible', 'axesSize'],
+  });
 
   return (
     <Canvas
@@ -30,7 +36,7 @@ export function ViewportCanvas() {
       <ambientLight intensity={0.5} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
       <GroundGrid />
-      <WorldAxes />
+      {axesVisible && <WorldAxes axesSize={axesSize} />}
       <OrbitControls
         enableDamping
         ref={controlsRef}

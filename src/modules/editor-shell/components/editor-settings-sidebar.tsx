@@ -2,11 +2,19 @@ import { CollapsibleAside } from '@/components/collapsible-aside/collapsible-asi
 import { Text } from '@/components/text';
 import { ClipTrimInputs, SpeedControl } from '@/modules/animation';
 import { DownloadExport } from './download-export';
+import { WorldAxesControls } from './world-axes-controls';
 
 export function EditorSettingsSidebar() {
   return (
     <CollapsibleAside title="Settings" direction="right" className="flex flex-col gap-6">
       <div className="flex-1 flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <Text as="h2" variant="section">
+            General
+          </Text>
+          <WorldAxesControls />
+        </div>
+
         <Text as="h2" variant="section">
           Animation
         </Text>
