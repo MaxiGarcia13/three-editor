@@ -82,6 +82,16 @@ As an editor user, I can keep several character GLBs in the session and choose w
 - [x] Removing the previewed model selects another loaded model, or empty state if none remain
 - [x] Clip import still requires a previewed model
 
+### US-13 — Selection name overlay
+
+As an editor user, when I click a bone or part of the model, I can see its name in a floating label on the preview so I know what is selected.
+
+**Acceptance**
+
+- [x] When a bone or mesh is selected via raycast selection, a floating label on the preview shows that object’s `Object3D.name`
+- [x] The label updates when the selection changes and is hidden when there is no selection
+- [x] The overlay is non-interactive (`pointer-events-none`) and does not block orbit, picking, or the transform-mode toolbar
+
 ## Open deltas (not started)
 
 Deltas under `specs/us-<n>/`. Do not implement until explicitly kicked off.
@@ -97,18 +107,6 @@ As an editor user, I can rename a model or animation in the library so labels an
 - [ ] Empty names rejected; clip `sourceFile` provenance unchanged
 
 See [`specs/us-12/`](../us-12/).
-
-### US-13 — Selection name overlay
-
-As an editor user, when I click a bone or part of the model, I can see its name in a floating label on the preview so I know what is selected.
-
-**Acceptance**
-
-- [ ] Top-right preview label shows the selected bone/mesh name; hidden when nothing is selected
-- [ ] Bones use registry-friendly labels (raw name in tooltip when different); empty mesh names get a fallback
-- [ ] Overlay is non-interactive and does not block viewport controls
-
-See [`specs/us-13/`](../us-13/).
 
 ## Post-MVP user stories
 

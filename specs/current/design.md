@@ -85,6 +85,12 @@ Playback uses `mixer.timeScale` only. On export, **bake** the current speed into
 5. Restore: resume mixer bindings and re-apply the clip at the current playhead (discard unsaved gizmo edit)
 6. After hold, rebind / update the mixer action at that same clip-local time so the edit is audible on next play
 
+## Selection name overlay (US-13)
+
+1. Existing raycast selection writes `$selection.object` (US-4) — no second picking path
+2. `SelectionNameOverlay` in `viewport` subscribes to `$selection` and renders the selected `Object3D.name` (tooltip `title` is the same string)
+3. Mounted in `EditorPreview` as a floating HTML label (`pointer-events-none`) so it does not block orbit, pick, or the transform toolbar; hidden when selection is null
+
 ## Viewport
 
 - Full-bleed R3F `Canvas` with lights; orbit / pan / zoom via `OrbitControls`
@@ -92,7 +98,7 @@ Playback uses `mixer.timeScale` only. On export, **bake** the current speed into
 - Dark infinite ground grid at `y = 0` (1 m cells, stronger section lines; `viewport/constants/ground-grid`) plus soft contact shadow under the model (`ContactShadows`)
 - TransformControls for selected object; modes translate / rotate / scale via preview toolbar + W / E / R (default translate); gizmo space is local; dragging pauses playback and suspends mixer bindings so tracks cannot overwrite the pose
 - Collapsible sidebar docks beside the canvas (`editor-shell`); collapse/expand with labelled chevron controls
-- Preview chrome hosts playback + transform mode toolbar (when selected) + dirty-only save/restore pose controls (not the settings sidebar)
+- Preview chrome hosts playback + transform mode toolbar (when selected) + selection name overlay + dirty-only save/restore pose controls (not the settings sidebar)
 
 ## Export (US-5)
 

@@ -11,7 +11,6 @@
 
 | ID | Summary |
 |----|---------|
-| **US-13** | Selection name overlay in preview (bone / mesh) |
 | **US-12** | Rename model and animation library entries |
 | **US-6** | Cross-rig retargeting (post-MVP) |
 | **US-7** | Multi-clip blending / cross-fade (post-MVP) |
@@ -23,6 +22,7 @@
 
 | ID | Summary |
 |----|---------|
+| **US-13** | Selection name overlay in preview (bone / mesh) |
 | **US-5** | Zip download: per-model GLBs + animation-only files |
 | **US-4** | Keyframe capture via TransformControls |
 | **US-3** | Clip trim & mixer time scale |
