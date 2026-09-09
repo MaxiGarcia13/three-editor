@@ -3,6 +3,7 @@ import { useThree } from '@react-three/fiber';
 import { useEffect } from 'react';
 import { PICK_DRAG_THRESHOLD_PX } from '../constants/selection';
 import { pickObjectAtPointer } from '../services/object-pick';
+import { $editTool } from '../stores/edit-tool-store';
 import { clearSelection, selectObject } from '../stores/selection-store';
 import { useActiveModel } from './use-active-model';
 
@@ -26,6 +27,10 @@ export function useRaycastSelection(): void {
     };
 
     const onPointerUp = (event: PointerEvent) => {
+      if ($editTool.get() === 'move') {
+        return;
+      }
+
       const distance = Math.hypot(event.clientX - dragOrigin.x, event.clientY - dragOrigin.y);
       if (distance > PICK_DRAG_THRESHOLD_PX) {
         return;

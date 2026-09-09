@@ -9,6 +9,8 @@ import {
   suspendMixerBindings,
 } from '@/modules/animation/services/mixer-session';
 import { pause } from '@/modules/animation/stores/clip-store';
+import { useActiveModel } from '../hooks/use-active-model';
+import { $editTool } from '../stores/edit-tool-store';
 import { $poseDirty, markPoseDirty } from '../stores/pose-edit-store';
 import { $selection } from '../stores/selection-store';
 import { $transformMode } from '../stores/transform-mode-store';
@@ -27,7 +29,14 @@ export interface TransformControlsDriverProps {
 export function TransformControlsDriver({ controlsRef }: TransformControlsDriverProps) {
   const { object: selected } = useStore($selection, { keys: ['object'] });
   const mode = useStore($transformMode);
+  const editTool = useStore($editTool);
+  const { scene } = useActiveModel();
   const gizmoRef = useRef<TransformControlsRef>(null);
+
+  const isMove = editTool === 'move';
+  const gizmoObject = isMove ? scene : selected;
+  const gizmoMode = isMove ? 'translate' : mode;
+  const gizmoSpace = isMove ? 'world' : 'local';
 
   useEffect(() => {
     const gizmo = gizmoRef.current as TransformControlsEvents | null;
@@ -59,12 +68,11 @@ export function TransformControlsDriver({ controlsRef }: TransformControlsDriver
       gizmo.removeEventListener('objectChange', onObjectChange);
       orbit.enabled = true;
     };
-  }, [controlsRef, selected]);
+  }, [controlsRef, gizmoObject]);
 
-  if (!selected) {
+  if (!gizmoObject) {
     return null;
   }
 
-  // Local space: bone/mesh keyframes store local TRS; world rotate fights parent joints.
-  return <TransformControls ref={gizmoRef} object={selected} mode={mode} space="local" />;
+  return <TransformControls ref={gizmoRef} object={gizmoObject} mode={gizmoMode} space={gizmoSpace} />;
 }

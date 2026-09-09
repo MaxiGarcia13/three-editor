@@ -3,6 +3,7 @@ import { cn } from '@maxigarcia/js-utils';
 import { useStore } from '@nanostores/react';
 import { Button } from '@/components/button';
 import { useTransformModeHotkeys } from '../hooks/use-transform-mode-hotkeys';
+import { $editTool } from '../stores/edit-tool-store';
 import { $selection } from '../stores/selection-store';
 import {
   $transformMode,
@@ -25,8 +26,9 @@ export function TransformModeToolbar({ className }: TransformModeToolbarProps) {
 
   const { object: selected } = useStore($selection, { keys: ['object'] });
   const mode = useStore($transformMode);
+  const editTool = useStore($editTool);
 
-  if (!selected) {
+  if (!selected || editTool === 'move') {
     return null;
   }
 
