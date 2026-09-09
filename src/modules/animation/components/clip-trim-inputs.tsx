@@ -1,5 +1,4 @@
 import { useStore } from '@nanostores/react';
-
 import { Input } from '@/components/input/input';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { $clips, trimClip } from '../stores/clip-store';
