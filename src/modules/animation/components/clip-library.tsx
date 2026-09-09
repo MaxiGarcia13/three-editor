@@ -5,7 +5,7 @@ import { Button } from '@/components/button';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
 import { Text } from '@/components/text';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
-import { $clips, removeClip, replaceClip } from '../stores/clip-store';
+import { $clips, removeClip, renameClip, replaceClip } from '../stores/clip-store';
 import { $retargetClipId, openRetarget } from '../stores/retarget-ui-store';
 import { RetargetModal } from './retarget-modal';
 
@@ -58,6 +58,7 @@ export function ClipLibrary() {
             }
             onReplace={() => openReplace(entry.id)}
             onRemove={() => removeClip(entry.id)}
+            onRename={(name) => renameClip(entry.id, name)}
             replaceDisabled={scene === null}
             primaryAction={
               canRetarget

@@ -8,6 +8,21 @@ export const GLTF_FILE_ACCEPT = '.glb,.gltf';
 /** Case-insensitive filename match for `.glb` / `.gltf`. */
 export const GLTF_EXTENSION_PATTERN = /\.(?:glb|gltf)$/i;
 
+/**
+ * If `previous` ends with `.glb`/`.gltf` and `next` has no extension, append the previous one.
+ * Keeps a user-chosen `.glb`/`.gltf` (or any other suffix) as typed.
+ */
+export function preserveGltfExtension(next: string, previous: string): string {
+  const previousExt = previous.match(GLTF_EXTENSION_PATTERN)?.[0];
+  if (!previousExt || GLTF_EXTENSION_PATTERN.test(next)) {
+    return next;
+  }
+  if (/\.[^./\\]+$/.test(next)) {
+    return next;
+  }
+  return `${next}${previousExt}`;
+}
+
 export interface GltfParseResult {
   gltf: GLTF;
   blobUrl: string;

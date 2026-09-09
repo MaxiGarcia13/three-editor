@@ -5,6 +5,7 @@ import { Text } from '@/components/text';
 import {
   $model,
   removeModel,
+  renameModel,
   replaceModel,
   setActiveModel,
 } from '@/modules/viewport/stores/model-store';
@@ -50,6 +51,7 @@ export function ModelLibrary() {
               onSelect={() => setActiveModel(entry.id)}
               onReplace={() => openReplace(entry.id)}
               onRemove={() => removeModel(entry.id)}
+              onRename={(name) => renameModel(entry.id, name)}
             />
           ))}
         </div>

@@ -1,6 +1,7 @@
 export { importClipFiles } from './import-clip-files';
 export { MAX_TIME_SCALE, MIN_TIME_SCALE, pause, play, setTimeScale, stop, toggleLoop } from './playback';
 export { removeClip } from './remove-clip';
+export { renameClip } from './rename-clip';
 export { replaceClip } from './replace-clip';
 export { restorePose } from './restore-pose';
 export { retargetClip } from './retarget-clip';

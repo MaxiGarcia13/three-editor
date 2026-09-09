@@ -1,6 +1,7 @@
 import type { ModelEntry, ModelLibraryPhase, ModelLibraryState } from '../types/model';
 
 import { computed, map } from 'nanostores';
+import { preserveGltfExtension } from '@/utils/glb-parse';
 import { loadModelFromFile } from '../adapters/model-loader';
 import { disposeScene } from '../services/scene-dispose';
 
@@ -71,6 +72,26 @@ export async function importModelFiles(files: File[]): Promise<void> {
 
 export function setActiveModel(id: string): void {
   $model.setKey('activeModelId', id);
+}
+
+export function renameModel(id: string, name: string): void {
+  const trimmed = name.trim();
+  if (!trimmed) {
+    return;
+  }
+  const state = $model.get();
+  const index = state.models.findIndex((model) => model.id === id);
+  if (index < 0) {
+    return;
+  }
+  const models = [...state.models];
+  const previous = models[index];
+  const fileName = preserveGltfExtension(trimmed, previous.fileName);
+  if (fileName === previous.fileName) {
+    return;
+  }
+  models[index] = { ...previous, fileName };
+  $model.setKey('models', models);
 }
 
 function disposeEntry(entry: ModelEntry): void {

@@ -5,6 +5,7 @@ export {
   pause,
   play,
   removeClip,
+  renameClip,
   replaceClip,
   restorePose,
   retargetClip,
