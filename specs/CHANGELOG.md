@@ -11,7 +11,6 @@
 
 | ID | Summary |
 |----|---------|
-| **US-5** | Zip download: per-model GLBs + animation-only files |
 | **US-6** | Cross-rig retargeting (post-MVP) |
 | **US-7** | Multi-clip blending / cross-fade (post-MVP) |
 | **US-8** | Morph-target editing (post-MVP) |
@@ -22,6 +21,7 @@
 
 | ID | Summary |
 |----|---------|
+| **US-5** | Zip download: per-model GLBs + animation-only files |
 | **US-4** | Keyframe capture via TransformControls |
 | **US-3** | Clip trim & mixer time scale |
 | **US-11** | Model library — many characters, one previewed |

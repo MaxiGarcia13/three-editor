@@ -63,12 +63,12 @@ As an editor user, I can download a zip of each model and of each animation as s
 
 **Acceptance**
 
-- [ ] “Download” uses `GLTFExporter` and builds a zip in the browser — no server round-trip
-- [ ] Zip contains one `{model}.glb` per loaded model: that model’s scene plus **only** library clips that validate against that model’s skeleton (working / trimmed / keyed form)
-- [ ] Zip contains one `{clip}.glb` per library clip that has a working `AnimationClip` — animation-only, no mesh
-- [ ] Current playback `timeScale` is baked into exported track times / clip duration per design
-- [ ] Filename collisions inside the zip get a numeric suffix
-- [ ] Download is disabled or errors when there is nothing to pack; exporter failure does not download a partial zip
+- [x] “Download” uses `GLTFExporter` and builds a zip in the browser — no server round-trip
+- [x] Zip contains one `{model}.glb` per loaded model: that model’s scene plus **only** library clips that validate against that model’s skeleton (working / trimmed / keyed form)
+- [x] Zip contains one `{clip}.glb` per library clip that has a working `AnimationClip` — animation-only, no mesh
+- [x] Current playback `timeScale` is baked into exported track times / clip duration per design
+- [x] Filename collisions inside the zip get a numeric suffix
+- [x] Download is disabled or errors when there is nothing to pack; exporter failure does not download a partial zip
 
 ### US-11 — Model library
 

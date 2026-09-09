@@ -22,6 +22,7 @@ export function Button({
   return (
     <button
       type="button"
+      disabled={disabled}
       className={
         cn(
           'text-xs transition-colors rounded p-2',

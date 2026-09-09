@@ -61,11 +61,21 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] Capture local TRS; find/create Vector / Quaternion tracks; hold plateau playhead → clip end
 - [x] Restore discards unsaved pose and re-applies clip at playhead
 
+## US-5 — Zip export
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] Bake helper for `timeScale !== 1` (clone clips; scale times / duration)
+- [x] `GLTFExporter` adapter: model scene + matching working clips → `.glb`
+- [x] `GLTFExporter` adapter: animation-only (empty/minimal scene + one working clip) → `.glb`
+- [x] Zip helper; numeric suffix on filename collisions
+- [x] “Download” sidebar control + blob download of the zip
+- [x] Disable / error when nothing to pack; no partial zip on exporter failure
+
 ## Open deltas
 
 | US                                   | Status                | Tasks                                       |
 | ------------------------------------ | --------------------- | ------------------------------------------- |
-| **US-5** — Zip export                | not started           | [`specs/us-5/tasks.md`](../us-5/tasks.md)   |
 | **US-6** — Cross-rig retargeting     | post-MVP, not started | [`specs/us-6/tasks.md`](../us-6/tasks.md)   |
 | **US-7** — Multi-clip blending       | post-MVP, not started | [`specs/us-7/tasks.md`](../us-7/tasks.md)   |
 | **US-8** — Morph-target editing      | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md)   |
