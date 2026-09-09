@@ -9,6 +9,7 @@ export {
   setBlendWeight,
 } from './blend';
 export { clearActiveClip } from './clear-active-clip';
+export { startNewAnimation } from './draft';
 export { importClipFiles } from './import-clip-files';
 export { MAX_TIME_SCALE, MIN_TIME_SCALE, pause, play, setTimeScale, stop, toggleLoop } from './playback';
 export { removeClip } from './remove-clip';

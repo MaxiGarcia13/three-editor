@@ -21,6 +21,8 @@ So the dual-action work must first relax the single-action assumptions in `mixer
 
 - Library **Animations** gains a **New animation** control (`PlusIcon`, beside import) that appends a **blank draft** clip and selects it for authoring
 - The draft is the only write target: user picks source clips to blend/fade **into** it, edits draft timing, and saves one result
+- Draft entries carry `status: 'draft'` with `clip: null`; `isReadyClip()` excludes them, so every existing write path (trim, keyframe, replace, bake) can only ever mutate a ready/draft entry it owns — never another library clip
+- `startNewAnimation(scene)` appends the blank draft, selects it (rest pose in the mixer), and resets blend/playback state
 - Source clips stay read-only (no weight/trim mutations on Walk/Idle/etc.)
 - Live dual-action preview plays while the draft is active; Settings trim/speed apply to the draft, not to overlaying an arbitrary existing active clip
 

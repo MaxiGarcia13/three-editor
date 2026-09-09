@@ -32,3 +32,16 @@ export function toFailedFileEntry(baseId: string, fileName: string, error: unkno
     error: message,
   };
 }
+
+/** Blank authoring target — the only entry later blend/time writes may mutate. */
+export function toBlankDraftEntry(baseId: string, name: string): ClipEntry {
+  return {
+    id: `${baseId}-draft`,
+    name,
+    sourceFile: 'Blank draft',
+    clip: null,
+    sourceClip: null,
+    status: 'draft',
+    error: null,
+  };
+}

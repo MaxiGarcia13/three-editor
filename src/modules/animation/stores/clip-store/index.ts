@@ -21,6 +21,7 @@ export {
   setBlendFadeDuration,
   setBlendWeight,
   setTimeScale,
+  startNewAnimation,
   stop,
   syncClipsToSkeleton,
   toggleLoop,

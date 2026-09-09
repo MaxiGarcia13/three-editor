@@ -15,9 +15,9 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 ## Implement (draft / New animation UX)
 
-- [ ] Lock authorship: blank draft is sole write target; source clips stay read-only
-- [ ] Library Animations: **New animation** button using `PlusIcon` next to import (`EditorLibrarySidebar` / section header action)
-- [ ] New animation appends a blank draft library entry and selects it for authoring
+- [x] Lock authorship: blank draft is sole write target; source clips stay read-only
+- [x] Library Animations: **New animation** button using `PlusIcon` next to import (`EditorLibrarySidebar` / section header action)
+- [x] New animation appends a blank draft library entry and selects it for authoring
 - [ ] Rewire blend + fade + draft timing controls onto the active draft (not overlay bake on an arbitrary active clip)
 - [ ] Save/bake writes one result into that draft; remove Settings **Bake blend** button
 - [ ] Document and test export interaction with US-5

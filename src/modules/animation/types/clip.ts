@@ -1,6 +1,6 @@
 import type * as THREE from 'three';
 
-export type ClipStatus = 'ready' | 'error';
+export type ClipStatus = 'ready' | 'error' | 'draft';
 
 export interface ClipEntry {
   id: string;

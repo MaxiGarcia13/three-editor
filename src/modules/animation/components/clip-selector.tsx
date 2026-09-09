@@ -16,6 +16,7 @@ export function ClipSelector({ className }: ClipSelectorProps) {
   const { scene } = useActiveModel();
 
   const readyClips = clips.filter((entry) => entry.status === 'ready');
+  const drafts = clips.filter((entry) => entry.status === 'draft');
   const enabled = scene !== null;
 
   return (
@@ -29,6 +30,11 @@ export function ClipSelector({ className }: ClipSelectorProps) {
         className="bg-zinc-700 rounded-sm px-2 py-1.5 text-xs text-zinc-100 disabled:opacity-50"
       >
         <option value="">{enabled ? 'T-pose' : 'Load a model'}</option>
+        {drafts.map((entry) => (
+          <option key={entry.id} value={entry.id} disabled>
+            {`${entry.name} (draft)`}
+          </option>
+        ))}
         {readyClips.map((entry) => (
           <option key={entry.id} value={entry.id}>
             {entry.name}
