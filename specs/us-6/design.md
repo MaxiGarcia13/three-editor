@@ -22,8 +22,8 @@ Explicit retarget of foreign `AnimationClip` tracks onto the loaded character sk
 
 ### Adapters
 
-| Id | Module | Behavior |
-| -- | ------ | -------- |
+| Id       | Module                   | Behavior                                                                                                                                                                                                                                                                                                                       |
+| -------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `mixamo` | `bone-vendors/mixamo.ts` | Prefixes `mixamorig:` / `mixamorig` (longest first). Strip leading digits after the prefix (`mixamorig8Hips` → `Hips`). Alias local names to project convention where they differ (`Spine1` → `Chest`). Match a target whose Mixamo-normalized local/canonical equals the source. UI `displayName` is the local bone (`Hips`). |
 
 Suggestions autofill the mapping UI only; Apply is still required (no silent retarget on import).
