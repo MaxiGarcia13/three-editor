@@ -1,5 +1,6 @@
 import { cn } from '@maxigarcia/js-utils';
 import { SaveKeyframeButton } from '@/modules/animation';
+import { EditToolToolbar } from '@/modules/viewport/components/edit-tool-toolbar';
 import { SelectionNameOverlay } from '@/modules/viewport/components/selection-name-overlay';
 import { TransformModeToolbar } from '@/modules/viewport/components/transform-mode-toolbar';
 import { ViewportCanvas } from '@/modules/viewport/components/viewport-canvas';
@@ -15,6 +16,7 @@ export function EditorPreview() {
       <div className="relative flex-1 min-h-0">
         <ViewportCanvas />
         <ViewportStatusOverlay />
+
         <div className={
           cn(
             'pointer-events-none absolute inset-x-0 z-10 flex justify-center px-4',
@@ -27,8 +29,19 @@ export function EditorPreview() {
         <div className="pointer-events-none absolute z-10 flex right-2 bottom-4 justify-end pr-4">
           <SelectionNameOverlay />
         </div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-4 z-10 flex justify-center px-4">
+
+        <div className={
+          cn(
+            'pointer-events-none absolute inset-x-0  z-10 flex justify-center px-4',
+            isMobile ? 'bottom-18' : 'bottom-4',
+          )
+        }
+        >
           <SaveKeyframeButton />
+        </div>
+
+        <div className="pointer-events-none absolute z-10 flex left-4 bottom-4 px-4">
+          <EditToolToolbar />
         </div>
       </div>
 
