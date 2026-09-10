@@ -21,13 +21,18 @@ interface LibraryModelProps {
 }
 
 export function LibraryModel({ model }: LibraryModelProps) {
-  const { clips } = useStore($clips, { keys: ['clips'] });
+  const { clips, activeClipId } = useStore($clips, {
+    keys: ['clips', 'activeClipId'],
+  });
   const [addAnimationOpen, setAddAnimationOpen] = useState(false);
   const ownedClips = clips.filter((entry) => entry.ownerModelId === model.id);
-
-  const conflictedClip = ownedClips.find(
+  const conflictedClips = ownedClips.filter(
     (entry) => entry.status === 'error' && entry.clip !== null,
   );
+  const selectedConflictedClip = conflictedClips.find(
+    (entry) => entry.id === activeClipId,
+  );
+  const firstConflictedClip = conflictedClips[0];
 
   const rename = useAssetEntryRename({
     label: model.fileName,
@@ -58,7 +63,7 @@ export function LibraryModel({ model }: LibraryModelProps) {
         actionsClassName="w-full justify-end"
         actions={(
           <LibraryModelActions
-            conflictedClipId={conflictedClip?.id ?? null}
+            conflictedClipId={selectedConflictedClip?.id ?? firstConflictedClip?.id ?? null}
             onAddAnimation={() => setAddAnimationOpen(true)}
             onRename={rename.startEditing}
             onReplace={() => openReplace()}
