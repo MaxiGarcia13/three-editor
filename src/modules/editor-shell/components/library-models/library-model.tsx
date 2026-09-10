@@ -24,6 +24,7 @@ export function LibraryModel({ model }: LibraryModelProps) {
   const { clips } = useStore($clips, { keys: ['clips'] });
   const [addAnimationOpen, setAddAnimationOpen] = useState(false);
   const ownedClips = clips.filter((entry) => entry.ownerModelId === model.id);
+
   const conflictedClip = ownedClips.find(
     (entry) => entry.status === 'error' && entry.clip !== null,
   );

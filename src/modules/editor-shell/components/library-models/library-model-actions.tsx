@@ -1,4 +1,5 @@
 import { Button } from '@/components/button';
+import { useCollapsible } from '@/components/collapsible';
 import { AnimationIcon } from '@/components/icons/animation-icon';
 import { EditIcon } from '@/components/icons/edit-icon';
 import { ReplaceIcon } from '@/components/icons/replace-icon';
@@ -21,6 +22,8 @@ export function LibraryModelActions({
   onReplace,
   onRemove,
 }: LibraryModelActionsProps) {
+  const { setOpen } = useCollapsible();
+
   return (
     <>
       {conflictedClipId !== null && (
@@ -36,7 +39,10 @@ export function LibraryModelActions({
       )}
 
       <Button
-        onClick={onAddAnimation}
+        onClick={() => {
+          setOpen(true);
+          onAddAnimation();
+        }}
         variant="ghost"
         aria-label="Add animation"
         title="Add animation"
