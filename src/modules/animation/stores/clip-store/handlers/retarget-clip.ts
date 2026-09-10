@@ -135,6 +135,7 @@ function retargetActive(
     timeScale: source.timeScale,
     sourceBindLengths: source.sourceBindLengths ?? {},
     sourceBindFrames: source.sourceBindFrames ?? {},
+    ownerModelId: source.ownerModelId,
   });
 
   const clips = [...state.clips, newEntry];

@@ -22,6 +22,8 @@ export interface ClipEntry {
   sourceBindLengths: Record<string, number>;
   /** Bone name → rest-pose local position + parent world quaternion (US-18). */
   sourceBindFrames: Record<string, BoneBindFrame>;
+  /** Owning model id; null = shared (listed under Shared Animations). */
+  ownerModelId: string | null;
 }
 
 export interface ClipLibraryState {

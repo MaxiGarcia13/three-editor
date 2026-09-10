@@ -9,6 +9,7 @@ export function toEntry(
   sourceFile: string,
   sourceBindLengths: Record<string, number>,
   sourceBindFrames: ClipEntry['sourceBindFrames'] = {},
+  ownerModelId: string | null = null,
 ): ClipEntry {
   return {
     id: `${baseId}-${clip.name}`,
@@ -21,10 +22,16 @@ export function toEntry(
     timeScale: 1,
     sourceBindLengths,
     sourceBindFrames,
+    ownerModelId,
   };
 }
 
-export function toFailedFileEntry(baseId: string, fileName: string, error: unknown): ClipEntry {
+export function toFailedFileEntry(
+  baseId: string,
+  fileName: string,
+  error: unknown,
+  ownerModelId: string | null = null,
+): ClipEntry {
   const message = error instanceof Error ? error.message : 'Failed to import clip';
   return {
     id: `${baseId}-file`,
@@ -37,6 +44,7 @@ export function toFailedFileEntry(baseId: string, fileName: string, error: unkno
     timeScale: 1,
     sourceBindLengths: {},
     sourceBindFrames: {},
+    ownerModelId,
   };
 }
 
@@ -44,7 +52,11 @@ export function toFailedFileEntry(baseId: string, fileName: string, error: unkno
  * Editable new animation from scratch.
  * Starts with a default duration so trim/keyframe edits are immediately possible.
  */
-export function toNewAnimationEntry(baseId: string, name: string): ClipEntry {
+export function toNewAnimationEntry(
+  baseId: string,
+  name: string,
+  ownerModelId: string | null = null,
+): ClipEntry {
   const sourceClip = new AnimationClip(name, 1, []);
   const clip = sourceClip.clone();
   return {
@@ -58,5 +70,6 @@ export function toNewAnimationEntry(baseId: string, name: string): ClipEntry {
     timeScale: 1,
     sourceBindLengths: {},
     sourceBindFrames: {},
+    ownerModelId,
   };
 }
