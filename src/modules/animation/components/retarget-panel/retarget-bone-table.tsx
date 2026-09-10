@@ -18,7 +18,7 @@ export function RetargetBoneTable({
   onMap,
 }: RetargetBoneTableProps) {
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto rounded-sm border border-zinc-700/80 scrollbar-thin-dark scrollbar-gutter-stable">
+    <div className="flex-1 min-h-0 overflow-y-auto rounded-sm border border-zinc-700/80">
       <div
         className={`${RETARGET_ROW_GRID} sticky top-0 z-10 bg-zinc-800 px-3 py-2 border-b border-zinc-700`}
       >
