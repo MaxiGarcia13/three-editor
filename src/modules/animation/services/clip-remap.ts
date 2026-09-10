@@ -12,6 +12,7 @@ export interface RemapResult {
 export function remapClipTracks(
   sourceClip: THREE.AnimationClip,
   mapping: Map<string, string>,
+  positionScale = 1,
 ): RemapResult {
   if (mapping.size === 0) {
     return {
@@ -40,6 +41,12 @@ export function remapClipTracks(
     const clone = track.clone();
     if (suffix) {
       clone.name = target + suffix;
+    }
+    if (suffix === '.position' && positionScale !== 1) {
+      const values = clone.values;
+      for (let i = 0; i < values.length; i += 1) {
+        values[i] *= positionScale;
+      }
     }
     tracks.push(clone);
   }

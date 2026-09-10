@@ -1,5 +1,6 @@
 import type { Object3D } from 'three';
 
+import { computePositionScaleRatio } from '@/modules/animation/services/bind-length-ratio';
 import { remapClipTracks } from '@/modules/animation/services/clip-remap';
 import { setMixerTime, setMixerTimeScale } from '@/modules/animation/services/mixer-session';
 import {
@@ -15,7 +16,7 @@ export type RetargetScope = 'active' | 'all';
 
 export interface RetargetClipOptions {
   scope: RetargetScope;
-  /** Previewed model scene — used to re-sync after apply. */
+  /** Previewed model scene — source of target bind lengths and re-sync. */
   activeScene: Object3D | null;
 }
 
@@ -24,9 +25,25 @@ export interface RetargetClipResult {
   error: string | null;
 }
 
+const NO_SCALE_PAIRS_ERROR
+  = 'No usable source/target bone pairs for position scale — the clip or model may have no bones';
+
+function computeScaleOrFail(
+  sourceBindLengths: Record<string, number>,
+  mapping: Map<string, string>,
+  activeScene: Object3D | null,
+): { ratio: number } | { error: string } {
+  if (!activeScene) {
+    return { error: NO_SCALE_PAIRS_ERROR };
+  }
+  const ratio = computePositionScaleRatio(mapping, sourceBindLengths, activeScene);
+  return ratio === null ? { error: NO_SCALE_PAIRS_ERROR } : { ratio };
+}
+
 function retargetActive(
   id: string,
   mapping: Map<string, string>,
+  activeScene: Object3D | null,
 ): RetargetClipResult {
   const state = $clips.get();
   const source = state.clips.find((entry) => entry.id === id);
@@ -34,7 +51,12 @@ function retargetActive(
     return { clipId: null, error: 'Clip not found' };
   }
 
-  const result = remapClipTracks(source.clip, mapping);
+  const scale = computeScaleOrFail(source.sourceBindLengths, mapping, activeScene);
+  if ('error' in scale) {
+    return { clipId: null, error: scale.error };
+  }
+
+  const result = remapClipTracks(source.clip, mapping, scale.ratio);
   if (!result.clip || result.error) {
     return { clipId: null, error: result.error ?? 'Remap failed' };
   }
@@ -97,7 +119,12 @@ function retargetAllModels(
     planned.push({ scene: model.scene, renames });
   }
 
-  const result = remapClipTracks(source.clip, mapping);
+  const scale = computeScaleOrFail(source.sourceBindLengths, mapping, activeScene);
+  if ('error' in scale) {
+    return { clipId: null, error: scale.error };
+  }
+
+  const result = remapClipTracks(source.clip, mapping, scale.ratio);
   if (!result.clip || result.error) {
     return { clipId: null, error: result.error ?? 'Remap failed' };
   }
@@ -142,5 +169,5 @@ export function retargetClip(
   if (options.scope === 'all') {
     return retargetAllModels(id, mapping, options.activeScene);
   }
-  return retargetActive(id, mapping);
+  return retargetActive(id, mapping, options.activeScene);
 }
