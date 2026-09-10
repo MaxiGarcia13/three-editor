@@ -10,8 +10,8 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 ## Implement
 
 - [x] `POST /api/v1/fbx-to-glb` (`prerender = false`): multipart `file`, size/type checks, convert in `/tmp`, return GLB
-- [ ] Server-only convert module under `src/modules/import/` (never imported from React islands)
-- [ ] `ensureGltfFile` in model + clip loaders before `parseGltfFile`
+- [x] Server-only convert module under `src/modules/import/` (never imported from React islands)
+- [x] `ensureGltfFile` in model + clip loaders before `parseGltfFile`
 - [ ] File picker `accept` includes `.fbx`; entry names after convert use `{basename}.glb`
 
 ## Verify

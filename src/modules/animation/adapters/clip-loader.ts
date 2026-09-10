@@ -1,12 +1,13 @@
 import type { ClipLoadResult } from '../types/clip';
-
-import { GLTF_EXTENSION_PATTERN, parseGltfFile } from '@/utils/glb-parse';
+import { ensureGltfFile } from '@/modules/import/services/ensure-gltf-file';
+import { parseGltfFile } from '@/utils/glb-parse';
 
 export async function loadClipsFromFile(file: File): Promise<ClipLoadResult> {
   let blobUrl: string | undefined;
 
   try {
-    const result = await parseGltfFile(file);
+    const gltfFile = await ensureGltfFile(file);
+    const result = await parseGltfFile(gltfFile);
     blobUrl = result.blobUrl;
     const { gltf } = result;
 
@@ -31,6 +32,8 @@ export async function loadClipsFromFile(file: File): Promise<ClipLoadResult> {
   }
 }
 
+const NAME_EXTENSION_PATTERN = /\.(?:glb|gltf|fbx)$/i;
+
 function stripExtension(name: string): string {
-  return name.replace(GLTF_EXTENSION_PATTERN, '');
+  return name.replace(NAME_EXTENSION_PATTERN, '');
 }

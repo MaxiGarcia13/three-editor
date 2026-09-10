@@ -1,7 +1,7 @@
 import type { SkinnedMesh } from 'three';
 import type * as THREE from 'three';
 import type { ModelLoadResult } from '../types/model';
-
+import { ensureGltfFile } from '@/modules/import/services/ensure-gltf-file';
 import { parseGltfFile } from '@/utils/glb-parse';
 
 function validateScene(scene: THREE.Group): void {
@@ -27,7 +27,8 @@ function validateScene(scene: THREE.Group): void {
 }
 
 export async function loadModelFromFile(file: File): Promise<ModelLoadResult> {
-  const { gltf, blobUrl } = await parseGltfFile(file);
+  const gltfFile = await ensureGltfFile(file);
+  const { gltf, blobUrl } = await parseGltfFile(gltfFile);
 
   try {
     validateScene(gltf.scene);
