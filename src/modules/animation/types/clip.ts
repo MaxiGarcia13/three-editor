@@ -2,6 +2,11 @@ import type * as THREE from 'three';
 
 export type ClipStatus = 'ready' | 'error' | 'draft';
 
+/** Rest-pose parent world orientation for a bone (US-18 hips rebase). */
+export interface BoneBindFrame {
+  parentWorldQuaternion: [number, number, number, number];
+}
+
 export interface ClipEntry {
   id: string;
   name: string;
@@ -14,6 +19,8 @@ export interface ClipEntry {
   timeScale: number;
   /** Bone name → rest-pose local-position length captured from the source GLB. */
   sourceBindLengths: Record<string, number>;
+  /** Bone name → rest-pose parent world quaternion from the source GLB (US-18). */
+  sourceBindFrames: Record<string, BoneBindFrame>;
 }
 
 export interface ClipLibraryState {
@@ -35,4 +42,6 @@ export interface ClipLoadResult {
   clips: THREE.AnimationClip[];
   /** Bone name → rest-pose local-position length from the source GLB. */
   sourceBindLengths: Record<string, number>;
+  /** Bone name → rest-pose parent world quaternion from the source GLB. */
+  sourceBindFrames: Record<string, BoneBindFrame>;
 }

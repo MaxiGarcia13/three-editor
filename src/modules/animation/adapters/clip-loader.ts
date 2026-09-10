@@ -1,4 +1,5 @@
 import type { ClipLoadResult } from '../types/clip';
+import { captureBindFrames } from '@/modules/animation/services/bind-frame';
 import { captureBindLengths } from '@/modules/animation/services/bone-registry';
 import { ensureGltfFile } from '@/modules/import/services/ensure-gltf-file';
 import { parseGltfFile } from '@/utils/glb-parse';
@@ -20,6 +21,7 @@ export async function loadClipsFromFile(file: File): Promise<ClipLoadResult> {
       name: stripExtension(gltfFile.name),
       clips: gltf.animations,
       sourceBindLengths: captureBindLengths(gltf.scene),
+      sourceBindFrames: captureBindFrames(gltf.scene),
     };
   } catch (error) {
     if (error instanceof Error && error.message === `File "${file.name}" contains no animation clips`) {

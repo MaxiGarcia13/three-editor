@@ -8,6 +8,7 @@ export function toEntry(
   clip: AnimationClip,
   sourceFile: string,
   sourceBindLengths: Record<string, number>,
+  sourceBindFrames: ClipEntry['sourceBindFrames'] = {},
 ): ClipEntry {
   return {
     id: `${baseId}-${clip.name}`,
@@ -19,6 +20,7 @@ export function toEntry(
     error: validationResult.valid ? null : validationResult.error,
     timeScale: 1,
     sourceBindLengths,
+    sourceBindFrames,
   };
 }
 
@@ -34,6 +36,7 @@ export function toFailedFileEntry(baseId: string, fileName: string, error: unkno
     error: message,
     timeScale: 1,
     sourceBindLengths: {},
+    sourceBindFrames: {},
   };
 }
 
@@ -54,5 +57,6 @@ export function toNewAnimationEntry(baseId: string, name: string): ClipEntry {
     error: null,
     timeScale: 1,
     sourceBindLengths: {},
+    sourceBindFrames: {},
   };
 }

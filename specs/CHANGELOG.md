@@ -12,6 +12,7 @@
 | ID | Summary |
 |----|---------|
 | **US-17** | Retarget position scale — rest-pose length ratio on remapped tracks |
+| **US-18** | Retarget hips bind-frame — drop non-hips positions + parent-quat rebase |
 | **US-8** | Morph-target editing (post-MVP) |
 | **US-9** | Graph / curve keyframe UI (post-MVP) |
 | **US-10** | Full undo / redo stack (post-MVP) |

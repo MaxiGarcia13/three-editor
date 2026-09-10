@@ -1,6 +1,11 @@
+import type { HipsRebaseFrames } from '@/modules/animation/services/hips-rebase';
 import * as THREE from 'three';
 
 import { splitTrackName } from '@/modules/animation/services/clip-validate';
+import {
+  rebaseHipsPositionTrack,
+  rebaseHipsQuaternionTrack,
+} from '@/modules/animation/services/hips-rebase';
 
 export interface RemapResult {
   clip: THREE.AnimationClip | null;
@@ -9,11 +14,30 @@ export interface RemapResult {
   error: string | null;
 }
 
+export interface RemapClipOptions {
+  /** US-17 median rest-pose length ratio for position tracks. */
+  positionScale?: number;
+  /**
+   * US-18: keep `.position` only for this source bone (hips); drop other
+   * position tracks. Required with `hipsRebase` when the clip has positions.
+   */
+  hipsSourceBone?: string;
+  /** US-18: parent-bind rebase for hips position + quaternion tracks. */
+  hipsRebase?: HipsRebaseFrames;
+}
+
 export function remapClipTracks(
   sourceClip: THREE.AnimationClip,
   mapping: Map<string, string>,
-  positionScale = 1,
+  options: RemapClipOptions | number = {},
 ): RemapResult {
+  // Legacy positional `positionScale` from early US-17 call sites.
+  const opts: RemapClipOptions
+    = typeof options === 'number' ? { positionScale: options } : options;
+  const positionScale = opts.positionScale ?? 1;
+  const hipsSourceBone = opts.hipsSourceBone;
+  const hipsRebase = opts.hipsRebase;
+
   if (mapping.size === 0) {
     return {
       clip: null,
@@ -38,16 +62,34 @@ export function remapClipTracks(
       continue;
     }
 
+    if (
+      suffix === '.position'
+      && hipsSourceBone !== undefined
+      && nodeName !== hipsSourceBone
+    ) {
+      continue;
+    }
+
     const clone = track.clone();
     if (suffix) {
       clone.name = target + suffix;
     }
-    if (suffix === '.position' && positionScale !== 1) {
-      const values = clone.values;
-      for (let i = 0; i < values.length; i += 1) {
-        values[i] *= positionScale;
+
+    const isHips = hipsSourceBone !== undefined && nodeName === hipsSourceBone;
+
+    if (suffix === '.position') {
+      if (isHips && hipsRebase) {
+        rebaseHipsPositionTrack(clone, hipsRebase, positionScale);
+      } else if (positionScale !== 1) {
+        const values = clone.values;
+        for (let i = 0; i < values.length; i += 1) {
+          values[i] *= positionScale;
+        }
       }
+    } else if (suffix === '.quaternion' && isHips && hipsRebase) {
+      rebaseHipsQuaternionTrack(clone, hipsRebase);
     }
+
     tracks.push(clone);
   }
 

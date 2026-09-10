@@ -34,7 +34,14 @@ export async function replaceClip(
 
     const validation = validateClipAgainstSkeleton(clip, nodeNames);
     const nextEntry = applyActiveModelBindOverrides({
-      ...toEntry(validation, previous.id, clip, result.name, result.sourceBindLengths),
+      ...toEntry(
+        validation,
+        previous.id,
+        clip,
+        result.name,
+        result.sourceBindLengths,
+        result.sourceBindFrames,
+      ),
       id: previous.id,
     });
 
