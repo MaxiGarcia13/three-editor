@@ -12,7 +12,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] Capture `sourceBindLengths` from clip GLB scene in `loadClipsFromFile` / `ClipEntry`
 - [x] Compute median rest-pose length ratio at Apply (mapped pairs, ε floor); clear error if empty
 - [x] Scale remapped `.position` values by that ratio inside remap / retarget apply path
-- [ ] Keep quaternion / scale tracks and US-6 skip / scopes unchanged
+- [x] Keep quaternion / scale tracks and US-6 skip / scopes unchanged
 
 ## Verify
 
