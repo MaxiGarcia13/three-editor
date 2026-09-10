@@ -6,7 +6,6 @@ import { useAssetEntryRename } from '@/components/asset-entry/use-asset-entry-re
 import { Button } from '@/components/button';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
 import { EditIcon } from '@/components/icons/edit-icon';
-import { ModelIcon } from '@/components/icons/model-icon';
 import { ReplaceIcon } from '@/components/icons/replace-icon';
 import { RetargetIcon } from '@/components/icons/retarget-icon';
 import { TrashIcon } from '@/components/icons/trash-icon';
