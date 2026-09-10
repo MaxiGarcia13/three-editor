@@ -1,4 +1,4 @@
-import { Collapsible } from '@/components/collapsible';
+import { Collapsible, CollapsibleContent, CollapsibleHeader } from '@/components/collapsible';
 import { CollapsibleAside } from '@/components/collapsible-aside/collapsible-aside';
 import { Text } from '@/components/text';
 import { BlendControls, ClipTrimInputs, SpeedControl } from '@/modules/animation';
@@ -31,9 +31,14 @@ export function EditorSettingsSidebar() {
         <div className="flex flex-col gap-4">
           <ClipTrimInputs />
           <SpeedControl />
-          <Collapsible title="Blend">
-            <BlendControls />
+
+          <Collapsible>
+            <CollapsibleHeader title="Blend" />
+            <CollapsibleContent>
+              <BlendControls />
+            </CollapsibleContent>
           </Collapsible>
+
         </div>
       </div>
 
