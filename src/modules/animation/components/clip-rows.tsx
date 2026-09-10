@@ -1,9 +1,10 @@
-import { useStore } from '@nanostores/react';
+import type { ClipEntry } from '@/modules/animation/types/clip';
 
+import { useStore } from '@nanostores/react';
 import { AssetEntry } from '@/components/asset-entry';
 import { Button } from '@/components/button';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
-import { Text } from '@/components/text';
+import { AnimationIcon } from '@/components/icons/animation-icon';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import {
   $clips,
@@ -13,11 +14,14 @@ import {
   selectClip,
 } from '../stores/clip-store';
 import { $retargetClipId, openRetarget } from '../stores/retarget-ui-store';
-import { RetargetModal } from './retarget-modal';
 
-export function ClipLibrary() {
-  const { clips, activeClipId, blendClipId } = useStore($clips, {
-    keys: ['clips', 'activeClipId', 'blendClipId'],
+interface ClipRowsProps {
+  clips: ClipEntry[];
+}
+
+export function ClipRows({ clips }: ClipRowsProps) {
+  const { activeClipId, blendClipId } = useStore($clips, {
+    keys: ['activeClipId', 'blendClipId'],
   });
   const retargetClipId = useStore($retargetClipId);
   const { scene } = useActiveModel();
@@ -35,18 +39,9 @@ export function ClipLibrary() {
     return null;
   }
 
-  const hasErrors = clips.some((entry) => entry.status === 'error');
-
   return (
     <div className="flex flex-col gap-3">
       {replaceInput}
-      <RetargetModal />
-
-      {hasErrors && (
-        <Text as="p" variant="muted">
-          Some animations need retargeting before they can play on this model.
-        </Text>
-      )}
 
       {clips.map((entry) => {
         const isError = entry.status === 'error';
@@ -63,6 +58,7 @@ export function ClipLibrary() {
         return (
           <AssetEntry
             key={entry.id}
+            leading={<AnimationIcon />}
             label={entry.name}
             title={`${entry.name} (${entry.sourceFile})`}
             description={isError ? entry.error : entry.sourceFile}

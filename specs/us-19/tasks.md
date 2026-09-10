@@ -25,7 +25,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 - [x] Extend `Collapsible` with `leading` + `actions`
 - [x] Iconize `AssetEntry` actions; leading icon slot for clips (`AnimationIcon`)
-- [ ] Rebuild `editor-library-sidebar`: Models > model collapsibles + Shared Animations
+- [x] Rebuild `editor-library-sidebar`: Models > model collapsibles + Shared Animations
 - [ ] Model header: `ModelIcon` + Retarget / Edit / Replace / Remove icons
 - [ ] Shared header: `AnimationIcon` + Upload / New
 - [ ] Clip rows: `AnimationIcon` + Remove (+ Retarget when conflict)

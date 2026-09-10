@@ -1,7 +1,6 @@
 import { Button } from '@/components/button';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
 import { UploadIcon } from '@/components/icons/upload-icon';
-import { Text } from '@/components/text';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import { importClipFiles } from '../stores/clip-store';
 
@@ -30,18 +29,5 @@ export function ClipImport() {
         <UploadIcon />
       </Button>
     </>
-  );
-}
-
-export function ClipImportHint() {
-  const { scene } = useActiveModel();
-  if (scene !== null) {
-    return null;
-  }
-
-  return (
-    <Text as="p" variant="muted">
-      Load a model before importing animations.
-    </Text>
   );
 }
