@@ -4,7 +4,6 @@ import { useStore } from '@nanostores/react';
 import { useState } from 'react';
 import { useAssetEntryRename } from '@/components/asset-entry/use-asset-entry-rename';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
-import { ModelIcon } from '@/components/icons/model-icon';
 import { ClipRows } from '@/modules/animation/components/clip-rows';
 import {
   buildSkeletonNodeSet,
@@ -66,7 +65,6 @@ export function LibraryModel({ model }: LibraryModelProps) {
   return (
     <>
       <LibrarySectionCollapsible
-        leading={<ModelIcon />}
         title={(
           <LibraryModelTitle
             modelId={model.id}
