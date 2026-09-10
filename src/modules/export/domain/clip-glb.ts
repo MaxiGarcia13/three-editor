@@ -4,8 +4,8 @@ import type { ClipEntry } from '@/modules/animation/types/clip';
 
 import { Bone, Group, Object3D } from 'three';
 
-import { bakeTimeScale } from '@/modules/animation/services/clip-bake';
-import { splitTrackName } from '@/modules/animation/services/clip-validate';
+import { bakeTimeScale } from '@/modules/animation/domain/clip-bake';
+import { splitTrackName } from '@/modules/animation/domain/clip-validate';
 import { exportGlbBinary } from '../adapters/gltf-exporter';
 import { stripGlbExtension } from '../utils/file-name';
 

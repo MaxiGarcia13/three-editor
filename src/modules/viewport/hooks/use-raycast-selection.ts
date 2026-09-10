@@ -2,7 +2,7 @@ import { useThree } from '@react-three/fiber';
 
 import { useEffect } from 'react';
 import { PICK_DRAG_THRESHOLD_PX } from '../constants/selection';
-import { pickObjectAtPointer } from '../services/object-pick';
+import { pickObjectAtPointer } from '../domain/object-pick';
 import { $editTool } from '../stores/edit-tool-store';
 import { clearSelection, selectObject } from '../stores/selection-store';
 import { useActiveModel } from './use-active-model';

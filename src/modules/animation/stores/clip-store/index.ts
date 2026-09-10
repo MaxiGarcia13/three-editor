@@ -24,7 +24,7 @@ export {
   syncClipsToSkeleton,
   toggleLoop,
   trimClip,
-} from './handlers';
-export type { RetargetClipOptions, RetargetClipResult, RetargetScope } from './handlers';
+} from './actions';
+export type { RetargetClipOptions, RetargetClipResult, RetargetScope } from './actions';
 export { $clips } from './store';
 export { isReadyClip } from './utils';

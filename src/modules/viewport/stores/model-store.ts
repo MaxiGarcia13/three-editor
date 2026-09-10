@@ -7,7 +7,7 @@ import {
 } from '@/modules/animation/stores/bind-pose-store';
 import { preserveGltfExtension } from '@/utils/glb-parse';
 import { loadModelFromFile } from '../adapters/model-loader';
-import { disposeScene } from '../services/scene-dispose';
+import { disposeScene } from '../utils/scene-dispose';
 
 export const $model = map<ModelLibraryState>({
   models: [],

@@ -2,7 +2,7 @@ import { useStore } from '@nanostores/react';
 import { useState } from 'react';
 import { $clips } from '@/modules/animation/stores/clip-store';
 import { $model } from '@/modules/viewport/stores/model-store';
-import { downloadExportZip } from '../services/zip-download';
+import { downloadExportZip } from '../domain/zip-download';
 
 export function useExportZip() {
   const { models } = useStore($model, { keys: ['models'] });

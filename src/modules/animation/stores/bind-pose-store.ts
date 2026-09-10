@@ -1,6 +1,6 @@
-import type { BindPoseDelta } from '@/modules/animation/services/bind-pose-rebase';
+import type { BindPoseDelta } from '@/modules/animation/domain/bind-pose-rebase';
 import { atom } from 'nanostores';
-import { composeBindPoseDeltas } from '@/modules/animation/services/bind-pose-rebase';
+import { composeBindPoseDeltas } from '@/modules/animation/domain/bind-pose-rebase';
 
 /** Per-model accumulated bind-pose deltas, keyed by node name. */
 export type BindPoseOverridesByModel = Record<string, Record<string, BindPoseDelta>>;

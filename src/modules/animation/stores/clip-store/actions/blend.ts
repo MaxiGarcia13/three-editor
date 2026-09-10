@@ -1,10 +1,10 @@
 import type { AnimationClip } from 'three';
 
-import { bakeBlendClip } from '@/modules/animation/services/blend-bake';
+import { bakeBlendClip } from '@/modules/animation/domain/blend-bake';
 import {
   restoreMixerPose,
   setBlendWeight as setMixerBlendWeight,
-} from '@/modules/animation/services/mixer-session';
+} from '@/modules/animation/utils/mixer-session';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
 

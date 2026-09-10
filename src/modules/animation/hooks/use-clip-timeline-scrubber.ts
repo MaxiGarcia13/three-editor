@@ -1,8 +1,8 @@
 import { useStore } from '@nanostores/react';
 import { useEffect, useState } from 'react';
 
-import { setMixerTime } from '../services/mixer-session';
 import { $clips } from '../stores/clip-store';
+import { setMixerTime } from '../utils/mixer-session';
 import { readClipTimelineTime } from '../utils/to-timeline-time';
 
 /** Domain wiring for the shared TimelineScrubber (mixer + clip store). */

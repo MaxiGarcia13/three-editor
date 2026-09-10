@@ -4,12 +4,12 @@ import type { OrbitControlsRef } from './model-framing';
 import { useStore } from '@nanostores/react';
 import { TransformControls } from '@react-three/drei';
 import { useEffect, useRef } from 'react';
+import { pause } from '@/modules/animation/stores/clip-store/actions/playback';
+import { restorePose } from '@/modules/animation/stores/clip-store/actions/restore-pose';
 import {
   resumeMixerBindings,
   suspendMixerBindings,
-} from '@/modules/animation/services/mixer-session';
-import { pause } from '@/modules/animation/stores/clip-store/handlers/playback';
-import { restorePose } from '@/modules/animation/stores/clip-store/handlers/restore-pose';
+} from '@/modules/animation/utils/mixer-session';
 import { useActiveModel } from '../hooks/use-active-model';
 import { $editTool } from '../stores/edit-tool-store';
 import {

@@ -3,7 +3,7 @@ import type { AnimationAction, AnimationClip, AnimationMixer, Group } from 'thre
 
 import { useEffect } from 'react';
 
-import { setBlendAction, setBlendWeight } from '@/modules/animation/services/mixer-session';
+import { setBlendAction, setBlendWeight } from '@/modules/animation/utils/mixer-session';
 import { applyLoopMode } from './apply-loop-mode';
 
 export function useClipMixerBlend(

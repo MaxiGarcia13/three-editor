@@ -5,7 +5,7 @@ import { Bone } from 'three';
 import {
   buildTargetBoneNames,
   suggestTargetBone,
-} from '@/modules/animation/services/bone-registry';
+} from '@/modules/animation/domain/bone-registry';
 
 export interface BoneNormalizeResult {
   renames: Map<string, string>;

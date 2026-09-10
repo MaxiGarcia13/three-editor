@@ -1,5 +1,5 @@
 import type { BoneBindFrame } from '@/modules/animation/types/clip';
-import { boneDisplayName } from '@/modules/animation/services/bone-registry';
+import { boneDisplayName } from '@/modules/animation/domain/bone-registry';
 
 export interface HipsMappingPair {
   sourceName: string;

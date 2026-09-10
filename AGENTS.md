@@ -20,7 +20,9 @@ See [`.cursor/rules/specs-workflow.md`](.cursor/rules/specs-workflow.md) and [`.
 
 ## Module map
 
-Domains under `src/modules/<domain>/` (`adapters/`, `services/`, `utils/`, `hooks/`, `components/`, `constants/`, `types/` as needed). Pages stay thin. No flat `src/components/` for domain logic. No Three/Tailwind inside pure `services/` / `utils/`.
+Domains under `src/modules/<domain>/` (`adapters/`, `services/`, `domain/`, `utils/`, `hooks/`, `components/`, `constants/`, `types/`, store-local `actions/` as needed). Pages stay thin. No flat `src/components/` for domain logic.
+
+Layer roles ([module-layers](.cursor/rules/module-layers.mdc)): `services/` = HTTP; `domain/` = business logic; `utils/` = shareable helpers; `adapters/` = external boundaries + mappers; `actions/` = store commands. No R3F / Tailwind / GSAP in `services/` / `domain/` / `utils/`.
 
 | Domain         | Owns                                                              |
 | -------------- | ----------------------------------------------------------------- |
@@ -28,9 +30,9 @@ Domains under `src/modules/<domain>/` (`adapters/`, `services/`, `utils/`, `hook
 | `viewport`     | R3F canvas, camera controls, raycast selection, TransformControls |
 | `animation`    | Clip library, mixer/playback, trim, time scale, keyframe write    |
 | `export`       | GLTFExporter pack + download                                      |
-| `import`       | FBX convert API + client `ensureGltfFile` adapter                 |
+| `import`       | FBX convert API + client `ensureGltfFile` service                 |
 
-See [`.cursor/rules/ddd-solid.md`](.cursor/rules/ddd-solid.md).
+See [`.cursor/rules/ddd-solid.md`](.cursor/rules/ddd-solid.md) and [`.cursor/rules/module-layers.mdc`](.cursor/rules/module-layers.mdc).
 
 ## Hard constraints (3D / animation)
 

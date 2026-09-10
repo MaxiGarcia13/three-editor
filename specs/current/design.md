@@ -39,7 +39,7 @@ Clips are a **shared** library. They bind to the **previewed** model. Track name
 5. Viewport mounts only the previewed model’s scene graph. Other library graphs stay in memory until Remove
 6. Replace updates that entry only (keep id). If it was previewed, swap the viewport graph and re-frame. Remove disposes that graph / blob URL; if it was previewed, select another loaded model or idle empty state
 
-Empty overlay when idle; clear error copy on parse failure or missing skeleton. After a successful load **or preview switch**, camera frames the previewed model AABB from a fixed three-quarter elevated angle (`computeModelFraming` + `DEFAULT_VIEW_OFFSET` in `viewport/constants/camera.ts`; spacing in `viewport/services/model-framing.ts`).
+Empty overlay when idle; clear error copy on parse failure or missing skeleton. After a successful load **or preview switch**, camera frames the previewed model AABB from a fixed three-quarter elevated angle (`computeModelFraming` + `DEFAULT_VIEW_OFFSET` in `viewport/constants/camera.ts`; spacing in `viewport/domain/model-framing.ts`).
 
 Sidebar lists each model with Replace / Remove / Rename (`AssetEntry`, same pattern as clips). The previewed row is distinct; selecting it sets `activeModelId`, rebinds the mixer, and calls `syncClipsToSkeleton`.
 
@@ -90,9 +90,9 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 ### Bone registry (vendor adapters)
 
 - **Core** (`bone-registry.ts`) is vendor-blind: exact name match, then first confident suggestion from registered adapters, then `buildAutoMapping` / `buildTargetBoneNames` / `boneDisplayName`
-- **Adapters** implement `BoneVendorAdapter` (`types/bone-vendor.ts`): `suggest` + `displayName`. Each vendor is a separate module under `services/bone-vendors/`
+- **Adapters** implement `BoneVendorAdapter` (`types/bone-vendor.ts`): `suggest` + `displayName`. Each vendor is a separate module under `adapters/bone-vendors/`
 - Playback / mixer / remap never import vendor strings — only resolved target names
-- Composition: `services/bone-vendors/index.ts` lists adapters. Add/remove a vendor by editing that list only
+- Composition: `adapters/bone-vendors/index.ts` lists adapters. Add/remove a vendor by editing that list only
 - `mixamo` adapter: prefixes `mixamorig:` / `mixamorig` (longest first); strip leading digits after the prefix; alias local names to project convention where they differ; UI `displayName` is the local bone
 
 Suggestions autofill the mapping UI only; Apply is still required (no silent retarget on import).
@@ -108,7 +108,7 @@ Suggestions autofill the mapping UI only; Apply is still required (no silent ret
 ## Trim
 
 1. Clone the active clip's **working** reference — actually trim from the retained **source** clip so the window can always be re-derived against the full original duration
-2. `trimClipWindow(source, start, end)` in `animation/services`: per track, `KeyframeTrack.trim(start, end)` keeps in-window keys (plus the first key before `start` for interpolation), then re-baselines track times by `−start` and sets `clip.duration = end − start`. (`AnimationClip.trim()` in three 0.185 is a no-arg helper that only crops to the clip's own duration — it does not take a window)
+2. `trimClipWindow(source, start, end)` in `animation/domain`: per track, `KeyframeTrack.trim(start, end)` keeps in-window keys (plus the first key before `start` for interpolation), then re-baselines track times by `−start` and sets `clip.duration = end − start`. (`AnimationClip.trim()` in three 0.185 is a no-arg helper that only crops to the clip's own duration — it does not take a window)
 3. Replace the library entry’s working `clip` with the result (the source clip is never mutated)
 4. The pre-trim clip stays recoverable for the session via the entry's `sourceClip` reference (restore control or re-trim from source)
 
@@ -191,12 +191,12 @@ A model with no matching clips still ships as a mesh-only `.glb`. There is no �
 1. File picker `accept` is `.glb,.gltf,.fbx`. `parseGltfFile` stays GLB/GLTF-only
 2. `ensureGltfFile` (`import/services`) in model and clip loaders: `.glb`/`.gltf` pass through; `.fbx` → `POST /api/v1/fbx-to-glb` → `File` named `{basename}.glb`
 3. Convert **before** skeleton / clip validation. Failures use existing model `error` / clip failed-entry copy
-4. API is `@astrojs/vercel` Node serverless (`src/pages/api/v1/fbx-to-glb.ts`, `prerender = false`), not Edge. Server-only `import/utils/convert-fbx.ts` runs `fbx2gltf` under `os.tmpdir()`; Linux binary via `includeFiles`; Darwin/Windows excluded from the Vercel bundle
+4. API is `@astrojs/vercel` Node serverless (`src/pages/api/v1/fbx-to-glb.ts`, `prerender = false`), not Edge. Server-only `import/adapters/convert-fbx.ts` runs `fbx2gltf` under `os.tmpdir()`; Linux binary via `includeFiles`; Darwin/Windows excluded from the Vercel bundle
 5. Body cap matches Vercel payload (typically 4.5MB). No Mixamo convert flags; bone mismatch still uses US-6
 6. Zip export (US-5) stays in-browser — convert is the only server round-trip
 
 ## Layering rules
 
-- Pure clip math (insert keyframe, sort times, bake scale) in `animation/services` or `utils` without importing `three` types when practical; adapters wrap Three objects at the boundary
-- Loaders and exporter live in `adapters/`
+- See `.cursor/rules/module-layers.mdc`: `services/` = HTTP; `domain/` = business logic (clip math, framing, bake, pack); `utils/` = shareable helpers / runtime bridges; `adapters/` = loaders, exporter, zip/download, native tools, vendor mappers; store commands in `actions/` next to the store
+- Prefer keeping domain logic free of R3F / Tailwind / GSAP; `three` types in `domain/` / `utils/` are OK for 3D code
 - UI state for sidebar vs hot-path mixer time: avoid re-rendering the canvas every frame from React state — prefer refs for mixer clock, promote to state only for labelled UI

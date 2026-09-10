@@ -1,13 +1,13 @@
 import {
   computeBindPoseDelta,
   rebaseClipNode,
-} from '@/modules/animation/services/bind-pose-rebase';
-import { writeNodeKeyframe } from '@/modules/animation/services/keyframe-write';
-import { restoreMixerPose, resumeMixerBindings } from '@/modules/animation/services/mixer-session';
-import { refreshRestPoseNode } from '@/modules/animation/services/rest-pose';
+} from '@/modules/animation/domain/bind-pose-rebase';
+import { writeNodeKeyframe } from '@/modules/animation/domain/keyframe-write';
+import { refreshRestPoseNode } from '@/modules/animation/domain/rest-pose';
 import {
   accumulateBindPoseDelta,
 } from '@/modules/animation/stores/bind-pose-store';
+import { restoreMixerPose, resumeMixerBindings } from '@/modules/animation/utils/mixer-session';
 import { readClipTimelineTime } from '@/modules/animation/utils/to-timeline-time';
 import { $activeModel } from '@/modules/viewport/stores/model-store';
 import {

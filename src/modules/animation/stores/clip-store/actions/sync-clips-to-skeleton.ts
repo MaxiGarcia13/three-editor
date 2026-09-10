@@ -2,8 +2,8 @@ import type { Object3D } from 'three';
 
 import type { ClipEntry } from '@/modules/animation/types/clip';
 
-import { buildSkeletonNodeSet, validateClipAgainstSkeleton } from '@/modules/animation/services/clip-validate';
-import { setMixerTimeScale } from '@/modules/animation/services/mixer-session';
+import { buildSkeletonNodeSet, validateClipAgainstSkeleton } from '@/modules/animation/domain/clip-validate';
+import { setMixerTimeScale } from '@/modules/animation/utils/mixer-session';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
 

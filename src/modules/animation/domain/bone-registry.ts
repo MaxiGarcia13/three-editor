@@ -2,7 +2,7 @@ import type { Object3D, SkinnedMesh } from 'three';
 
 import { Bone } from 'three';
 
-import { BONE_VENDOR_ADAPTERS } from './bone-vendors';
+import { BONE_VENDOR_ADAPTERS } from '../adapters/bone-vendors';
 
 /**
  * Suggest a target bone: exact name first, then the first vendor adapter

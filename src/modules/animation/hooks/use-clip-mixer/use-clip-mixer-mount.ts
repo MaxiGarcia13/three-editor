@@ -4,9 +4,9 @@ import type { AnimationAction, Group } from 'three';
 import { useEffect } from 'react';
 import { AnimationMixer } from 'three';
 
-import { setActiveMixer } from '@/modules/animation/services/mixer-session';
-import { ensureRestPoseCaptured } from '@/modules/animation/services/rest-pose';
+import { ensureRestPoseCaptured } from '@/modules/animation/domain/rest-pose';
 import { $clips, syncClipsToSkeleton } from '@/modules/animation/stores/clip-store';
+import { setActiveMixer } from '@/modules/animation/utils/mixer-session';
 
 export function useClipMixerMount(
   scene: Group | null,

@@ -5,8 +5,8 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   buildAutoMapping,
   buildTargetBoneNames,
-} from '@/modules/animation/services/bone-registry';
-import { splitTrackName } from '@/modules/animation/services/clip-validate';
+} from '@/modules/animation/domain/bone-registry';
+import { splitTrackName } from '@/modules/animation/domain/clip-validate';
 
 export interface RetargetState {
   sourceBones: string[];

@@ -4,7 +4,7 @@ import {
   resumeMixerBindings,
   setMixerTime,
   setMixerTimeScale,
-} from '@/modules/animation/services/mixer-session';
+} from '@/modules/animation/utils/mixer-session';
 import { $poseDirty, clearPoseDirty } from '@/modules/viewport/stores/pose-edit-store';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';

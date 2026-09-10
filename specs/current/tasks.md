@@ -130,7 +130,7 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 
 - [x] `@astrojs/vercel` + `fbx2gltf`; editor page prerendered; Linux binary `includeFiles` / Darwin+Windows `excludeFiles`; Vite SSR external
 - [x] `POST /api/v1/fbx-to-glb` (`prerender = false`): multipart `file`, size/type checks, convert in `/tmp`, return GLB
-- [x] Server-only `import/utils/convert-fbx`; client `ensureGltfFile` in model + clip loaders (import + replace)
+- [x] Server-only `import/adapters/convert-fbx`; client `ensureGltfFile` in model + clip loaders (import + replace)
 - [x] File picker `accept` includes `.fbx`; converted entries named `{basename}.glb`
 
 ## US-17 — Retarget position scale

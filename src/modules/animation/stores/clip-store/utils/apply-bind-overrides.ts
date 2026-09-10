@@ -1,5 +1,5 @@
 import type { ClipEntry } from '@/modules/animation/types/clip';
-import { rebaseClipWithOverrides } from '@/modules/animation/services/bind-pose-rebase';
+import { rebaseClipWithOverrides } from '@/modules/animation/domain/bind-pose-rebase';
 import { getBindPoseOverrides } from '@/modules/animation/stores/bind-pose-store';
 import { $activeModel } from '@/modules/viewport/stores/model-store';
 

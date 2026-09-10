@@ -1,4 +1,4 @@
-import type { ClipValidationResult } from '@/modules/animation/services/clip-validate';
+import type { ClipValidationResult } from '@/modules/animation/domain/clip-validate';
 import type { ClipEntry } from '@/modules/animation/types/clip';
 import { AnimationClip } from 'three';
 

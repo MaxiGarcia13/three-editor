@@ -1,6 +1,6 @@
 import type { ClipLoadResult } from '../types/clip';
-import { captureBindFrames } from '@/modules/animation/services/bind-frame';
-import { captureBindLengths } from '@/modules/animation/services/bone-registry';
+import { captureBindFrames } from '@/modules/animation/domain/bind-frame';
+import { captureBindLengths } from '@/modules/animation/domain/bone-registry';
 import { ensureGltfFile } from '@/modules/import/services/ensure-gltf-file';
 import { parseGltfFile } from '@/utils/glb-parse';
 

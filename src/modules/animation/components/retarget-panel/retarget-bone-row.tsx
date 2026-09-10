@@ -2,7 +2,7 @@ import { Text } from '@/components/text';
 import {
   boneDisplayName,
   boneOptionLabel,
-} from '@/modules/animation/services/bone-registry';
+} from '@/modules/animation/domain/bone-registry';
 import { RETARGET_ROW_GRID } from './retarget-row-grid';
 
 interface RetargetBoneRowProps {

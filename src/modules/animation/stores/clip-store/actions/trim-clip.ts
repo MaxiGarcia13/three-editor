@@ -1,5 +1,5 @@
-import { trimClipWindow } from '@/modules/animation/services/clip-trim';
-import { setMixerTime } from '@/modules/animation/services/mixer-session';
+import { trimClipWindow } from '@/modules/animation/domain/clip-trim';
+import { setMixerTime } from '@/modules/animation/utils/mixer-session';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
 

@@ -25,7 +25,7 @@ Exemplars: `hooks/use-soldier-locomotion/`, `hooks/use-player-controls/`.
 | Kind                                                              | Where                                                                                                |
 | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | Hook-only helpers, types, sub-hooks, finished wiring, mixer mount | **Inside** the hook folder; do **not** re-export from the barrel                                     |
-| Pure domain / shared resolution reused by other modules or hooks  | `src/modules/<domain>/utils/` (or a shared hook if it is React lifecycle reused by multiple callers) |
+| Pure domain / shared resolution reused by other modules or hooks  | `src/modules/<domain>/domain/` (or `utils/` for generic helpers; or a shared hook if it is React lifecycle reused by multiple callers) |
 
 ## Barrel
 

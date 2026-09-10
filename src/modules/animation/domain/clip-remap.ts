@@ -1,11 +1,11 @@
-import type { HipsRebaseFrames } from '@/modules/animation/services/hips-rebase';
+import type { HipsRebaseFrames } from '@/modules/animation/domain/hips-rebase';
 import * as THREE from 'three';
 
-import { splitTrackName } from '@/modules/animation/services/clip-validate';
+import { splitTrackName } from '@/modules/animation/domain/clip-validate';
 import {
   rebaseHipsPositionTrack,
   rebaseHipsQuaternionTrack,
-} from '@/modules/animation/services/hips-rebase';
+} from '@/modules/animation/domain/hips-rebase';
 
 export interface RemapResult {
   clip: THREE.AnimationClip | null;

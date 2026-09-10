@@ -1,0 +1,53 @@
+---
+description: Module folder layers — services, domain, utils, adapters, actions
+globs: src/modules/**/*
+alwaysApply: false
+---
+
+# Module layers (`src/modules/<domain>/`)
+
+Use these folders only when needed; skip empty layers. Keep module-level `types/` (do not nest under `domain/` unless types move with a deliberate refactor).
+
+| Layer | Role | May | Must not |
+|-------|------|-----|----------|
+| `services/` | Client calls to **our** HTTP APIs | `fetch`, FormData, status/error mapping | Business rules, store writes, DOM download |
+| `domain/` | Business / product logic | Clip math, validation, retarget policy, pack rules, framing/pick policy; `three` types/math | `fetch`, DOM download, store `.set`, R3F hooks, Tailwind |
+| `utils/` | Shareable helpers (little product meaning) | Small pure helpers, session bridges, teardown helpers | Product policies that belong in `domain/` |
+| `adapters/` | External boundaries + format/name mapping | Loaders, exporters, zip, download, native tools, vendor mappers | Own React UI; dump all logic here |
+| `actions/` | Store-scoped commands (next to the store) | Read/write that store; call domain/utils/adapters/services | Live as a top-level domain folder unless tied to a store |
+| `hooks/` / `components/` | React wiring / UI | Compose layers above | Reimplement domain logic inline |
+
+## Naming
+
+- Prefer `actions/` over `handlers/` for store commands
+- Bone / clip / file **mappers** live under `adapters/`; registry **policy** lives under `domain/`
+- Do not put HTTP client calls in `domain/`, `utils/`, or `adapters/`
+
+## Examples
+
+```typescript
+// ✅ services — HTTP to our API
+await fetch('/api/v1/fbx-to-glb', { method: 'POST', body: formData });
+
+// ✅ domain — product rule
+export function bakeTimeScale(clip: AnimationClip, scale: number): AnimationClip { … }
+
+// ✅ utils — generic / runtime helper
+export function toTimelineTime(mixerTime: number, duration: number, loop: boolean): number { … }
+
+// ✅ adapters — loader / vendor mapper / native tool
+export async function loadClipsFromFile(file: File): Promise<ClipLoadResult> { … }
+
+// ✅ actions — store command
+export function selectClip(id: string): void { $clips.set(…); }
+```
+
+## Fuzzy placements
+
+- `mixer-session` → `utils/` (runtime bridge, not pure policy)
+- Vendor bone mappers → `adapters/bone-vendors/`; `bone-registry` → `domain/`
+- `scene-dispose` → `utils/`; `model-framing` / `object-pick` → `domain/`
+
+## NFR-2
+
+No R3F / Tailwind / GSAP in `services/`, `domain/`, or `utils/`. `three` in `domain/` / `utils/` is OK for 3D code; keep DOM and network in `adapters/` / `services/`.

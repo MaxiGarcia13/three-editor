@@ -1,7 +1,7 @@
 import type { AnimationClip, KeyframeTrack } from 'three';
 import type { PreEditTransform } from '@/modules/viewport/stores/pose-edit-store';
 import { Quaternion } from 'three';
-import { splitTrackName } from '@/modules/animation/services/clip-validate';
+import { splitTrackName } from '@/modules/animation/domain/clip-validate';
 
 /** Local TRS delta: apply as p' = p + position, q' = deltaQ * q, s' = s * scale. */
 export interface BindPoseDelta {

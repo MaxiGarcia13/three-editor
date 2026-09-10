@@ -3,8 +3,8 @@ import type { ComponentRef } from 'react';
 import type { PerspectiveCamera } from 'three';
 import { useThree } from '@react-three/fiber';
 import { useEffect } from 'react';
+import { computeModelFraming } from '../domain/model-framing';
 import { useActiveModel } from '../hooks/use-active-model';
-import { computeModelFraming } from '../services/model-framing';
 
 export type OrbitControlsRef = ComponentRef<typeof OrbitControls>;
 

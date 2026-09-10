@@ -248,7 +248,7 @@ As an editor user, I can undo and redo animation edits within the session.
 ## Non-functional requirements
 
 - **NFR-1 Modular domains:** Logic lives under `src/modules/<domain>/` (`editor-shell`, `viewport`, `animation`, `export`, `import`); pages stay thin
-- **NFR-2 Layering:** No Three.js / R3F / Tailwind inside pure `services/` or `utils/`
+- **NFR-2 Layering:** `services/` = HTTP; `domain/` = business logic; `utils/` = shareable helpers; `adapters/` = external boundaries + mappers; `actions/` = store commands. No R3F / Tailwind / GSAP in `services/` / `domain/` / `utils/` (`three` OK for 3D code)
 - **NFR-3 Island boundary:** Canvas and editor interactivity hydrate as a client React island; Astro owns the static shell
 - **NFR-4 Accessibility:** Sidebar controls are keyboard-operable and properly labelled
 - **NFR-5 Asset contract:** Bone-name mismatch is an explicit error; no hardcoded vendor prefixes without a registry

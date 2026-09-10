@@ -1,7 +1,7 @@
 import type { Object3D } from 'three';
 
 import type { ClipEntry } from '@/modules/animation/types/clip';
-import { setMixerTime, setMixerTimeScale } from '@/modules/animation/services/mixer-session';
+import { setMixerTime, setMixerTimeScale } from '@/modules/animation/utils/mixer-session';
 import { $clips } from '../store';
 import { nextClipId, toNewAnimationEntry } from '../utils';
 

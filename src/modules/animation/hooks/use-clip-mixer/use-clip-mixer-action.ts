@@ -3,9 +3,9 @@ import type { AnimationAction, AnimationClip, AnimationMixer, Group } from 'thre
 
 import { useEffect } from 'react';
 
-import { setActiveAction } from '@/modules/animation/services/mixer-session';
-import { applyRestPose } from '@/modules/animation/services/rest-pose';
+import { applyRestPose } from '@/modules/animation/domain/rest-pose';
 import { $clips } from '@/modules/animation/stores/clip-store/store';
+import { setActiveAction } from '@/modules/animation/utils/mixer-session';
 import { toTimelineTime } from '@/modules/animation/utils/to-timeline-time';
 import { applyLoopMode } from './apply-loop-mode';
 

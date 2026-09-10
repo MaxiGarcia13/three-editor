@@ -3,7 +3,7 @@ import type { Buffer } from 'node:buffer';
 import {
   convertFbxToGlb,
   FbxConvertError,
-} from '@/modules/import/utils/convert-fbx';
+} from '@/modules/import/adapters/convert-fbx';
 
 export const prerender = false;
 

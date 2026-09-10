@@ -1,17 +1,17 @@
 import type { Object3D } from 'three';
-import type { RemapClipOptions } from '@/modules/animation/services/clip-remap';
+import type { RemapClipOptions } from '@/modules/animation/domain/clip-remap';
 import type { BoneBindFrame } from '@/modules/animation/types/clip';
 
-import { captureBindFrames } from '@/modules/animation/services/bind-frame';
-import { computePositionScaleRatio } from '@/modules/animation/services/bind-length-ratio';
-import { remapClipTracks } from '@/modules/animation/services/clip-remap';
-import { splitTrackName } from '@/modules/animation/services/clip-validate';
-import { getBindFrame, resolveHipsMapping } from '@/modules/animation/services/hips-mapping';
-import { setMixerTime, setMixerTimeScale } from '@/modules/animation/services/mixer-session';
+import { captureBindFrames } from '@/modules/animation/domain/bind-frame';
+import { computePositionScaleRatio } from '@/modules/animation/domain/bind-length-ratio';
+import { remapClipTracks } from '@/modules/animation/domain/clip-remap';
+import { splitTrackName } from '@/modules/animation/domain/clip-validate';
+import { getBindFrame, resolveHipsMapping } from '@/modules/animation/domain/hips-mapping';
 import {
   applyBoneRenames,
   buildBoneRenamesForScene,
-} from '@/modules/animation/services/normalize-scene-bones';
+} from '@/modules/animation/domain/normalize-scene-bones';
+import { setMixerTime, setMixerTimeScale } from '@/modules/animation/utils/mixer-session';
 import { $model } from '@/modules/viewport/stores/model-store';
 import { $clips } from '../store';
 import { applyActiveModelBindOverrides } from '../utils';

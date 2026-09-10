@@ -1,7 +1,7 @@
 import type { Object3D } from 'three';
 import type { ClipEntry } from '@/modules/animation/types/clip';
 import { loadClipsFromFile } from '@/modules/animation/adapters/clip-loader';
-import { buildSkeletonNodeSet, validateClipAgainstSkeleton } from '@/modules/animation/services/clip-validate';
+import { buildSkeletonNodeSet, validateClipAgainstSkeleton } from '@/modules/animation/domain/clip-validate';
 import { $clips } from '../store';
 import { applyActiveModelBindOverrides, nextClipId, toEntry, toFailedFileEntry } from '../utils';
 import { selectClip } from './select-clip';

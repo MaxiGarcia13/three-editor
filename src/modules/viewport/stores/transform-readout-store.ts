@@ -1,7 +1,7 @@
 import { atom } from 'nanostores';
-import { suspendMixerBindings } from '@/modules/animation/services/mixer-session';
-import { pause } from '@/modules/animation/stores/clip-store/handlers/playback';
-import { restorePose } from '@/modules/animation/stores/clip-store/handlers/restore-pose';
+import { pause } from '@/modules/animation/stores/clip-store/actions/playback';
+import { restorePose } from '@/modules/animation/stores/clip-store/actions/restore-pose';
+import { suspendMixerBindings } from '@/modules/animation/utils/mixer-session';
 import { $activeModel } from './model-store';
 import {
   $poseDirty,

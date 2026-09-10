@@ -1,4 +1,4 @@
-import { restoreMixerPose } from '@/modules/animation/services/mixer-session';
+import { restoreMixerPose } from '@/modules/animation/utils/mixer-session';
 import { $activeModel } from '@/modules/viewport/stores/model-store';
 import {
   $poseDirty,

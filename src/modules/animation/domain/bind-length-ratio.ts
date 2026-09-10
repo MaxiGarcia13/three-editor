@@ -1,6 +1,6 @@
 import type { Object3D } from 'three';
 
-import { captureBindLengths } from '@/modules/animation/services/bone-registry';
+import { captureBindLengths } from '@/modules/animation/domain/bone-registry';
 
 /** Skip near-zero bind lengths — degenerate bones offer no usable ratio. */
 export const BIND_LENGTH_EPSILON = 1e-6;
