@@ -1,6 +1,7 @@
 export {
   bakeBlend,
   clearActiveClip,
+  cloneClipAs,
   importClipFiles,
   MAX_BLEND_WEIGHT,
   MAX_TIME_SCALE,
