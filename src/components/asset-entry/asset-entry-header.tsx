@@ -72,7 +72,7 @@ export function AssetEntryHeader({
       {description && (
         <Text
           variant={hasError ? 'error' : 'muted'}
-          className="leading-snug line-clamp-2 pl-[22px]"
+          className="leading-snug line-clamp-2 pl-5.5"
           title={errorDetail ?? description}
         >
           {description}
