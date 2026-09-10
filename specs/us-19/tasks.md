@@ -19,7 +19,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 ## Implement — retarget
 
 - [x] **This model:** new owned remapped clip; keep shared original
-- [ ] **All models:** partial success — normalize compatible models; conflict remains for incompatible
+- [x] **All models:** partial success — normalize compatible models; conflict remains for incompatible
 
 ## Implement — UI
 

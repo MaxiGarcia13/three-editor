@@ -171,17 +171,13 @@ function retargetAllModels(
     return { clipId: null, error: 'No models loaded' };
   }
 
-  const planned: { scene: Object3D; renames: Map<string, string> }[] = [];
+  const compatible: { scene: Object3D; renames: Map<string, string> }[] = [];
 
   for (const model of models) {
     const { renames, error } = buildBoneRenamesForScene(model.scene, mapping);
-    if (error) {
-      return {
-        clipId: null,
-        error: `${model.fileName}: ${error}`,
-      };
+    if (!error) {
+      compatible.push({ scene: model.scene, renames });
     }
-    planned.push({ scene: model.scene, renames });
   }
 
   const scale = computeScaleOrFail(source.sourceBindLengths, mapping, activeScene);
@@ -205,7 +201,7 @@ function retargetAllModels(
     return { clipId: null, error: result.error ?? 'Remap failed' };
   }
 
-  for (const { scene, renames } of planned) {
+  for (const { scene, renames } of compatible) {
     applyBoneRenames(scene, renames);
   }
 
