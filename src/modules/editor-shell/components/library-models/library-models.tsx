@@ -13,11 +13,11 @@ export function LibraryModels() {
       defaultOpen
       actions={<ModelImport />}
     >
-      <div className="flex flex-col gap-2">
-        {models.map((entry) => (
-          <LibraryModel key={entry.id} model={entry} />
-        ))}
-      </div>
+
+      {models.map((entry) => (
+        <LibraryModel key={entry.id} model={entry} />
+      ))}
+
     </LibrarySectionCollapsible>
   );
 }

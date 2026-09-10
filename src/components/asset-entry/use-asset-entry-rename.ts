@@ -7,7 +7,7 @@ interface UseAssetEntryRenameOptions {
   onRename?: (name: string) => void;
 }
 
-interface UseAssetEntryRenameResult {
+export interface UseAssetEntryRenameResult {
   canRename: boolean;
   editing: boolean;
   draft: string;

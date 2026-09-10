@@ -10,6 +10,7 @@ interface Props {
   defaultOpen?: boolean;
   className?: string;
   headerClassName?: string;
+  headerContentClassName?: string;
   contentClassName?: string;
   actionsClassName?: string;
 }
@@ -22,6 +23,7 @@ export function LibrarySectionCollapsible({
   defaultOpen,
   className,
   headerClassName,
+  headerContentClassName,
   contentClassName,
   actionsClassName,
 }: Props) {
@@ -29,7 +31,7 @@ export function LibrarySectionCollapsible({
     <Collapsible defaultOpen={defaultOpen} className={className}>
       <CollapsibleHeader className={headerClassName}>
         {leading}
-        <div className={cn('flex items-center gap-2 flex-1 min-w-0', contentClassName)}>
+        <div className={cn('flex items-center gap-2 flex-1 min-w-0', headerContentClassName, contentClassName)}>
           {typeof title === 'string'
             ? (
                 <Text as="h2" variant="section" className="flex-1 min-w-0 truncate">
@@ -47,7 +49,7 @@ export function LibrarySectionCollapsible({
           )}
         </div>
       </CollapsibleHeader>
-      <CollapsibleContent>
+      <CollapsibleContent className={cn('flex flex-col gap-2 w-full', contentClassName)}>
         {children}
       </CollapsibleContent>
     </Collapsible>

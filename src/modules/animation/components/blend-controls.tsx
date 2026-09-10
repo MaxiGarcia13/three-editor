@@ -3,6 +3,7 @@ import { debounce } from '@maxigarcia/js-utils';
 import { useStore } from '@nanostores/react';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/button';
+import { Select } from '@/components/select';
 import { Text } from '@/components/text';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import {
@@ -57,21 +58,16 @@ export function BlendControls() {
 
   return (
     <div className="flex flex-col gap-4">
-      <label className="flex flex-col gap-1">
-        <Text variant="muted">Blend Clip</Text>
-        <select
-          value={blendClipId ?? ''}
-          onChange={(event) => setBlendClip(event.target.value || null)}
-          className="bg-zinc-700 rounded-sm px-2 py-1.5 text-xs text-zinc-100"
-        >
-          <option value="">None</option>
-          {blendOptions.map((entry) => (
-            <option key={entry.id} value={entry.id}>
-              {entry.name}
-            </option>
-          ))}
-        </select>
-      </label>
+      <Select
+        label="Blend Clip"
+        value={blendClipId ?? ''}
+        onChange={(event) => setBlendClip(event.target.value || null)}
+        placeholder="None"
+        options={blendOptions.map((entry) => ({
+          value: entry.id,
+          label: entry.name,
+        }))}
+      />
 
       <label className="flex flex-col gap-1">
         <Text variant="muted">Blend Weight</Text>
