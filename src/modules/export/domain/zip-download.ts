@@ -28,6 +28,9 @@ export async function downloadExportZip(): Promise<void> {
   }
 
   for (const entry of workingClips) {
+    if (entry.ownerModelId) {
+      continue;
+    }
     entries.push(await packClipGlb(entry, skeletonScene));
   }
 

@@ -24,7 +24,19 @@ export async function packModelGlb(
   const animations: AnimationClip[] = [];
 
   for (const entry of clips) {
-    if (entry.clip && validateClipAgainstSkeleton(entry.clip, nodeNames).valid) {
+    if (!entry.clip) {
+      continue;
+    }
+    // Owned clips for this model: already validated at sync time, include if ready.
+    const isOwned = entry.ownerModelId === model.id;
+    if (isOwned) {
+      if (entry.status === 'ready') {
+        animations.push(bakeTimeScale(entry.clip, entry.timeScale));
+      }
+      continue;
+    }
+    // Shared clips: validate against this model, skip conflicted.
+    if (validateClipAgainstSkeleton(entry.clip, nodeNames).valid) {
       animations.push(bakeTimeScale(entry.clip, entry.timeScale));
     }
   }

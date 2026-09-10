@@ -14,7 +14,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] Clone handler for **Add animation** (selector + Apply → owned clone)
 - [x] On model remove, delete owned clips
 - [x] Update sync / validation for owned vs shared context
-- [ ] Export: owned + validating shared; skip conflicted shared
+- [x] Export: owned + validating shared; skip conflicted shared
 
 ## Implement — retarget
 
