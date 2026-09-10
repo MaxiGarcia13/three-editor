@@ -1,5 +1,5 @@
 import type { ClipEntry } from '@/modules/animation/types/clip';
-
+import { cn } from '@maxigarcia/js-utils';
 import { useStore } from '@nanostores/react';
 import { AssetEntry } from '@/components/asset-entry';
 import { Button } from '@/components/button';
@@ -18,9 +18,10 @@ import { $retargetClipId, openRetarget } from '../stores/retarget-ui-store';
 
 interface ClipRowsProps {
   clips: ClipEntry[];
+  className?: string;
 }
 
-export function ClipRows({ clips }: ClipRowsProps) {
+export function ClipRows({ clips, className }: ClipRowsProps) {
   const { activeClipId, blendClipId } = useStore($clips, {
     keys: ['activeClipId', 'blendClipId'],
   });
@@ -41,7 +42,7 @@ export function ClipRows({ clips }: ClipRowsProps) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className={cn('flex flex-col gap-3', className)}>
       {replaceInput}
 
       {clips.map((entry) => {

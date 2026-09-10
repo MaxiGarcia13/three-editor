@@ -27,7 +27,7 @@ export function LibrarySharedAnimations() {
       defaultOpen
       actions={<SharedAnimationsActions />}
     >
-      <ClipRows clips={sharedClips} />
+      <ClipRows clips={sharedClips} className="ml-5" />
     </LibrarySectionCollapsible>
   );
 }
