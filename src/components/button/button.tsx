@@ -17,12 +17,18 @@ export function Button({
   children,
   variant = 'default',
   disabled,
+  onClick,
   ...props
 }: ButtonProps) {
   return (
     <button
       type="button"
       disabled={disabled}
+      onClick={(event) => {
+        event.preventDefault();
+        onClick?.(event);
+        event.stopPropagation();
+      }}
       className={
         cn(
           'text-xs transition-colors rounded-sm p-2',
