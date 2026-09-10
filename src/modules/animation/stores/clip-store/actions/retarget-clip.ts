@@ -135,7 +135,7 @@ function retargetActive(
     timeScale: source.timeScale,
     sourceBindLengths: source.sourceBindLengths ?? {},
     sourceBindFrames: source.sourceBindFrames ?? {},
-    ownerModelId: source.ownerModelId,
+    ownerModelId: $model.get().activeModelId ?? source.ownerModelId,
   });
 
   const clips = [...state.clips, newEntry];
