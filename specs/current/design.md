@@ -28,7 +28,7 @@ flowchart LR
 | Animation GLB/GLTF | Source of `AnimationClip`s only; mesh payload ignored or discarded after clip extract |
 | Model / clip FBX   | Converted to GLB via `POST /api/v1/fbx-to-glb`, then the same load path as above      |
 
-Clips are a **shared** library. They bind to the **previewed** model. Track names must resolve to bones/nodes on that skeleton. Mismatch → user-visible error; explicit retarget flow (US-6). Switching the previewed model re-validates every clip against the new skeleton.
+Clips have **ownership** (`ownerModelId`: `null` = Shared Animations; otherwise listed only under that model). Owned clips validate against their owner skeleton; shared clips validate against the model in context (previewed for Shared UI; a given model when checking that model’s conflicts / export). Mismatch → user-visible Needs retarget; explicit retarget flow (US-6 / US-19). Switching the previewed model re-validates shared clips against the new skeleton.
 
 ## Model load (US-11)
 
@@ -41,9 +41,18 @@ Clips are a **shared** library. They bind to the **previewed** model. Track name
 
 Empty overlay when idle; clear error copy on parse failure or missing skeleton. After a successful load **or preview switch**, camera frames the previewed model AABB from a fixed three-quarter elevated angle (`computeModelFraming` + `DEFAULT_VIEW_OFFSET` in `viewport/constants/camera.ts`; spacing in `viewport/domain/model-framing.ts`).
 
-Sidebar lists each model with Replace / Remove / Rename (`AssetEntry`, same pattern as clips). The previewed row is distinct; selecting it sets `activeModelId`, rebinds the mixer, and calls `syncClipsToSkeleton`.
+Sidebar **Library** is nested (US-19): **Models** (upload) → each model collapsible (`ModelIcon` + Retarget / Animation / Edit / Replace / Remove) listing owned clips; sibling **Shared Animations** (`AnimationIcon` + Upload / New). Clip rows use `AnimationIcon` + iconized actions. Previewed model is distinct; selecting it sets `activeModelId`, rebinds the mixer, and calls `syncClipsToSkeleton`. Model remove deletes owned clips.
 
 Do not add a second debug canvas, FPS overlay render path, or smoke-test scene that bypasses the editor viewport lifecycle.
+
+## Nested library + clip ownership (US-19)
+
+1. `ClipEntry.ownerModelId: string | null` — `null` = Shared; otherwise only under that model
+2. Shared import / New → `null`; create / import / Add under a model → that model’s id; embedded model GLB clips register as owned
+3. **Add animation** modal (model-header Animation): Create new | Import | Add existing → owned clone (`cloneClipAs`); source unchanged
+4. Validation (`syncClipsToSkeleton`): owned vs owner skeleton; shared vs previewed (active) skeleton
+5. Retarget scopes: **This model** → new owned ready clip, keep shared original; **All models** → remap shared in place, rename bones only on compatible models, leave incompatible conflicted (partial success)
+6. Export: per-model GLB = owned ready + validating shared; animation-only zip entries = shared working clips only
 
 ## Playback
 
@@ -69,7 +78,7 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 1. User selects one or more `.glb` / `.gltf` / `.fbx` files; adapter loads each and collects `animations` into library entries (stable id + display name + clip) — file meshes are never shown. `.fbx` converts first — see **FBX import** below
 2. Validate each clip's track targets against the loaded character node/skeleton map; missing/unknown bones → the entry is marked errored with user-visible copy (no silent remap; no automatic vendor prefix rewriting in playback)
 3. Re-validate entries when the previewed model changes, is replaced, or is removed so stale clips are never silently played on a mismatched rig (`syncClipsToSkeleton`)
-4. Sidebar **library** lists each entry with Replace / Remove / Rename (same pattern as the model row). Replace re-picks one file and updates **that** entry only (first clip in the file; keep the entry id). Remove drops the entry; if it was active, select the next ready clip or clear selection. Errored clips that still have a working `AnimationClip` offer **Retarget**
+4. Sidebar lists clips under their owner model or Shared Animations with Replace / Remove / Rename (iconized). Replace re-picks one file and updates **that** entry only (first clip in the file; keep the entry id and `ownerModelId`). Remove drops the entry; if it was active, select the next ready clip or clear selection. Errored clips that still have a working `AnimationClip` offer **Retarget**
 5. Active clip is chosen from the library list (US-7). Preview chrome owns Play / Pause / Stop / loop and the scrubber; those stay disabled until a valid clip is selected for that skeleton. Clicking the selected row again clears to T-pose
 6. Preview layout: viewport fills remaining height (`flex-1 min-h-0`); playback bar is a shrink-to-content footer under the canvas (not a fixed magic height overlapping the scene)
 
@@ -80,8 +89,8 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 3. Mapping UI: clip bone → character bone, with registry suggestions, mapped / will-skip status, progress, and “show unmapped only”. Leave blank to skip (drop those tracks). UI shows short vendor labels (e.g. `Hips`); hover/`title` keeps the raw id. Mapping values and remapped tracks always use real bone names
 4. Target dropdown lists **skeleton bones only** (not meshes / scene roots)
 5. Apply scope (explicit):
-   - **This model** — new ready clip remapped to the previewed skeleton; **keep** the source clip
-   - **All models** — remap the clip to the mapping’s target names, **replace** the source library entry, and **normalize bone names on every loaded model** to those targets (resolve via the same vendor suggest path). Fail if any model cannot resolve every mapped source bone
+   - **This model** — new ready clip owned by the previewed model; **keep** the shared source clip
+   - **All models** — remap the shared clip in place and **normalize bone names only on models that resolve the map**; incompatible models stay conflicted for that clip (partial success — no whole-apply failure)
 6. Unmapped source bones are **skipped** on Apply (their tracks are omitted from the remapped clip). Apply requires at least one mapped bone; other failures leave a clear error and do not corrupt pose
 7. After a successful remap, apply the previewed model’s accumulated **bind-pose deltas** to the remapped tracks — mismatched imports cannot rebase on import because track names still use the source rig
 8. **Position scale (US-17):** on Apply, compute `ratio = median(‖target bind local pos‖ / ‖source bind local pos‖)` over mapped pairs with both lengths > ε (`1e-6`). Capture `sourceBindLengths` from the clip GLB scene at import; target lengths from the previewed scene at Apply. If no usable pairs → clear error; no clip write / no All-models renames. Ratio is relative to the **previewed** skeleton
@@ -177,8 +186,8 @@ Out of scope: whole-model rotate/scale in Move; multi-model simultaneous transfo
 One “Download” control builds a **zip** in the browser (no server):
 
 1. If there are no loaded models **and** no working clips → disable or error; do not download
-2. For each loaded model: `GLTFExporter.parse` (`binary: true`) of that scene plus **only** working library clips that validate against **that** model’s skeleton (pack-time validation — do not reuse the UI `ready` flag, which is relative to the previewed model). Bake each clip’s own `timeScale` into clones when it is not `1`
-3. For each library clip that has a working `AnimationClip`: animation-only `.glb` (empty / minimal scene, one clip, same bake). Ignore current preview validation
+2. For each loaded model: `GLTFExporter.parse` (`binary: true`) of that scene plus that model’s **owned** ready clips and **shared** clips that validate against that skeleton (skip conflicted shared; never pack another model’s owned clips). Bake each clip’s own `timeScale` into clones when it is not `1`
+3. For each **shared** library clip that has a working `AnimationClip`: animation-only `.glb` (empty / minimal scene, one clip, same bake). Owned clips ship only inside their model GLB
 4. Filename collisions inside the zip get a numeric suffix
 5. Trigger a single download of the zip blob. Any exporter or zip failure → user-visible error; no partial archive
 

@@ -4,7 +4,12 @@ import { useStore } from '@nanostores/react';
 import { useState } from 'react';
 import { useAssetEntryRename } from '@/components/asset-entry/use-asset-entry-rename';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
+import { ModelIcon } from '@/components/icons/model-icon';
 import { ClipRows } from '@/modules/animation/components/clip-rows';
+import {
+  buildSkeletonNodeSet,
+  validateClipAgainstSkeleton,
+} from '@/modules/animation/domain/clip-validate';
 import { $clips } from '@/modules/animation/stores/clip-store';
 import { LibrarySectionCollapsible } from '@/modules/editor-shell/components/library-section-collapsible';
 import {
@@ -26,9 +31,19 @@ export function LibraryModel({ model }: LibraryModelProps) {
   });
   const [addAnimationOpen, setAddAnimationOpen] = useState(false);
   const ownedClips = clips.filter((entry) => entry.ownerModelId === model.id);
-  const conflictedClips = ownedClips.filter(
-    (entry) => entry.status === 'error' && entry.clip !== null,
-  );
+  const nodeNames = buildSkeletonNodeSet(model.scene);
+  const conflictedClips = clips.filter((entry) => {
+    if (!entry.clip) {
+      return false;
+    }
+    if (entry.ownerModelId === model.id) {
+      return entry.status === 'error';
+    }
+    if (entry.ownerModelId !== null) {
+      return false;
+    }
+    return !validateClipAgainstSkeleton(entry.clip, nodeNames).valid;
+  });
   const selectedConflictedClip = conflictedClips.find(
     (entry) => entry.id === activeClipId,
   );
@@ -51,6 +66,7 @@ export function LibraryModel({ model }: LibraryModelProps) {
   return (
     <>
       <LibrarySectionCollapsible
+        leading={<ModelIcon />}
         title={(
           <LibraryModelTitle
             modelId={model.id}

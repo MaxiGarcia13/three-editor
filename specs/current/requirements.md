@@ -4,7 +4,7 @@ Living product contract for the **GLB Character & Animation Editor**.
 
 ## Product summary
 
-Web editor with a full-screen 3D viewport and a collapsible sidebar. Users load one or more model GLBs (one previewed at a time), import animation clips, play and edit them (trim, speed, keyframes, weighted blend + bake, bind pose, whole-model move), and download a zip of per-model GLBs plus animation-only files.
+Web editor with a full-screen 3D viewport and a collapsible sidebar. Users load one or more model GLBs (one previewed at a time), manage nested model-owned and shared animation clips, play and edit them (trim, speed, keyframes, weighted blend + bake, bind pose, whole-model move), and download a zip of per-model GLBs plus animation-only files.
 
 **Stack:** Astro shell + React island; React Three Fiber + drei + Three.js.
 
@@ -64,8 +64,8 @@ As an editor user, I can download a zip of each model and of each animation as s
 **Acceptance**
 
 - [x] “Download” uses `GLTFExporter` and builds a zip in the browser — no server round-trip
-- [x] Zip contains one `{model}.glb` per loaded model: that model’s scene plus **only** library clips that validate against that model’s skeleton (working / trimmed / keyed form)
-- [x] Zip contains one `{clip}.glb` per library clip that has a working `AnimationClip` — animation-only, no mesh
+- [x] Zip contains one `{model}.glb` per loaded model: that model’s scene plus that model’s **owned** ready clips and **shared** clips that validate against that skeleton (skip conflicted shared; never pack another model’s owned clips)
+- [x] Zip contains one `{clip}.glb` per **shared** library clip that has a working `AnimationClip` — animation-only, no mesh (owned clips ship only inside their model GLB)
 - [x] Each clip’s stored `timeScale` is baked into that clip’s exported track times / duration per design
 - [x] Filename collisions inside the zip get a numeric suffix
 - [x] Download is disabled or errors when there is nothing to pack; exporter failure does not download a partial zip
@@ -77,9 +77,9 @@ As an editor user, I can keep several character GLBs in the session and choose w
 **Acceptance**
 
 - [x] User can upload multiple `.glb` / `.gltf` files that each contain a skinned mesh and skeleton; they populate a model library
-- [x] Sidebar library lists each model with Replace and Remove (same `AssetEntry` pattern as clips)
-- [x] Exactly one model is **previewed** at a time; switching it swaps the viewport graph, re-frames the camera, rebinds the mixer, and re-validates the shared clip library
-- [x] Removing the previewed model selects another loaded model, or empty state if none remain
+- [x] Sidebar library lists each model nested under **Models** with iconized Replace / Remove / Rename (and Animation / Retarget when applicable — US-19)
+- [x] Exactly one model is **previewed** at a time; switching it swaps the viewport graph, re-frames the camera, rebinds the mixer, and re-validates clips (owned vs shared rules — US-19)
+- [x] Removing the previewed model selects another loaded model, or empty state if none remain; removing a model deletes its owned clips
 - [x] Clip import still requires a previewed model
 
 ### US-13 — Selection name overlay
@@ -135,8 +135,8 @@ As an editor user, I can apply an animation authored for a different rig to my l
 - [x] Unmapped clip bones may be left blank — Apply drops those tracks; Apply requires at least one mapped bone; other failures leave a clear error and do not corrupt the character pose
 - [x] Retarget mapping UI opens in a modal (Settings aside stays available)
 - [x] After switching the previewed model, clips that no longer match show Fix / Retarget for that character
-- [x] **This model** apply: new ready clip for the current character; source clip kept
-- [x] **All models** apply: one remapped library clip (source replaced) and every loaded model’s bones renamed to the mapping targets; fail clearly if a model cannot resolve the map
+- [x] **This model** apply: new ready clip owned by the previewed model; shared original kept in Shared Animations
+- [x] **All models** apply: remap the shared clip in place; normalize bones only on models that resolve the map; incompatible models stay conflicted (partial success — no fail-entire-apply)
 - [x] Apply UI offers an explicit This model / All models choice (no silent all-model normalize)
 
 ### US-17 — Retarget position scale (rest-pose length ratio)
@@ -199,6 +199,27 @@ As an editor user, I can create a new animation from scratch or use an uploaded 
 - [x] Blend is viewport-only until Bake; Bake writes into the active clip and resets the form; Reset clears without writing
 - [x] Unsaved pose edits discard on reselect; Hold Pose to End commits into the active clip
 - [x] Export: discrete library clips only — live `blendClipId` / `blendWeight` are not packed; Bake must run first for a mix to appear in the zip (US-5)
+
+### US-19 — Nested library + clip ownership
+
+As an editor user, I manage models and animations in a nested library: each model owns its clips, shared animations stay in a common pool, and retarget can fix one model or partially succeed across many.
+
+**Acceptance**
+
+- [x] Library sidebar is nested: **Models** collapsible (upload) → each **model** collapsible + sibling **Shared Animations** collapsible
+- [x] Model header shows **ModelIcon** next to the name; actions are icons: Retarget (when conflicted), **Animation** (add), Edit (rename), Replace, Remove
+- [x] Shared Animations header shows **AnimationIcon**; actions: Upload, New animation
+- [x] Each clip row shows **AnimationIcon** next to the name; Remove (and Retarget when conflicted) as icons
+- [x] Clips have ownership: `ownerModelId: string | null` (`null` = shared; otherwise listed only under that model)
+- [x] Import / New from Shared → shared (`ownerModelId: null`); create / import under a model → owned by that model
+- [x] **Add animation** via model-header **AnimationIcon**: modal offers **Create new**, **Import** (files → owned by that model), and **Add existing** (selector of cloneable clips, excluding already owned / same-name under that model) → Apply → model-owned **clone** (new id); source unchanged
+- [x] Model upload / replace: embedded GLB animations are registered as **owned** by that model (`ownerModelId` set); they never appear under Shared Animations
+- [x] Removing a model deletes its owned clips
+- [x] **Retarget → This model:** new remapped ready clip owned by the previewed model; shared original kept in Shared Animations
+- [x] **Retarget → All models:** remap shared clip in place; normalize bones on models that can resolve; **partial success** — incompatible models stay conflicted (no fail-entire-apply)
+- [x] Conflict (skeleton mismatch) surfaces as Needs retarget / amber treatment relative to the model in context (previewed for Shared; that model for owned rows)
+- [x] Model-header Retarget enabled when any clip is conflicted for that model; opens retarget for selected / first conflicted clip
+- [x] Export per model packs that model’s owned clips + shared clips that validate for it; skips conflicted shared
 
 ### US-16 — FBX import via convert API
 

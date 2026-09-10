@@ -41,6 +41,7 @@ export async function replaceClip(
         result.name,
         result.sourceBindLengths,
         result.sourceBindFrames,
+        previous.ownerModelId,
       ),
       id: previous.id,
     });

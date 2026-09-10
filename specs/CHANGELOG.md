@@ -11,7 +11,6 @@
 
 | ID | Summary |
 |----|---------|
-| **US-19** | Nested library + clip ownership (model-owned vs shared; iconized sidebar) |
 | **US-20** | Multi-model preview + per-model / shared clip selection |
 | **US-8** | Morph-target editing (post-MVP) |
 | **US-9** | Graph / curve keyframe UI (post-MVP) |
@@ -21,6 +20,7 @@
 
 | ID | Summary |
 |----|---------|
+| **US-19** | Nested library + clip ownership (model-owned vs shared; iconized sidebar) |
 | **US-18** | Retarget hips bind-frame — drop non-hips positions + delta-from-bind rebase |
 | **US-17** | Retarget position scale — rest-pose length ratio on remapped tracks |
 | **US-16** | FBX import via convert API (Vercel Node + `fbx2gltf`) |

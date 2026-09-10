@@ -27,9 +27,12 @@ export async function packModelGlb(
     if (!entry.clip) {
       continue;
     }
+    // Other models' owned clips never pack into this GLB.
+    if (entry.ownerModelId !== null && entry.ownerModelId !== model.id) {
+      continue;
+    }
     // Owned clips for this model: already validated at sync time, include if ready.
-    const isOwned = entry.ownerModelId === model.id;
-    if (isOwned) {
+    if (entry.ownerModelId === model.id) {
       if (entry.status === 'ready') {
         animations.push(bakeTimeScale(entry.clip, entry.timeScale));
       }
