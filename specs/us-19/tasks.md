@@ -29,7 +29,8 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] Model header: `ModelIcon` + Retarget / Animation / Edit / Replace / Remove icons
 - [x] Shared header: `AnimationIcon` + Upload / New
 - [x] Clip rows: `AnimationIcon` + Remove (+ Retarget when conflict)
-- [x] Add-animation modal (Create new | Add existing) from model-header Animation action
+- [x] Add-animation modal (Create new | Import | Add existing) from model-header Animation action
+- [x] Model upload / replace: embedded clips owned by that model
 - [ ] Model-header Retarget → `RetargetModal` for selected / first conflicted clip
 
 ## Verify

@@ -37,7 +37,8 @@ Library (CollapsibleAside)
 - Extend `Collapsible` with optional `leading` and `actions` (actions stop propagation)
 - Iconize `AssetEntry` actions (`aria-label`); optional leading icon for clip rows
 - Icons: `ModelIcon`, `AnimationIcon`, `RetargetIcon`, `EditIcon`, `ReplaceIcon`, `TrashIcon`, `UploadIcon`
-- **Add animation:** model-header `AnimationIcon` opens a modal — **Create new** or **Add existing** (`Select` of cloneable clips, hide already applied by name/ownership) → clone with `ownerModelId` set
+- **Add animation:** model-header `AnimationIcon` opens a modal — **Create new**, **Import** (owned), or **Add existing** (`Select` of cloneable clips, hide already applied by name/ownership) → clone with `ownerModelId` set
+- Model upload / replace extracts embedded GLB clips as owned by that model (not Shared)
 - Model-header Retarget: enabled when any clip conflicted for that model; opens existing `RetargetModal`
 
 ## Export

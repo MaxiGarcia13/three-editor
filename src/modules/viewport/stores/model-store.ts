@@ -5,7 +5,10 @@ import {
   clearAllBindPoseOverrides,
   clearBindPoseOverrides,
 } from '@/modules/animation/stores/bind-pose-store';
-import { removeClipsByOwner } from '@/modules/animation/stores/clip-store';
+import {
+  importClipsFromAnimations,
+  removeClipsByOwner,
+} from '@/modules/animation/stores/clip-store';
 import { preserveGltfExtension } from '@/utils/glb-parse';
 import { loadModelFromFile } from '../adapters/model-loader';
 import { disposeScene } from '../utils/scene-dispose';
@@ -42,12 +45,19 @@ export async function importModelFiles(files: File[]): Promise<void> {
   for (const file of files) {
     try {
       const result = await loadModelFromFile(file);
-      loadedEntries.push({
+      const entry: ModelEntry = {
         id: createEntryId(),
         fileName: result.fileName,
         blobUrl: result.blobUrl,
         scene: result.scene,
-      });
+      };
+      loadedEntries.push(entry);
+      importClipsFromAnimations(
+        result.animations,
+        result.scene,
+        result.fileName,
+        entry.id,
+      );
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to load model';
       failures.push(`${file.name}: ${message}`);
@@ -167,6 +177,13 @@ export async function replaceModel(id: string, file: File): Promise<void> {
       phase: 'loaded',
       error: null,
     });
+
+    importClipsFromAnimations(
+      result.animations,
+      result.scene,
+      result.fileName,
+      id,
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to replace model';
     $model.setKey('error', message);

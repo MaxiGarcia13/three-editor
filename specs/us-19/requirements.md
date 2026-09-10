@@ -16,7 +16,8 @@ As an editor user, I manage models and animations in a nested library: each mode
 - [ ] Each clip row shows **AnimationIcon** next to the name; Remove (and Retarget when conflicted) as icons
 - [ ] Clips have ownership: `ownerModelId: string | null` (`null` = shared; otherwise listed only under that model)
 - [ ] Import / New from Shared → shared (`ownerModelId: null`); create / import under a model → owned by that model
-- [ ] **Add animation** via model-header **AnimationIcon**: modal offers **Create new** (`startNewAnimation` owned by that model) and **Add existing** (selector of cloneable clips, excluding already owned / same-name under that model) → Apply → model-owned **clone** (new id); source unchanged
+- [ ] **Add animation** via model-header **AnimationIcon**: modal offers **Create new**, **Import** (files → owned by that model), and **Add existing** (selector of cloneable clips, excluding already owned / same-name under that model) → Apply → model-owned **clone** (new id); source unchanged
+- [ ] Model upload / replace: embedded GLB animations are registered as **owned** by that model (`ownerModelId` set); they never appear under Shared Animations
 - [ ] Removing a model deletes its owned clips
 - [ ] **Retarget → This model:** new remapped ready clip owned by the previewed model; shared original kept in Shared Animations
 - [ ] **Retarget → All models:** remap shared clip in place; normalize bones on models that can resolve; **partial success** — incompatible models stay conflicted (no fail-entire-apply)

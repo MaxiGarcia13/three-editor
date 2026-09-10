@@ -37,5 +37,10 @@ export async function loadModelFromFile(file: File): Promise<ModelLoadResult> {
     throw error;
   }
 
-  return { fileName: gltfFile.name, scene: gltf.scene, blobUrl };
+  return {
+    fileName: gltfFile.name,
+    scene: gltf.scene,
+    blobUrl,
+    animations: gltf.animations ?? [],
+  };
 }

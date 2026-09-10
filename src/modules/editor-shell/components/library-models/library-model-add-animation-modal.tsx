@@ -2,10 +2,17 @@ import type { Group } from 'three';
 import { useStore } from '@nanostores/react';
 import { useState } from 'react';
 import { Button } from '@/components/button';
+import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
+import { UploadIcon } from '@/components/icons/upload-icon';
 import { Modal } from '@/components/modal';
 import { Select } from '@/components/select';
 import { Text } from '@/components/text';
-import { $clips, cloneClipAs, startNewAnimation } from '@/modules/animation/stores/clip-store';
+import {
+  $clips,
+  cloneClipAs,
+  importClipFiles,
+  startNewAnimation,
+} from '@/modules/animation/stores/clip-store';
 
 interface LibraryModelAddAnimationModalProps {
   open: boolean;
@@ -48,6 +55,13 @@ export function LibraryModelAddAnimationModal({
     onClose();
   }
 
+  const { open: openImport, fileInput } = useGltfFilePicker({
+    multiple: true,
+    onFiles: (files) => {
+      void importClipFiles(files, scene, ownerModelId).then(handleClose);
+    },
+  });
+
   return (
     <Modal
       open={open}
@@ -55,6 +69,7 @@ export function LibraryModelAddAnimationModal({
       onClose={handleClose}
       className="max-w-md"
     >
+      {fileInput}
       <div className="flex flex-col gap-4">
         <Button
           onClick={() => {
@@ -65,6 +80,15 @@ export function LibraryModelAddAnimationModal({
           className="justify-start"
         >
           Create new
+        </Button>
+
+        <Button
+          onClick={() => openImport()}
+          variant="default"
+          className="justify-start items-center flex gap-2"
+        >
+          <UploadIcon />
+          Import
         </Button>
 
         <div className="flex flex-col gap-2">
