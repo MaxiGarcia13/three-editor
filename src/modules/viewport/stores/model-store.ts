@@ -43,7 +43,7 @@ export async function importModelFiles(files: File[]): Promise<void> {
       const result = await loadModelFromFile(file);
       loadedEntries.push({
         id: createEntryId(),
-        fileName: file.name,
+        fileName: result.fileName,
         blobUrl: result.blobUrl,
         scene: result.scene,
       });
@@ -154,7 +154,7 @@ export async function replaceModel(id: string, file: File): Promise<void> {
     const models = [...state.models];
     models[currentIndex] = {
       ...previous,
-      fileName: file.name,
+      fileName: result.fileName,
       blobUrl: result.blobUrl,
       scene: result.scene,
     };

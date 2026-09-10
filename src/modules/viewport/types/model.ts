@@ -17,6 +17,7 @@ export interface ModelLibraryState {
 }
 
 export interface ModelLoadResult {
+  fileName: string;
   scene: THREE.Group;
   blobUrl: string;
 }

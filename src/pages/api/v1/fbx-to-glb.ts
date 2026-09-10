@@ -3,7 +3,9 @@ import type { Buffer } from 'node:buffer';
 import {
   convertFbxToGlb,
   FbxConvertError,
-} from '@/modules/import/services/convert-fbx';
+} from '@/modules/import/utils/convert-fbx';
+
+export const prerender = false;
 
 function toArrayBuffer(buf: Buffer): ArrayBuffer {
   return buf.buffer.slice(

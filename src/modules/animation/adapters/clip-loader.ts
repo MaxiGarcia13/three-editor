@@ -16,7 +16,7 @@ export async function loadClipsFromFile(file: File): Promise<ClipLoadResult> {
     }
 
     return {
-      name: stripExtension(file.name),
+      name: stripExtension(gltfFile.name),
       clips: gltf.animations,
     };
   } catch (error) {

@@ -4,7 +4,8 @@ import { splitTrackName } from '@/modules/animation/services/clip-validate';
 
 export interface RemapResult {
   clip: THREE.AnimationClip | null;
-  unmappedTargets: string[];
+  /** Source bone names whose tracks were omitted (left unmapped). */
+  skippedBones: string[];
   error: string | null;
 }
 
@@ -12,32 +13,49 @@ export function remapClipTracks(
   sourceClip: THREE.AnimationClip,
   mapping: Map<string, string>,
 ): RemapResult {
-  const unmappedTargets = [...new Set(sourceClip.tracks.map((track) =>
-    splitTrackName(track.name).nodeName,
-  ))].filter((name) => name && !mapping.has(name));
-
-  if (unmappedTargets.length > 0) {
+  if (mapping.size === 0) {
     return {
       clip: null,
-      unmappedTargets,
-      error: `Unmapped bone targets: ${unmappedTargets.slice(0, 5).join(', ')}`,
+      skippedBones: [],
+      error: 'Map at least one bone before applying',
     };
   }
 
-  const tracks = sourceClip.tracks.map((track) => {
+  const skipped = new Set<string>();
+  const tracks: THREE.KeyframeTrack[] = [];
+
+  for (const track of sourceClip.tracks) {
     const { nodeName, suffix } = splitTrackName(track.name);
-    const target = nodeName ? mapping.get(nodeName) : undefined;
+    if (!nodeName) {
+      tracks.push(track.clone());
+      continue;
+    }
+
+    const target = mapping.get(nodeName);
+    if (target === undefined) {
+      skipped.add(nodeName);
+      continue;
+    }
+
     const clone = track.clone();
-    if (target !== undefined && suffix) {
+    if (suffix) {
       clone.name = target + suffix;
     }
-    return clone;
-  });
+    tracks.push(clone);
+  }
+
+  if (tracks.length === 0) {
+    return {
+      clip: null,
+      skippedBones: [...skipped],
+      error: 'No tracks left after skipping unmapped bones',
+    };
+  }
 
   const clip = new THREE.AnimationClip(
     `${sourceClip.name} (retargeted)`,
     sourceClip.duration,
     tracks,
   );
-  return { clip, unmappedTargets: [], error: null };
+  return { clip, skippedBones: [...skipped], error: null };
 }
