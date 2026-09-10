@@ -139,6 +139,33 @@ As an editor user, I can apply an animation authored for a different rig to my l
 - [x] **All models** apply: one remapped library clip (source replaced) and every loaded model’s bones renamed to the mapping targets; fail clearly if a model cannot resolve the map
 - [x] Apply UI offers an explicit This model / All models choice (no silent all-model normalize)
 
+### US-17 — Retarget position scale (rest-pose length ratio)
+
+As an editor user, when I retarget a clip onto a character whose skeleton uses different units or overall size, Apply uses a rest-pose length ratio so remapped motion stays roughly character-sized instead of collapsing or exploding the mesh.
+
+**Acceptance**
+
+- [x] On **Apply Retarget**, a single **rest-pose length ratio** is derived from mapped source→target bone pairs and used when remapping hips positions (with US-18)
+- [x] Ratio is `median(‖target bind local position‖ / ‖source bind local position‖)` over mapped pairs where both lengths exceed a small epsilon; non-hips quaternions and scales are unchanged by the ratio
+- [x] Source bind lengths are captured when the clip file is loaded (from that GLB’s skeleton) and stored on the library entry; target bind lengths come from the previewed character scene at Apply
+- [x] If the ratio cannot be computed (no usable pairs), Apply fails with a clear error and does not write a clip or rename model bones
+- [x] Unmapped / skipped bones (US-6) stay dropped; name remap and This model / All models scopes are unchanged
+- [x] Verified with Mixamo-style cm clip (`body-block`) on metre Mixamo character (`Y Bot`): after retarget the skinned mesh stays roughly character-sized (no shard / explode)
+
+### US-18 — Retarget hips bind-frame
+
+As an editor user, when I retarget a Mixamo-style clip whose source GLB has an armature axis offset onto a Y-up character, the character stands roughly upright on the target’s rest height instead of lying in the floor or floating.
+
+**Acceptance**
+
+- [x] On **Apply Retarget**, remapped `.position` tracks are kept **only for the hips/root bone**; other `.position` tracks are dropped so limbs use the target bind offsets
+- [x] Hips `.position` keyframes use **delta-from-bind**: `p' = targetBind + R_tgtParent⁻¹ · R_srcParent · ((p − sourceBind) · ratio)` (US-17 ratio on the delta only)
+- [x] Hips `.quaternion` keyframes are rebased source parent bind → target parent bind; other quaternion / scale tracks stay name-remapped only
+- [x] Source bind frames (per-bone local position + parent world quaternion at rest) are captured on clip load; target frames come from the previewed scene at Apply
+- [x] Same-hierarchy source/target (matching parent bind orientations) leaves hips deltas unchanged aside from US-17 scale
+- [x] If hips cannot be resolved for rebase while position tracks exist, Apply fails clearly and does not write a clip or rename model bones
+- [x] Verified with `body-block` → `Y Bot`: roughly human-sized, upright, and not floating above the grid
+
 ### US-15 — Edit / Move tools + bind-pose save
 
 As an editor user, I can choose Edit or Move in the preview, pose bones/meshes or place the whole model on world X/Y/Z with or without an animation, and Save or Restore to confirm or discard.

@@ -133,12 +133,26 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] Server-only `import/utils/convert-fbx`; client `ensureGltfFile` in model + clip loaders (import + replace)
 - [x] File picker `accept` includes `.fbx`; converted entries named `{basename}.glb`
 
+## US-17 — Retarget position scale
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] `sourceBindLengths` on clip load; median rest-pose length ratio at Apply
+- [x] Clear Apply error when no usable pairs; US-6 scopes unchanged
+- [x] Ratio feeds hips position remap (US-18)
+
+## US-18 — Retarget hips bind-frame
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] `sourceBindFrames` (local pos + parent world quat) on clip load
+- [x] Hips-only `.position`; delta-from-bind + parent-quat rebase; hips quat rebase
+- [x] Fail clearly if hips/frames missing while positions exist
+
 ## Open deltas
 
 | US                                     | Status                | Tasks                                       |
 | -------------------------------------- | --------------------- | ------------------------------------------- |
-| **US-17** — Retarget position scale    | in progress           | [`specs/us-17/tasks.md`](../us-17/tasks.md) |
-| **US-18** — Retarget hips bind-frame   | in progress           | [`specs/us-18/tasks.md`](../us-18/tasks.md) |
 | **US-8** — Morph-target editing        | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md)   |
 | **US-9** — Graph / curve keyframe UI   | post-MVP, not started | [`specs/us-9/tasks.md`](../us-9/tasks.md)   |
 | **US-10** — Full undo / redo           | post-MVP, not started | [`specs/us-10/tasks.md`](../us-10/tasks.md) |
