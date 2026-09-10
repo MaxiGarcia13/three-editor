@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, use } from 'react';
 
 export interface CollapsibleContextType {
   open: boolean;
@@ -13,5 +13,5 @@ export const CollapsibleContext = createContext<CollapsibleContextType>({
 });
 
 export function useCollapsible() {
-  return useContext(CollapsibleContext);
+  return use(CollapsibleContext);
 }
