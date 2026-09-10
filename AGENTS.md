@@ -20,9 +20,7 @@ See [`.cursor/rules/specs-workflow.md`](.cursor/rules/specs-workflow.md) and [`.
 
 ## Module map
 
-Domains under `src/modules/<domain>/` (`adapters/`, `services/`, `domain/`, `utils/`, `hooks/`, `components/`, `constants/`, `types/`, store-local `actions/` as needed). Pages stay thin. No flat `src/components/` for domain logic.
-
-Layer roles ([module-layers](.cursor/rules/module-layers.mdc)): `services/` = HTTP; `domain/` = business logic; `utils/` = shareable helpers; `adapters/` = external boundaries + mappers; `actions/` = store commands. No R3F / Tailwind / GSAP in `services/` / `domain/` / `utils/`.
+Domains under `src/modules/<domain>/`. Pages stay thin. No flat `src/components/` for domain logic. Layer roles: [`.cursor/rules/module-layers.mdc`](.cursor/rules/module-layers.mdc) (see also [ddd-solid](.cursor/rules/ddd-solid.md)).
 
 | Domain         | Owns                                                              |
 | -------------- | ----------------------------------------------------------------- |
@@ -31,8 +29,6 @@ Layer roles ([module-layers](.cursor/rules/module-layers.mdc)): `services/` = HT
 | `animation`    | Clip library, mixer/playback, trim, time scale, keyframe write    |
 | `export`       | GLTFExporter pack + download                                      |
 | `import`       | FBX convert API + client `ensureGltfFile` service                 |
-
-See [`.cursor/rules/ddd-solid.md`](.cursor/rules/ddd-solid.md) and [`.cursor/rules/module-layers.mdc`](.cursor/rules/module-layers.mdc).
 
 ## Hard constraints (3D / animation)
 
