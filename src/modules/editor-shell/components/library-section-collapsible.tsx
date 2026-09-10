@@ -3,7 +3,7 @@ import { Collapsible, CollapsibleContent, CollapsibleHeader } from '@/components
 import { Text } from '@/components/text';
 
 interface Props {
-  title: string;
+  title: React.ReactNode;
   leading?: React.ReactNode;
   actions?: React.ReactNode;
   children: React.ReactNode;
@@ -30,9 +30,13 @@ export function LibrarySectionCollapsible({
       <CollapsibleHeader className={headerClassName}>
         {leading}
         <div className={cn('flex items-center gap-2 flex-1 min-w-0', contentClassName)}>
-          <Text as="h2" variant="section" className="flex-1 min-w-0 truncate">
-            {title}
-          </Text>
+          {typeof title === 'string'
+            ? (
+                <Text as="h2" variant="section" className="flex-1 min-w-0 truncate">
+                  {title}
+                </Text>
+              )
+            : title}
           {actions && (
             <div
               className={cn('flex items-center gap-0.5 shrink-0', actionsClassName)}
