@@ -17,7 +17,10 @@ function nextDraftName(existing: ClipEntry[]): string {
 }
 
 /** Create a new editable animation from scratch and select it. */
-export function startNewAnimation(scene: Object3D | null): string | null {
+export function startNewAnimation(
+  scene: Object3D | null,
+  ownerModelId: string | null = null,
+): string | null {
   if (!scene) {
     return null;
   }
@@ -25,7 +28,7 @@ export function startNewAnimation(scene: Object3D | null): string | null {
   const state = $clips.get();
   const id = nextClipId();
   const name = nextDraftName(state.clips);
-  const entry = toNewAnimationEntry(id, name);
+  const entry = toNewAnimationEntry(id, name, ownerModelId);
   const duration = entry.clip?.duration ?? 0;
 
   $clips.set({

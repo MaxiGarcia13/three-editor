@@ -6,7 +6,11 @@ import { $clips } from '../store';
 import { applyActiveModelBindOverrides, nextClipId, toEntry, toFailedFileEntry } from '../utils';
 import { selectClip } from './select-clip';
 
-export async function importClipFiles(files: File[], skeleton: Object3D | null): Promise<void> {
+export async function importClipFiles(
+  files: File[],
+  skeleton: Object3D | null,
+  ownerModelId: string | null = null,
+): Promise<void> {
   if (!skeleton) {
     return;
   }
@@ -27,10 +31,11 @@ export async function importClipFiles(files: File[], skeleton: Object3D | null):
           result.name,
           result.sourceBindLengths,
           result.sourceBindFrames,
+          ownerModelId,
         )));
       }
     } catch (error) {
-      entries.push(toFailedFileEntry(baseId, file.name, error));
+      entries.push(toFailedFileEntry(baseId, file.name, error, ownerModelId));
     }
   }
 
