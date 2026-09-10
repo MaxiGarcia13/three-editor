@@ -1,4 +1,5 @@
 import type { Group } from 'three';
+import type { ClipEntry } from '@/modules/animation/types/clip';
 import { useStore } from '@nanostores/react';
 import { useState } from 'react';
 import { Button } from '@/components/button';
@@ -13,12 +14,24 @@ import {
   importClipFiles,
   startNewAnimation,
 } from '@/modules/animation/stores/clip-store';
+import { $model } from '@/modules/viewport/stores/model-store';
 
 interface LibraryModelAddAnimationModalProps {
   open: boolean;
   onClose: () => void;
   ownerModelId: string;
   scene: Group;
+}
+
+function clipSourceLabel(
+  entry: ClipEntry,
+  modelNames: Map<string, string>,
+): string {
+  if (entry.ownerModelId === null) {
+    return `${entry.name} — Shared`;
+  }
+  const modelName = modelNames.get(entry.ownerModelId) ?? entry.sourceFile;
+  return `${entry.name} — ${modelName}`;
 }
 
 export function LibraryModelAddAnimationModal({
@@ -28,7 +41,10 @@ export function LibraryModelAddAnimationModal({
   scene,
 }: LibraryModelAddAnimationModalProps) {
   const { clips } = useStore($clips, { keys: ['clips'] });
+  const { models } = useStore($model, { keys: ['models'] });
   const [sourceId, setSourceId] = useState('');
+
+  const modelNames = new Map(models.map((model) => [model.id, model.fileName]));
 
   const ownedNames = new Set(
     clips
@@ -36,6 +52,7 @@ export function LibraryModelAddAnimationModal({
       .map((entry) => entry.name),
   );
 
+  // Other models + shared only — never this model's own clips.
   const cloneableClips = clips.filter((entry) => {
     if (entry.clip === null) {
       return false;
@@ -102,7 +119,7 @@ export function LibraryModelAddAnimationModal({
               className="flex-1 min-w-0"
               options={cloneableClips.map((entry) => ({
                 value: entry.id,
-                label: entry.name,
+                label: clipSourceLabel(entry, modelNames),
               }))}
             />
             <Button
