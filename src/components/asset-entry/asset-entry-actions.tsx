@@ -1,4 +1,7 @@
 import { Button } from '@/components/button';
+import { EditIcon } from '@/components/icons/edit-icon';
+import { ReplaceIcon } from '@/components/icons/replace-icon';
+import { TrashIcon } from '@/components/icons/trash-icon';
 
 interface AssetEntryActionsProps {
   primaryAction?: React.ReactNode;
@@ -20,23 +23,24 @@ export function AssetEntryActions({
   onRemove,
 }: AssetEntryActionsProps) {
   return (
-    <div className="flex flex-wrap items-center gap-1">
+    <div className="flex flex-wrap items-center gap-0.5">
       {primaryAction}
       {canRename && !editing && (
-        <Button onClick={onStartRename} variant="ghost" className="px-2">
-          Rename
+        <Button onClick={onStartRename} variant="ghost" aria-label="Rename" className="p-1.5">
+          <EditIcon />
         </Button>
       )}
       <Button
         onClick={onReplace}
         disabled={replaceDisabled}
         variant="ghost"
-        className="px-2"
+        aria-label="Replace"
+        className="p-1.5"
       >
-        Replace
+        <ReplaceIcon />
       </Button>
-      <Button onClick={onRemove} variant="ghost" className="px-2">
-        Remove
+      <Button onClick={onRemove} variant="ghost" aria-label="Remove" className="p-1.5">
+        <TrashIcon />
       </Button>
     </div>
   );

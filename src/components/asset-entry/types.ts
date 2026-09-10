@@ -3,6 +3,8 @@ export type AssetStatus = 'ready' | 'error';
 export interface AssetEntryProps {
   label: string;
   title?: string;
+  /** Icon rendered before the label. */
+  leading?: React.ReactNode;
   /** Secondary line under the name (source file, short error, etc.). */
   description?: string | null;
   /** Full error text for tooltip when description is a short summary. */

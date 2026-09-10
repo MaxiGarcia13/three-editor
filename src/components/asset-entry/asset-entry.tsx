@@ -8,6 +8,7 @@ import { useAssetEntryRename } from './use-asset-entry-rename';
 export function AssetEntry({
   label,
   title,
+  leading,
   description,
   errorDetail,
   status,
@@ -57,6 +58,7 @@ export function AssetEntry({
             <AssetEntryHeader
               label={label}
               title={title}
+              leading={leading}
               description={description}
               errorDetail={errorDetail}
               status={status}
