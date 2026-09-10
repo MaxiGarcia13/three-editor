@@ -4,9 +4,15 @@ import type { ClipEntry } from '@/modules/animation/types/clip';
 
 import { buildSkeletonNodeSet, validateClipAgainstSkeleton } from '@/modules/animation/domain/clip-validate';
 import { setMixerTimeScale } from '@/modules/animation/utils/mixer-session';
+import { $model } from '@/modules/viewport/stores/model-store';
 import { $clips } from '../store';
 import { isReadyClip } from '../utils';
 
+/**
+ * Re-validate every clip after a model change.
+ * - Owned clips validate against their owner's skeleton.
+ * - Shared clips validate against the active model (skeleton param).
+ */
 export function syncClipsToSkeleton(skeleton: Object3D | null): void {
   const state = $clips.get();
   if (!skeleton) {
@@ -23,11 +29,22 @@ export function syncClipsToSkeleton(skeleton: Object3D | null): void {
     return;
   }
 
-  const nodeNames = buildSkeletonNodeSet(skeleton);
+  const models = $model.get().models;
+  const ownerScenes = new Map<string, Object3D>();
+  for (const model of models) {
+    ownerScenes.set(model.id, model.scene);
+  }
+
+  const activeNodeNames = buildSkeletonNodeSet(skeleton);
+
   const clips = state.clips.map((entry): ClipEntry => {
     if (!entry.clip) {
       return entry;
     }
+
+    const ownerScene = entry.ownerModelId ? ownerScenes.get(entry.ownerModelId) : null;
+    const nodeNames = ownerScene ? buildSkeletonNodeSet(ownerScene) : activeNodeNames;
+
     const validation = validateClipAgainstSkeleton(entry.clip, nodeNames);
     if (!validation.valid) {
       return {
