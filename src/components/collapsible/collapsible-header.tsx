@@ -23,14 +23,16 @@ export function CollapsibleHeader({
       aria-controls={panelId}
       tabIndex={0}
       onClick={() => setOpen(!open)}
-      className={cn('flex items-center gap-1 min-h-7 w-full text-left cursor-pointer text-zinc-400 hover:text-zinc-100 transition-colors', className)}
+      className={cn('flex items-start gap-1 min-h-7 w-full text-left cursor-pointer text-zinc-400 hover:text-zinc-100 transition-colors', className)}
     >
-      <ChevronRight
-        className={cn('shrink-0 transition-transform', open && 'rotate-90')}
-        aria-hidden
-      />
+      <span className="inline-flex h-7 w-4 shrink-0 items-center justify-center">
+        <ChevronRight
+          className={cn('transition-transform', open && 'rotate-90')}
+          aria-hidden
+        />
+      </span>
 
-      <div className="flex items-center gap-2 flex-1">
+      <div className="flex min-h-7 flex-1 items-center gap-2">
         {title && (
           <Text as="h2" variant="section">
             {title}

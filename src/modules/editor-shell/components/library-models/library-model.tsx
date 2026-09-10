@@ -7,7 +7,11 @@ import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-p
 import { ClipRows } from '@/modules/animation/components/clip-rows';
 import { $clips } from '@/modules/animation/stores/clip-store';
 import { LibrarySectionCollapsible } from '@/modules/editor-shell/components/library-section-collapsible';
-import { removeModel, renameModel, replaceModel } from '@/modules/viewport/stores/model-store';
+import {
+  removeModel,
+  renameModel,
+  replaceModel,
+} from '@/modules/viewport/stores/model-store';
 import { LibraryModelActions } from './library-model-actions';
 import { LibraryModelAddAnimationModal } from './library-model-add-animation-modal';
 import { LibraryModelTitle } from './library-model-title';
@@ -41,11 +45,16 @@ export function LibraryModel({ model }: LibraryModelProps) {
   return (
     <>
       <LibrarySectionCollapsible
-        title={<LibraryModelTitle fileName={model.fileName} rename={rename} />}
-        className="items-start ml-4"
-        headerClassName="items-start"
-        headerContentClassName="flex-col w-full items-start"
-        actionsClassName="w-full items-end justify-end"
+        title={(
+          <LibraryModelTitle
+            modelId={model.id}
+            fileName={model.fileName}
+            rename={rename}
+          />
+        )}
+        className="ml-5"
+        headerContentClassName="flex-col w-full"
+        actionsClassName="w-full justify-end"
         actions={(
           <LibraryModelActions
             conflictedClipId={conflictedClip?.id ?? null}
