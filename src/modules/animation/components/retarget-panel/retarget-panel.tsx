@@ -114,7 +114,8 @@ export function RetargetPanel({ entry, onComplete, onCancel }: RetargetPanelProp
           onScopeChange={setScope}
         />
         <RetargetPanelActions
-          complete={complete}
+          canApply={complete}
+          hasSkipped={mappedCount < sourceBones.length}
           applyError={applyError}
           onCancel={onCancel}
           onSubmit={onSubmit}

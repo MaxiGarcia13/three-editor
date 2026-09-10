@@ -77,12 +77,12 @@ Do not add a second debug canvas, FPS overlay render path, or smoke-test scene t
 
 1. Detect mismatch (unknown track targets vs character bone names) — same US-2 validation path
 2. Library **Retarget** on errored clips opens a **modal** (`$retargetClipId`); Settings aside stays available; Cancel / overlay / Escape closes
-3. Mapping UI: clip bone → character bone, with registry suggestions, mapped/unmapped status, progress, and “show unmapped only”. UI shows short vendor labels (e.g. `Hips`); hover/`title` keeps the raw id. Mapping values and remapped tracks always use real bone names
+3. Mapping UI: clip bone → character bone, with registry suggestions, mapped / will-skip status, progress, and “show unmapped only”. Leave blank to skip (drop those tracks). UI shows short vendor labels (e.g. `Hips`); hover/`title` keeps the raw id. Mapping values and remapped tracks always use real bone names
 4. Target dropdown lists **skeleton bones only** (not meshes / scene roots)
 5. Apply scope (explicit):
    - **This model** — new ready clip remapped to the previewed skeleton; **keep** the source clip
    - **All models** — remap the clip to the mapping’s target names, **replace** the source library entry, and **normalize bone names on every loaded model** to those targets (resolve via the same vendor suggest path). Fail if any model cannot resolve every mapped source bone
-6. Incomplete maps never write a clip; failures leave a clear error and do not corrupt pose
+6. Unmapped source bones are **skipped** on Apply (their tracks are omitted from the remapped clip). Apply requires at least one mapped bone; other failures leave a clear error and do not corrupt pose
 7. After a successful remap, apply the previewed model’s accumulated **bind-pose deltas** to the remapped tracks — mismatched imports cannot rebase on import because track names still use the source rig
 
 ### Bone registry (vendor adapters)

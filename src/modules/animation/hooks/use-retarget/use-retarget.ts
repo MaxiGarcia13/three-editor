@@ -44,7 +44,8 @@ export function useRetarget(
     return target && targetBoneNames.has(target) ? count + 1 : count;
   }, 0);
 
-  const complete = sourceBones.length > 0 && mappedCount === sourceBones.length;
+  /** At least one bone mapped — unmapped bones are skipped (tracks dropped) on Apply. */
+  const complete = mappedCount > 0;
 
   return { sourceBones, targetBoneNames, mapping, mappedCount, complete, setMapping };
 }

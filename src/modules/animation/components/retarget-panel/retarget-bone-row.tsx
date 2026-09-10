@@ -52,10 +52,10 @@ export function RetargetBoneRow({
         ))}
       </select>
       <Text
-        variant={isMapped ? 'muted' : 'error'}
-        className="text-right tabular-nums"
+        variant="muted"
+        className={`text-right tabular-nums ${isMapped ? '' : 'text-amber-400'}`}
       >
-        {isMapped ? 'Mapped' : 'Needs map'}
+        {isMapped ? 'Mapped' : 'Will skip'}
       </Text>
     </div>
   );

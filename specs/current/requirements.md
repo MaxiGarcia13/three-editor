@@ -132,7 +132,7 @@ As an editor user, I can apply an animation authored for a different rig to my l
 - [x] Mapping is explicit (auto-suggest allowed; silent remap without confirmation is forbidden)
 - [x] Vendor bone prefixes (e.g. Mixamo) are handled only via a documented registry / mapping table — no hardcoded one-off string hacks in playback code
 - [x] Successfully retargeted clips become playable working clips in the library
-- [x] Failed or incomplete mappings leave a clear error and do not corrupt the character pose
+- [x] Unmapped clip bones may be left blank — Apply drops those tracks; Apply requires at least one mapped bone; other failures leave a clear error and do not corrupt the character pose
 - [x] Retarget mapping UI opens in a modal (Settings aside stays available)
 - [x] After switching the previewed model, clips that no longer match show Fix / Retarget for that character
 - [x] **This model** apply: new ready clip for the current character; source clip kept

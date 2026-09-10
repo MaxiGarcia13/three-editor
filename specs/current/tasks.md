@@ -101,7 +101,7 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 
 - [x] Bone / track alias registry + vendor adapters (`bone-vendors/`); suggestions only — Apply required
 - [x] Retarget modal + mapping UI; This model | All models apply scope
-- [x] Clip remap → playable working clip; incomplete maps error without corrupting pose
+- [x] Clip remap → playable working clip; unmapped bones drop tracks; empty map errors without corrupting pose
 - [x] Library Retarget on mismatched clips (including after previewed-model switch)
 
 ## US-15 — Edit / Move tools + bind-pose save

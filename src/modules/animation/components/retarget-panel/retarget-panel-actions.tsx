@@ -2,27 +2,36 @@ import { Button } from '@/components/button';
 import { Text } from '@/components/text';
 
 interface RetargetPanelActionsProps {
-  complete: boolean;
+  canApply: boolean;
+  hasSkipped: boolean;
   applyError: string | null;
   onCancel: () => void;
   onSubmit: () => void;
 }
 
 export function RetargetPanelActions({
-  complete,
+  canApply,
+  hasSkipped,
   applyError,
   onCancel,
   onSubmit,
 }: RetargetPanelActionsProps) {
   return (
     <div className="flex flex-col gap-2">
-      {!complete && (
+      {!canApply && (
         <Text variant="muted">
-          Map every clip bone before applying. Incomplete maps never write a clip.
+          Map at least one clip bone to apply. Unmapped bones are skipped
+          (their tracks are dropped).
+        </Text>
+      )}
+      {canApply && hasSkipped && (
+        <Text variant="muted">
+          Unmapped bones will be skipped — their tracks are dropped from the
+          remapped clip.
         </Text>
       )}
       {applyError && (
-        <Text variant="error" className="break-words">
+        <Text variant="error" className="wrap-break-word">
           {applyError}
         </Text>
       )}
@@ -32,7 +41,7 @@ export function RetargetPanelActions({
         </Button>
         <Button
           onClick={onSubmit}
-          disabled={!complete}
+          disabled={!canApply}
           variant="primary"
           className="flex-1"
         >

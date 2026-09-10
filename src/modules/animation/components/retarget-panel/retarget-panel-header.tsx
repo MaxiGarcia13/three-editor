@@ -18,8 +18,9 @@ export function RetargetPanelHeader({
   return (
     <div className="flex flex-col gap-3 shrink-0">
       <Text as="p" variant="muted">
-        Map each clip bone to a character bone. Short names are for reading;
-        full ids stay on the tracks. Apply is still required.
+        Map each clip bone to a character bone, or leave blank to skip. Short
+        names are for reading; full ids stay on the tracks. Apply is still
+        required.
       </Text>
       <Text as="p" variant="error" className="wrap-break-word">
         Mismatch:
