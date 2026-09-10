@@ -26,7 +26,7 @@ flowchart LR
 | ------------------ | ------------------------------------------------------------------------------------- |
 | Model GLB/GLTF     | Skinned mesh + skeleton; many in the session, **one** previewed in the viewport       |
 | Animation GLB/GLTF | Source of `AnimationClip`s only; mesh payload ignored or discarded after clip extract |
-| Model / clip FBX   | Converted to GLB via `POST /api/v1/fbx-to-glb`, then the same load path as above |
+| Model / clip FBX   | Converted to GLB via `POST /api/v1/fbx-to-glb`, then the same load path as above      |
 
 Clips are a **shared** library. They bind to the **previewed** model. Track names must resolve to bones/nodes on that skeleton. Mismatch → user-visible error; explicit retarget flow (US-6). Switching the previewed model re-validates every clip against the new skeleton.
 

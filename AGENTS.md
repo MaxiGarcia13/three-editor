@@ -28,7 +28,7 @@ Domains under `src/modules/<domain>/` (`adapters/`, `services/`, `utils/`, `hook
 | `viewport`     | R3F canvas, camera controls, raycast selection, TransformControls |
 | `animation`    | Clip library, mixer/playback, trim, time scale, keyframe write    |
 | `export`       | GLTFExporter pack + download                                      |
-| `import`       | FBX convert API + client `ensureGltfFile` adapter                                      |
+| `import`       | FBX convert API + client `ensureGltfFile` adapter                 |
 
 See [`.cursor/rules/ddd-solid.md`](.cursor/rules/ddd-solid.md).
 

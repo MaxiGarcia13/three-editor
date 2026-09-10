@@ -11,6 +11,8 @@
 
 | ID | Summary |
 |----|---------|
+| **US-19** | Nested library + clip ownership (model-owned vs shared; iconized sidebar) |
+| **US-20** | Multi-model preview + per-model / shared clip selection |
 | **US-8** | Morph-target editing (post-MVP) |
 | **US-9** | Graph / curve keyframe UI (post-MVP) |
 | **US-10** | Full undo / redo stack (post-MVP) |
