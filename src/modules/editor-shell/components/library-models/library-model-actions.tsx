@@ -1,4 +1,5 @@
 import { Button } from '@/components/button';
+import { AnimationIcon } from '@/components/icons/animation-icon';
 import { EditIcon } from '@/components/icons/edit-icon';
 import { ReplaceIcon } from '@/components/icons/replace-icon';
 import { RetargetIcon } from '@/components/icons/retarget-icon';
@@ -7,6 +8,7 @@ import { openRetarget } from '@/modules/animation/stores/retarget-ui-store';
 
 interface LibraryModelActionsProps {
   conflictedClipId: string | null;
+  onAddAnimation: () => void;
   onRename: () => void;
   onReplace: () => void;
   onRemove: () => void;
@@ -14,6 +16,7 @@ interface LibraryModelActionsProps {
 
 export function LibraryModelActions({
   conflictedClipId,
+  onAddAnimation,
   onRename,
   onReplace,
   onRemove,
@@ -32,6 +35,15 @@ export function LibraryModelActions({
         </Button>
       )}
 
+      <Button
+        onClick={onAddAnimation}
+        variant="ghost"
+        aria-label="Add animation"
+        title="Add animation"
+        className="p-1.5"
+      >
+        <AnimationIcon />
+      </Button>
       <Button
         onClick={onRename}
         variant="ghost"

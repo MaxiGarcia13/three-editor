@@ -23,7 +23,7 @@ export function AssetEntryActions({
   onRemove,
 }: AssetEntryActionsProps) {
   return (
-    <div className="flex flex-wrap items-center gap-0.5">
+    <div className="flex flex-wrap items-center justify-end gap-0.5">
       {primaryAction}
       {canRename && !editing && (
         <Button onClick={onStartRename} variant="ghost" aria-label="Rename" className="p-1.5">

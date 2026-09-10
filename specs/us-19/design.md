@@ -28,8 +28,7 @@ Validation (`syncClipsToSkeleton`):
 ```text
 Library (CollapsibleAside)
 └─ Models (Collapsible) [Upload model]
-   ├─ Model N (Collapsible) [ModelIcon] [Retarget][Edit][Replace][Remove]
-   │  ├─ Create animation | Add animation
+   ├─ Model N (Collapsible) [ModelIcon] [Retarget?][Animation][Edit][Replace][Remove]
    │  └─ owned clip rows [select][AnimationIcon][name][Remove] (+ Retarget when conflict)
    └─ Shared Animations (Collapsible) [AnimationIcon] [Upload][New]
       └─ shared clip rows [select][AnimationIcon][name][Remove] (+ Retarget when conflict)
@@ -38,7 +37,7 @@ Library (CollapsibleAside)
 - Extend `Collapsible` with optional `leading` and `actions` (actions stop propagation)
 - Iconize `AssetEntry` actions (`aria-label`); optional leading icon for clip rows
 - Icons: `ModelIcon`, `AnimationIcon`, `RetargetIcon`, `EditIcon`, `ReplaceIcon`, `TrashIcon`, `UploadIcon`
-- **Add animation:** inline `<select>` of existing clips + Apply → clone with `ownerModelId` set
+- **Add animation:** model-header `AnimationIcon` opens a modal — **Create new** or **Add existing** (`Select` of cloneable clips, hide already applied by name/ownership) → clone with `ownerModelId` set
 - Model-header Retarget: enabled when any clip conflicted for that model; opens existing `RetargetModal`
 
 ## Export

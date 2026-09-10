@@ -26,10 +26,10 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] Extend `Collapsible` with `leading` + `actions`
 - [x] Iconize `AssetEntry` actions; leading icon slot for clips (`AnimationIcon`)
 - [x] Rebuild `editor-library-sidebar`: Models > model collapsibles + Shared Animations
-- [x] Model header: `ModelIcon` + Retarget / Edit / Replace / Remove icons
+- [x] Model header: `ModelIcon` + Retarget / Animation / Edit / Replace / Remove icons
 - [x] Shared header: `AnimationIcon` + Upload / New
 - [x] Clip rows: `AnimationIcon` + Remove (+ Retarget when conflict)
-- [x] Add-animation form under each model
+- [x] Add-animation modal (Create new | Add existing) from model-header Animation action
 - [ ] Model-header Retarget → `RetargetModal` for selected / first conflicted clip
 
 ## Verify
