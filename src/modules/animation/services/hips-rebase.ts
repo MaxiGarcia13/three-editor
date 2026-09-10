@@ -8,10 +8,14 @@ const _tgtParentInv = new Quaternion();
 const _sampleQ = new Quaternion();
 const _worldQ = new Quaternion();
 const _v = new Vector3();
+const _sourceBind = new Vector3();
+const _targetBind = new Vector3();
 
 export interface HipsRebaseFrames {
   sourceParentWorldQuaternion: [number, number, number, number];
   targetParentWorldQuaternion: [number, number, number, number];
+  sourceBindLocalPosition: [number, number, number];
+  targetBindLocalPosition: [number, number, number];
 }
 
 function setQuat(
@@ -22,7 +26,8 @@ function setQuat(
 }
 
 /**
- * Rebase hips local positions: `p' = R_tgtParent⁻¹ * R_srcParent * (p * scale)`.
+ * Delta-from-bind hips positions:
+ * `p' = targetBind + R_tgtParent⁻¹ * R_srcParent * ((p − sourceBind) * scale)`.
  */
 export function rebaseHipsPositionTrack(
   track: KeyframeTrack,
@@ -32,15 +37,19 @@ export function rebaseHipsPositionTrack(
   setQuat(_srcParent, frames.sourceParentWorldQuaternion);
   setQuat(_tgtParent, frames.targetParentWorldQuaternion);
   _tgtParentInv.copy(_tgtParent).invert();
+  _sourceBind.fromArray(frames.sourceBindLocalPosition);
+  _targetBind.fromArray(frames.targetBindLocalPosition);
 
   const values = track.values;
   for (let i = 0; i < values.length; i += 3) {
     _v.set(values[i], values[i + 1], values[i + 2]);
+    _v.sub(_sourceBind);
     if (positionScale !== 1) {
       _v.multiplyScalar(positionScale);
     }
     _v.applyQuaternion(_srcParent);
     _v.applyQuaternion(_tgtParentInv);
+    _v.add(_targetBind);
     values[i] = _v.x;
     values[i + 1] = _v.y;
     values[i + 2] = _v.z;

@@ -73,7 +73,12 @@ function buildRemapOptionsOrFail(
   const sourceFrame = getBindFrame(sourceBindFrames, hips.sourceName);
   const targetFrames = captureBindFrames(activeScene);
   const targetFrame = getBindFrame(targetFrames, hips.targetName);
-  if (!sourceFrame || !targetFrame) {
+  if (
+    !sourceFrame?.localPosition
+    || !targetFrame?.localPosition
+    || !sourceFrame.parentWorldQuaternion
+    || !targetFrame.parentWorldQuaternion
+  ) {
     return { error: NO_HIPS_REBASE_ERROR };
   }
 
@@ -81,6 +86,8 @@ function buildRemapOptionsOrFail(
   options.hipsRebase = {
     sourceParentWorldQuaternion: sourceFrame.parentWorldQuaternion,
     targetParentWorldQuaternion: targetFrame.parentWorldQuaternion,
+    sourceBindLocalPosition: sourceFrame.localPosition,
+    targetBindLocalPosition: targetFrame.localPosition,
   };
   return { options };
 }

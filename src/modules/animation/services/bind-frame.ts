@@ -14,7 +14,7 @@ function quatTuple(q: Quaternion): [number, number, number, number] {
 }
 
 /**
- * Rest-pose parent world quaternions (bone name → frame) from a GLB scene.
+ * Rest-pose local position + parent world quaternion per bone from a GLB scene.
  * Same bone set as `buildTargetBoneNames` / `captureBindLengths`.
  */
 export function captureBindFrames(scene: Object3D): Record<string, BoneBindFrame> {
@@ -25,11 +25,22 @@ export function captureBindFrames(scene: Object3D): Record<string, BoneBindFrame
     if (!bone.name || bone.name in frames) {
       return;
     }
+    const localPosition: [number, number, number] = [
+      bone.position.x,
+      bone.position.y,
+      bone.position.z,
+    ];
     if (bone.parent) {
       bone.parent.getWorldQuaternion(_parentWorldQuat);
-      frames[bone.name] = { parentWorldQuaternion: quatTuple(_parentWorldQuat) };
+      frames[bone.name] = {
+        localPosition,
+        parentWorldQuaternion: quatTuple(_parentWorldQuat),
+      };
     } else {
-      frames[bone.name] = { parentWorldQuaternion: identityQuatTuple() };
+      frames[bone.name] = {
+        localPosition,
+        parentWorldQuaternion: identityQuatTuple(),
+      };
     }
   };
 

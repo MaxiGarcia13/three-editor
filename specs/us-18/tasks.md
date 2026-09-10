@@ -9,13 +9,13 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 ## Implement
 
-- [x] Capture `sourceBindFrames` (parent world quat per bone) on clip load / `ClipEntry`
+- [x] Capture `sourceBindFrames` (local position + parent world quat per bone) on clip load / `ClipEntry`
 - [x] Resolve mapped hips pair at Apply; fail clearly if rebase inputs missing
-- [x] Remap path: drop non-hips `.position`; rebase hips position (× US-17 ratio) and hips quaternion
+- [x] Remap path: drop non-hips `.position`; delta-from-bind hips position (× US-17 ratio on Δ) + hips quaternion rebase
 - [x] Keep US-17 ratio helper and non-hips quaternion / scale behavior unchanged
 
 ## Verify
 
-- [x] `body-block` → `Y Bot`: upright + roughly human-sized after Apply + play
+- [x] `body-block` → `Y Bot`: upright, roughly human-sized, toes near Y = 0 (not floating)
 - [ ] Same-hierarchy Mixamo→Mixamo: pose still plausible (rebase ≈ identity)
 - [ ] All US-18 acceptance criteria in [`requirements.md`](./requirements.md) pass
