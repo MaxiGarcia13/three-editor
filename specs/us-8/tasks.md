@@ -4,7 +4,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 
 ## Prep
 
-- [ ] Obtain a sample character GLB with morph targets
+- [x] Obtain a sample character GLB with morph targets
 - [ ] Align keyframe write pattern with US-4 track insert helpers
 
 ## Implement
