@@ -11,6 +11,7 @@
 
 | ID | Summary |
 |----|---------|
+| **US-17** | Retarget position scale — rest-pose length ratio on remapped tracks |
 | **US-16** | FBX import via convert API (Vercel Node + `fbx2gltf`) |
 | **US-8** | Morph-target editing (post-MVP) |
 | **US-9** | Graph / curve keyframe UI (post-MVP) |

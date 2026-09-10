@@ -128,6 +128,7 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 
 | US                                     | Status                | Tasks                                       |
 | -------------------------------------- | --------------------- | ------------------------------------------- |
+| **US-17** — Retarget position scale    | not started           | [`specs/us-17/tasks.md`](../us-17/tasks.md) |
 | **US-16** — FBX import via convert API | not started           | [`specs/us-16/tasks.md`](../us-16/tasks.md) |
 | **US-8** — Morph-target editing        | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md)   |
 | **US-9** — Graph / curve keyframe UI   | post-MVP, not started | [`specs/us-9/tasks.md`](../us-9/tasks.md)   |
