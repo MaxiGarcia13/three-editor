@@ -124,12 +124,20 @@ MVP status board. Detailed work lives in the open delta’s `tasks.md`; tick acc
 - [x] Settings Blend collapsible: partner, weight, Bake, Reset (viewport-only until Bake)
 - [x] Export stays discrete library clips (US-5); Bake commits mix into the active clip before pack
 
+## US-16 — FBX import via convert API
+
+**Shipped** — folded into `current/`. See [`CHANGELOG.md`](../CHANGELOG.md).
+
+- [x] `@astrojs/vercel` + `fbx2gltf`; editor page prerendered; Linux binary `includeFiles` / Darwin+Windows `excludeFiles`; Vite SSR external
+- [x] `POST /api/v1/fbx-to-glb` (`prerender = false`): multipart `file`, size/type checks, convert in `/tmp`, return GLB
+- [x] Server-only `import/utils/convert-fbx`; client `ensureGltfFile` in model + clip loaders (import + replace)
+- [x] File picker `accept` includes `.fbx`; converted entries named `{basename}.glb`
+
 ## Open deltas
 
 | US                                     | Status                | Tasks                                       |
 | -------------------------------------- | --------------------- | ------------------------------------------- |
 | **US-17** — Retarget position scale    | not started           | [`specs/us-17/tasks.md`](../us-17/tasks.md) |
-| **US-16** — FBX import via convert API | not started           | [`specs/us-16/tasks.md`](../us-16/tasks.md) |
 | **US-8** — Morph-target editing        | post-MVP, not started | [`specs/us-8/tasks.md`](../us-8/tasks.md)   |
 | **US-9** — Graph / curve keyframe UI   | post-MVP, not started | [`specs/us-9/tasks.md`](../us-9/tasks.md)   |
 | **US-10** — Full undo / redo           | post-MVP, not started | [`specs/us-10/tasks.md`](../us-10/tasks.md) |

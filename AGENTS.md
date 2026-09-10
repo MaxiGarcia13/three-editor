@@ -28,6 +28,7 @@ Domains under `src/modules/<domain>/` (`adapters/`, `services/`, `utils/`, `hook
 | `viewport`     | R3F canvas, camera controls, raycast selection, TransformControls |
 | `animation`    | Clip library, mixer/playback, trim, time scale, keyframe write    |
 | `export`       | GLTFExporter pack + download                                      |
+| `import`       | FBX convert API + client `ensureGltfFile` adapter                                      |
 
 See [`.cursor/rules/ddd-solid.md`](.cursor/rules/ddd-solid.md).
 
@@ -42,6 +43,5 @@ See [`.cursor/rules/plan-before-implementing.mdc`](.cursor/rules/plan-before-imp
 
 ## Post-MVP / still excluded
 
-- Open delta **US-16** (FBX import via convert API) lives under [`specs/us-16/`](specs/us-16/) — do not start unless explicitly kicked off
 - Post-MVP stories **US-8…US-10** (morphs, curve UI, undo) live under `specs/us-8/` … `specs/us-10/` — do not start unless explicitly kicked off
 - Still excluded: material/texture editing, server accounts, collab — see [`specs/current/requirements.md`](specs/current/requirements.md)
