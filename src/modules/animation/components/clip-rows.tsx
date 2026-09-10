@@ -5,6 +5,7 @@ import { AssetEntry } from '@/components/asset-entry';
 import { Button } from '@/components/button';
 import { useGltfFilePicker } from '@/components/gltf-file-picker/use-gltf-file-picker';
 import { AnimationIcon } from '@/components/icons/animation-icon';
+import { RetargetIcon } from '@/components/icons/retarget-icon';
 import { useActiveModel } from '@/modules/viewport/hooks/use-active-model';
 import {
   $clips,
@@ -79,10 +80,12 @@ export function ClipRows({ clips }: ClipRowsProps) {
                     <Button
                       onClick={() => openRetarget(entry.id)}
                       variant="primary"
-                      className="px-2"
+                      aria-label="Retarget clip"
+                      title={isRetargeting ? 'Retargeting…' : 'Retarget clip'}
+                      className="p-1.5"
                       disabled={isRetargeting}
                     >
-                      {isRetargeting ? 'Retargeting…' : 'Retarget'}
+                      <RetargetIcon />
                     </Button>
                   )
                 : undefined
