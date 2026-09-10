@@ -7,6 +7,7 @@ export function toEntry(
   baseId: string,
   clip: AnimationClip,
   sourceFile: string,
+  sourceBindLengths: Record<string, number>,
 ): ClipEntry {
   return {
     id: `${baseId}-${clip.name}`,
@@ -17,6 +18,7 @@ export function toEntry(
     status: validationResult.valid ? 'ready' : 'error',
     error: validationResult.valid ? null : validationResult.error,
     timeScale: 1,
+    sourceBindLengths,
   };
 }
 
@@ -31,6 +33,7 @@ export function toFailedFileEntry(baseId: string, fileName: string, error: unkno
     status: 'error',
     error: message,
     timeScale: 1,
+    sourceBindLengths: {},
   };
 }
 
@@ -50,5 +53,6 @@ export function toNewAnimationEntry(baseId: string, name: string): ClipEntry {
     status: 'draft',
     error: null,
     timeScale: 1,
+    sourceBindLengths: {},
   };
 }

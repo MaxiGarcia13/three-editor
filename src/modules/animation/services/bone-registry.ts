@@ -113,3 +113,33 @@ export function buildTargetBoneNames(scene: Object3D): Set<string> {
 
   return names;
 }
+
+/**
+ * Rest-pose local-position lengths (bone name → ‖position‖) from a GLB scene.
+ * Same bone set as `buildTargetBoneNames`, used to derive the US-17 position
+ * scale ratio at Apply.
+ */
+export function captureBindLengths(scene: Object3D): Record<string, number> {
+  const lengths: Record<string, number> = {};
+
+  const addBone = (bone: Bone) => {
+    if (bone.name && !(bone.name in lengths)) {
+      lengths[bone.name] = bone.position.length();
+    }
+  };
+
+  scene.traverse((object) => {
+    if (object instanceof Bone && object.name) {
+      addBone(object);
+    }
+
+    const skinned = object as SkinnedMesh;
+    if (skinned.isSkinnedMesh && skinned.skeleton) {
+      for (const bone of skinned.skeleton.bones) {
+        addBone(bone);
+      }
+    }
+  });
+
+  return lengths;
+}

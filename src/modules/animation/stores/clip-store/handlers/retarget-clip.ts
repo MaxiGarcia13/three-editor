@@ -48,6 +48,7 @@ function retargetActive(
     status: 'ready' as const,
     error: null,
     timeScale: source.timeScale,
+    sourceBindLengths: source.sourceBindLengths ?? {},
   });
 
   const clips = [...state.clips, newEntry];

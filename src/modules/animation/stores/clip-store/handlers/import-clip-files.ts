@@ -20,7 +20,7 @@ export async function importClipFiles(files: File[], skeleton: Object3D | null):
       const result = await loadClipsFromFile(file);
       for (const clip of result.clips) {
         const validation = validateClipAgainstSkeleton(clip, nodeNames);
-        entries.push(applyActiveModelBindOverrides(toEntry(validation, baseId, clip, result.name)));
+        entries.push(applyActiveModelBindOverrides(toEntry(validation, baseId, clip, result.name, result.sourceBindLengths)));
       }
     } catch (error) {
       entries.push(toFailedFileEntry(baseId, file.name, error));

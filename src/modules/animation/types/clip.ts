@@ -12,6 +12,8 @@ export interface ClipEntry {
   error: string | null;
   /** Playback / export speed multiplier for this clip (default 1). */
   timeScale: number;
+  /** Bone name → rest-pose local-position length captured from the source GLB. */
+  sourceBindLengths: Record<string, number>;
 }
 
 export interface ClipLibraryState {
@@ -31,4 +33,6 @@ export interface ClipLibraryState {
 export interface ClipLoadResult {
   name: string;
   clips: THREE.AnimationClip[];
+  /** Bone name → rest-pose local-position length from the source GLB. */
+  sourceBindLengths: Record<string, number>;
 }
