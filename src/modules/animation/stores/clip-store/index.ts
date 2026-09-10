@@ -10,6 +10,7 @@ export {
   pause,
   play,
   removeClip,
+  removeClipsByOwner,
   renameClip,
   replaceClip,
   resetBlend,

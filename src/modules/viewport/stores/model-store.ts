@@ -5,6 +5,7 @@ import {
   clearAllBindPoseOverrides,
   clearBindPoseOverrides,
 } from '@/modules/animation/stores/bind-pose-store';
+import { removeClipsByOwner } from '@/modules/animation/stores/clip-store';
 import { preserveGltfExtension } from '@/utils/glb-parse';
 import { loadModelFromFile } from '../adapters/model-loader';
 import { disposeScene } from '../utils/scene-dispose';
@@ -114,6 +115,7 @@ export function removeModel(id: string): void {
   const wasActive = state.activeModelId === id;
   disposeEntry(removed);
   clearBindPoseOverrides(id);
+  removeClipsByOwner(id);
 
   const models = state.models.filter((model) => model.id !== id);
   const activeModelId = wasActive ? (models[0]?.id ?? null) : state.activeModelId;

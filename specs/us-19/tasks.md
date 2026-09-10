@@ -12,7 +12,7 @@ Do not start until explicitly kicked off. Tick only after acceptance.
 - [x] Add `ownerModelId: string | null` to `ClipEntry`
 - [x] Wire import / create / draft under Shared vs under a model
 - [x] Clone handler for **Add animation** (selector + Apply → owned clone)
-- [ ] On model remove, delete owned clips
+- [x] On model remove, delete owned clips
 - [ ] Update sync / validation for owned vs shared context
 - [ ] Export: owned + validating shared; skip conflicted shared
 
